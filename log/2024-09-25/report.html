@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <title>Airtest Report </title>
+    
+    <!--[if lt IE 9]>
+    <script src="https://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/css/report.css" rel="stylesheet">
+
+    <script src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/js/jquery-1.10.2.min.js"></script>
+    <script src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/js/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+    <script src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/js/langpack/zh_CN.js" charset="utf-8" type="text/javascript"></script>
+    <script src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/js/lazyload.js" charset="utf-8" type="text/javascript"></script>
+    <script type="text/javascript">
+      data = {"steps": [{"title": "Sleep", "time": 1727265587.3014698, "code": {"name": "sleep", "args": [{"key": "secs", "value": 5}]}, "screen": null, "desc": "Wait for 5 seconds", "traceback": "", "log": "", "assert": null}, {"title": "find_click", "time": 1727265591.389032, "code": {"name": "find_click", "args": [{"key": "self", "value": {"ui_current": "None"}}, {"key": "rec_template", "value": {"filename": "CLICK_TO_START.png", "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\CLICK_TO_START.png", "threshold": 0.8, "target_pos": 5, "record_pos": [0, 0], "resolution": [1280, 720], "rgb": false, "scale_max": 800, "scale_step": 0.005, "template_path": "templates", "keyword": null, "name": "CLICK_TO_START", "border": [45.0, 11.0, 11.0], "filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\CLICK_TO_START.png", "image": "array([[[44, 39, 54],\n        [43, 37, 52],\n        [38, 33, 49],\n        ...,\n        [40, 34, 51],\n        [39, 34, 51],\n        [31, 27, 44]],\n\n       [[37, 31, 48],\n        [38, 33, 49],\n        [36, 31, 46],\n        ...,\n        [24, 18, 35],\n        [23, 17, 35],\n        [26, 23, 40]],\n\n       [[31, 25, 44],\n        [32, 26, 45],\n        [32, 26, 44],\n        ...,\n        [27, 21, 38],\n        [22, 16, 34],\n        [21, 17, 34]],\n\n       ...,\n\n       [[14,  5,  9],\n        [14,  5,  9],\n        [14,  5,  9],\n        ...,\n        [13,  7, 16],\n        [13,  7, 16],\n        [13,  7, 16]],\n\n       [[14,  5,  9],\n        [14,  5,  9],\n        [14,  5,  9],\n        ...,\n        [13,  7, 16],\n        [13,  7, 16],\n        [13,  7, 16]],\n\n       [[14,  5,  9],\n        [14,  5,  9],\n        [14,  5,  9],\n        ...,\n        [14,  7, 17],\n        [14,  7, 17],\n        [14,  7, 17]]], dtype=uint8)", "height": 30, "width": 85, "__class__": "ImageTemplate"}, "image": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\CLICK_TO_START.png", "resolution": [85, 30]}, {"key": "touch_template", "value": {"filename": "CLICK_TO_START.png", "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\CLICK_TO_START.png", "threshold": 0.8, "target_pos": 5, "record_pos": [0, 0], "resolution": [1280, 720], "rgb": false, "scale_max": 800, "scale_step": 0.005, "template_path": "templates", "keyword": null, "name": "CLICK_TO_START", "border": [45.0, 11.0, 11.0], "filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\CLICK_TO_START.png", "image": "array([[[44, 39, 54],\n        [43, 37, 52],\n        [38, 33, 49],\n        ...,\n        [40, 34, 51],\n        [39, 34, 51],\n        [31, 27, 44]],\n\n       [[37, 31, 48],\n        [38, 33, 49],\n        [36, 31, 46],\n        ...,\n        [24, 18, 35],\n        [23, 17, 35],\n        [26, 23, 40]],\n\n       [[31, 25, 44],\n        [32, 26, 45],\n        [32, 26, 44],\n        ...,\n        [27, 21, 38],\n        [22, 16, 34],\n        [21, 17, 34]],\n\n       ...,\n\n       [[14,  5,  9],\n        [14,  5,  9],\n        [14,  5,  9],\n        ...,\n        [13,  7, 16],\n        [13,  7, 16],\n        [13,  7, 16]],\n\n       [[14,  5,  9],\n        [14,  5,  9],\n        [14,  5,  9],\n        ...,\n        [13,  7, 16],\n        [13,  7, 16],\n        [13,  7, 16]],\n\n       [[14,  5,  9],\n        [14,  5,  9],\n        [14,  5,  9],\n        ...,\n        [14,  7, 17],\n        [14,  7, 17],\n        [14,  7, 17]]], dtype=uint8)", "height": 30, "width": 85, "__class__": "ImageTemplate"}, "image": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\CLICK_TO_START.png", "resolution": [85, 30]}, {"key": "timeout", "value": 10}, {"key": "interval", "value": 3}, {"key": "local_search", "value": false}, {"key": "times", "value": 1}, {"key": "blind", "value": false}, {"key": "ocr_mode", "value": 0}, {"key": "cls", "value": "{class 'zafkiel.ocr.ocr.Ocr'}"}]}, "screen": {"src": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265587402.jpg", "rect": [{"left": 608, "top": 663, "width": 85, "height": 30}], "pos": [[650, 678]], "vector": [], "confidence": 0.9947386384010315, "resolution": [1302, 776], "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265587402.jpg", "thumbnail": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265587402_small.jpg"}, "desc": null, "traceback": "", "log": "", "assert": null}, {"title": "find_click", "time": 1727265599.3465328, "code": {"name": "find_click", "args": [{"key": "self", "value": {"ui_current": "None"}}, {"key": "rec_template", "value": {"filename": "LOGIN_FLAG.png", "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\LOGIN_FLAG.png", "threshold": 0.8, "target_pos": 5, "record_pos": [0.0, 0.38], "resolution": [1280, 720], "rgb": false, "scale_max": 800, "scale_step": 0.005, "template_path": "templates", "keyword": null, "name": "LOGIN_FLAG", "border": [45.0, 11.0, 11.0], "filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\LOGIN_FLAG.png", "image": "array([[[ 2,  4, 14],\n        [ 3,  4, 14],\n        [ 3,  5, 14],\n        ...,\n        [11, 13, 20],\n        [11, 13, 21],\n        [10, 12, 21]],\n\n       [[ 2,  4, 14],\n        [ 3,  4, 14],\n        [ 3,  5, 13],\n        ...,\n        [11, 14, 22],\n        [11, 13, 21],\n        [10, 12, 21]],\n\n       [[ 2,  4, 13],\n        [ 3,  4, 14],\n        [ 3,  5, 13],\n        ...,\n        [11, 13, 21],\n        [10, 12, 21],\n        [10, 12, 21]],\n\n       ...,\n\n       [[ 2,  4, 12],\n        [ 2,  4, 12],\n        [ 2,  4, 12],\n        ...,\n        [ 3,  4, 13],\n        [ 3,  4, 13],\n        [ 3,  4, 13]],\n\n       [[ 2,  4, 12],\n        [ 2,  4, 12],\n        [ 2,  4, 12],\n        ...,\n        [ 3,  4, 13],\n        [ 3,  4, 13],\n        [ 3,  4, 13]],\n\n       [[ 2,  4, 12],\n        [ 2,  4, 12],\n        [ 2,  4, 12],\n        ...,\n        [ 3,  4, 13],\n        [ 3,  4, 13],\n        [ 3,  4, 13]]], dtype=uint8)", "height": 27, "width": 77, "__class__": "ImageTemplate"}, "image": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\LOGIN_FLAG.png", "resolution": [77, 27]}, {"key": "touch_template", "value": {"filename": "LOGIN_CLICK.png", "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\LOGIN_CLICK.png", "threshold": 0.8, "target_pos": 5, "record_pos": [0.0, 0.15], "resolution": [1280, 720], "rgb": false, "scale_max": 800, "scale_step": 0.005, "template_path": "templates", "keyword": null, "name": "LOGIN_CLICK", "border": [45.0, 11.0, 11.0], "filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\LOGIN_CLICK.png", "image": "array([[[255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255],\n        ...,\n        [255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255]],\n\n       [[255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255],\n        ...,\n        [255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255]],\n\n       [[255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255],\n        ...,\n        [255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255]],\n\n       ...,\n\n       [[255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255],\n        ...,\n        [255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255]],\n\n       [[255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255],\n        ...,\n        [255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255]],\n\n       [[255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255],\n        ...,\n        [255, 255, 255],\n        [255, 255, 255],\n        [255, 255, 255]]], dtype=uint8)", "height": 42, "width": 241, "__class__": "ImageTemplate"}, "image": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\LOGIN_CLICK.png", "resolution": [241, 42]}, {"key": "times", "value": 2}, {"key": "blind", "value": false}, {"key": "interval", "value": 3}, {"key": "local_search", "value": false}, {"key": "timeout", "value": 1}, {"key": "ocr_mode", "value": 0}, {"key": "cls", "value": "{class 'zafkiel.ocr.ocr.Ocr'}"}]}, "screen": {"src": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265591495.jpg", "rect": [{"left": 532, "top": 475, "width": 241, "height": 42}], "pos": [[652, 496]], "vector": [], "confidence": 0.9999980926513672, "resolution": [1302, 776], "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265591495.jpg", "thumbnail": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265591495_small.jpg"}, "desc": null, "traceback": "", "log": "", "assert": null}, {"title": "Exists", "time": 1727265599.411513, "code": {"name": "exists", "args": [{"key": "v", "value": {"filename": "MAIN_FLAG.png", "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\MAIN_FLAG.png", "threshold": 0.8, "target_pos": 5, "record_pos": [0.38, -0.32], "resolution": [1280, 720], "rgb": true, "scale_max": 800, "scale_step": 0.005, "template_path": "templates", "keyword": null, "filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\MAIN_FLAG.png", "image": "array([[[ 84,  98,  98],\n        [ 84,  97,  98],\n        [ 83,  96,  97],\n        ...,\n        [ 54,  60,  76],\n        [ 68,  72,  79],\n        [ 80,  82,  87]],\n\n       [[106, 113, 116],\n        [104, 114, 115],\n        [104, 113, 113],\n        ...,\n        [ 83,  86,  88],\n        [ 78,  81,  84],\n        [ 69,  72,  76]],\n\n       [[102, 110, 110],\n        [ 96, 109, 111],\n        [ 94, 108, 109],\n        ...,\n        [ 41,  46,  52],\n        [ 37,  43,  50],\n        [ 35,  40,  48]],\n\n       ...,\n\n       [[ 79, 101, 110],\n        [ 76, 102, 106],\n        [ 76, 102, 106],\n        ...,\n        [ 38,  45,  41],\n        [ 38,  44,  41],\n        [ 39,  46,  43]],\n\n       [[ 79,  99, 108],\n        [ 74, 102, 102],\n        [ 75, 100, 102],\n        ...,\n        [ 38,  45,  41],\n        [ 39,  46,  43],\n        [ 39,  46,  43]],\n\n       [[ 78, 100, 107],\n        [ 77,  98, 106],\n        [ 78, 101, 107],\n        ...,\n        [ 40,  46,  41],\n        [ 40,  46,  41],\n        [ 39,  46,  41]]], dtype=uint8)", "border": [45.0, 11.0, 11.0], "width": 201, "height": 61, "area": [1036.9, -35.10000000000002, 1237.9, 25.899999999999977], "name": "MAIN_FLAG", "__class__": "ImageTemplate"}, "image": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\MAIN_FLAG.png", "resolution": [201, 61]}, {"key": "timeout", "value": 5}, {"key": "local_search", "value": false}, {"key": "ocr_mode", "value": 0}, {"key": "cls", "value": "{class 'zafkiel.ocr.ocr.Ocr'}"}]}, "screen": {"src": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265599399.jpg", "rect": [{"left": 1042, "top": 106, "width": 201, "height": 61}], "pos": [[1142, 136]], "vector": [], "confidence": 0.9631613492965698, "resolution": [1302, 776], "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265599399.jpg", "thumbnail": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265599399_small.jpg"}, "desc": "Image  exists", "traceback": "", "log": "", "assert": null}, {"title": "Sleep", "time": 1727265602.4188397, "code": {"name": "sleep", "args": [{"key": "secs", "value": 3}]}, "screen": null, "desc": "Wait for 3 seconds", "traceback": "", "log": "", "assert": null}, {"title": "Exists", "time": 1727265602.4731083, "code": {"name": "exists", "args": [{"key": "v", "value": {"filename": "MAIN_FLAG.png", "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\MAIN_FLAG.png", "threshold": 0.8, "target_pos": 5, "record_pos": [0.38, -0.32], "resolution": [1280, 720], "rgb": true, "scale_max": 800, "scale_step": 0.005, "template_path": "templates", "keyword": null, "filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\MAIN_FLAG.png", "image": "array([[[ 84,  98,  98],\n        [ 84,  97,  98],\n        [ 83,  96,  97],\n        ...,\n        [ 54,  60,  76],\n        [ 68,  72,  79],\n        [ 80,  82,  87]],\n\n       [[106, 113, 116],\n        [104, 114, 115],\n        [104, 113, 113],\n        ...,\n        [ 83,  86,  88],\n        [ 78,  81,  84],\n        [ 69,  72,  76]],\n\n       [[102, 110, 110],\n        [ 96, 109, 111],\n        [ 94, 108, 109],\n        ...,\n        [ 41,  46,  52],\n        [ 37,  43,  50],\n        [ 35,  40,  48]],\n\n       ...,\n\n       [[ 79, 101, 110],\n        [ 76, 102, 106],\n        [ 76, 102, 106],\n        ...,\n        [ 38,  45,  41],\n        [ 38,  44,  41],\n        [ 39,  46,  43]],\n\n       [[ 79,  99, 108],\n        [ 74, 102, 102],\n        [ 75, 100, 102],\n        ...,\n        [ 38,  45,  41],\n        [ 39,  46,  43],\n        [ 39,  46,  43]],\n\n       [[ 78, 100, 107],\n        [ 77,  98, 106],\n        [ 78, 101, 107],\n        ...,\n        [ 40,  46,  41],\n        [ 40,  46,  41],\n        [ 39,  46,  41]]], dtype=uint8)", "border": [45.0, 11.0, 11.0], "width": 201, "height": 61, "area": [1036.9, -35.10000000000002, 1237.9, 25.899999999999977], "name": "MAIN_FLAG", "__class__": "ImageTemplate"}, "image": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\templates\\MAIN_FLAG.png", "resolution": [201, 61]}, {"key": "timeout", "value": 0}, {"key": "local_search", "value": false}, {"key": "ocr_mode", "value": 0}, {"key": "cls", "value": "{class 'zafkiel.ocr.ocr.Ocr'}"}]}, "screen": {"src": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265602462.jpg", "rect": [{"left": 1042, "top": 106, "width": 201, "height": 61}], "pos": [[1142, 136]], "vector": [], "confidence": 0.9692829847335815, "resolution": [1302, 776], "_filepath": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265602462.jpg", "thumbnail": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\log\\2024-09-25\\report\\1727265602462_small.jpg"}, "desc": "Image  exists", "traceback": "", "log": "", "assert": null}], "name": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2", "scale": 0.5, "test_result": true, "run_end": 1727265602.4731083, "run_start": 1727265582.2996101, "static_root": "C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/", "lang": "en", "records": [], "info": {"name": "main.py", "path": "D:\\VSCode_Workplace\\Python\\GirlsFrontline2\\main.py", "author": "", "title": "", "desc": "", "devices": {}}, "log": "report\\log.txt", "console": ""};
+      lang = new Lang();
+      lang.init({
+        defaultLang: 'en',
+        currentLang: 'en'
+      });
+    </script>
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <div class="row">
+        
+        <div id="main" class="main col-md-12">
+          <div id="back_multi"></div>
+          <h1 class="title">Airtest Report </h1>
+          
+          <div class="summary" >
+
+            <div class="show-horizontal">
+              <div class="info info1">
+                <div class="info-left">
+                  <img id='result-img' />
+                </div>
+                <div class="info-right">
+                  <div class="info-title"><span lang='en'>Airtest Report</span>
+                    <label id='result-desc' lang="en"></label>
+                  </div>
+                  <div class="info-content">
+                    <div class='info-sub start'></div>
+                    <div class='info-sub time'></div>
+                  </div>
+                  <div class="info-toal">
+                    <div class="info-step">
+                      <span class="info-name" lang="en">Steps: </span>
+                      <span class="info-value">6</span>
+                    </div>
+                    <div class="info-time">
+                      <span class="info-name" lang="en">Time: </span>
+                      <span class="info-value duration">xxx</span>
+                    </div>
+                    
+                    
+                    <div class="info-log">
+                      <span class="info-name" lang="en">Log: </span>
+                      <span class="info-value log">
+                        <a href="report\log.txt" target="_blank" download="log.txt">log.txt <img src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/download_log.svg" /></a>
+                      </span>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div class="info info2">
+                <div class="info-left"></div>
+                <div class="info-right">
+                  <div class="info-title"><span lang='en'>Executors</span></div>
+                  <div class="info-content">
+                    <div class="info-execute">
+                      <div class="circle-img"></div>
+                      
+                        <div class="info-name" lang="en">Author: Anonymous</div>
+                      
+                    </div>
+                    <div class="info-execute">
+                      <div class="circle-img"></div>
+                      <div class="info-file" title="D:\VSCode_Workplace\Python\GirlsFrontline2\main.py">main.py
+                        <img id="copy_path" class="copy-img" data-value="D:\VSCode_Workplace\Python\GirlsFrontline2\main.py" title="copy file path to clipboard" src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/copy.svg" />
+                      </div>
+                    </div>
+
+                    
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+          </div>
+          <div class="device" id='device'>
+          </div>
+          <!-- 可以额外显示自定义模块，支持插入Html内容 -->
+          
+          <div class="gallery">
+            <div class="info-title"><span lang="en">Quick view</span></div>
+            <div class ='placeholder'>
+              <div class="content">
+              </div>
+            </div>
+          </div>
+
+          <!--单步-->
+          
+          
+          <div class="steps">
+            <div class="content">
+              <div class="steps-head">
+                <div class="head-left">
+                  <div class="order" id='order'><span lang="en">order</span></div>
+                  <div class="order" id='duration'><span lang="en">duration</span></div>
+                  <div class="order" id='status'><span lang="en">status</span></div>
+                </div>
+                <div class="head-right">
+                  <span lang="en" class="jump-wrong" id='jump-wrong'>Jump to wrong step</span>
+                  <span lang="en">Filter by:</span>
+                  <span class="filters">
+                    <span lang="en" class="filter" id="all" alt="show all steps">All</span>
+                    <span lang="en" class="filter" id='success' alt="show success steps only">Success</span>
+                    <span lang="en" class="filter" id='fail' alt="show failed steps only">Failed</span>
+                    <span lang="en" class="filter" id="assert" alt="show steps with assertion only">Assert</span>
+                  </span>
+                </div>
+              </div>
+              <div class="steps-content">
+                <div class="step-left" id='step-left'>
+                  <div class="step-list"></div>
+                  <div id="pageTool"></div>
+                </div>
+                <div class="step-right" id='step-right'></div>
+              </div>
+            </div>
+            
+            </div>
+        </div>
+        
+      
+      <div class="footer">
+        <div class="footer-content">
+          <div class="foo">
+            <div class="interfaces">
+              <a class="icon" href="https://github.com/AirtestProject/Airtest"  target="_blank">
+                <img src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/Airtest.png" alt="airtest">
+              </a>
+              <a class="icon" href="https://github.com/AirtestProject/poco"  target="_blank">
+                <img src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/poco.png" alt="Poco">
+              </a>
+            </div>
+          </div>
+          <div class="foo">
+            <div class="apps">
+              <a class="icon ide" href="http://airtest.netease.com/"  target="_blank">
+                <img src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/AirtestIDE.png" alt="AirtestIDE">
+              </a>
+              <a class="icon" href="https://airlab.163.com/"  target="_blank">
+                <img src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/AirLab.png" alt="AirLab">
+              </a>
+            </div>
+          </div>
+          <div class="foo">
+            <div class="corp">
+                <img src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/netease.png" alt="NetEase">
+                <span lang="en">© 1997 - 2020 NetEase, Inc. All Rights Reserved.</span>
+            </div>
+          </div>
+        </div>
+      </div> 
+      
+      </div>
+      <!-- 录屏 -->
+      <div class="row gif-wrap show">
+          <div class="menu">
+            <div class="pattern pattern1">
+              <div class="minimize">
+                <img title="minimize" src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/minimize.svg" />
+              </div>
+              <div class="close">
+                <img title="close" src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/close.svg" />
+              </div>
+            </div>
+            <div class="pattern pattern2">
+              <div class="maximize">
+                <img title="maximize" src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/image/maximize.svg" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            
+          </div>
+        </div>
+        <!-- max pic -->
+      <div id='magnify' class="mask hide">
+        <div class="content">
+        </div>
+      </div>
+    </div>
+
+  <link href="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/css/monokai_sublime.min.css" rel="stylesheet">
+  <script src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/js/highlight.min.js"></script>
+  <script type="text/javascript" src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/js/paging.js"></script>
+  <script src="C:/Users/Administrator/anaconda3/envs/src/lib/site-packages/airtest/report/js/report.js"></script>
+</body>
+</html>
