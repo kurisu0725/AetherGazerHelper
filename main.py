@@ -9,6 +9,7 @@ from loguru import logger
 from zafkiel import API, simple_report
 
 from tasks.login.login import Login
+from tasks.dispatch_room.dispatch_room import DispatchRoom
 
 logger.remove()
 logger.add(sys.stdout, level="INFO", format="<green>{time:HH:mm:ss}</green> | "
@@ -26,7 +27,7 @@ def all_tasks(config):
     try:
         # # 日常
         Login(config).app_start()
-        
+        DispatchRoom(config).run()
     except Exception as e:
         logger.exception(e)
         raise

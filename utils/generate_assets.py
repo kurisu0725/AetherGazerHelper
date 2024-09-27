@@ -5,6 +5,7 @@ import os
 start_point = None
 end_point = None
 drawing = False
+clone = None
 
 # 鼠标回调函数
 def draw_rectangle(event, x, y, flags, param):
@@ -40,28 +41,30 @@ def calculate_relative_position(start, end, image_shape):
 
     # 计算相对位置
     relative_x = (rect_center_x - center_x) / w
-    relative_y = (rect_center_y - center_y) / h
+    relative_y = (rect_center_y - center_y) / w
 
     return relative_x, relative_y
 
 # 保存assets_task.py文件
-def save_assets_task(variable_name, task_name, x, y):
+# def save_assets_task(variable_name, task_name, x, y):
     
-    file_path = f"../tasks/{task_name}/assets_{task_name}.py"
-    is_new_file = not os.path.exists(file_path)
+#     file_path = f"../tasks/{task_name}/assets_{task_name}.py"
+#     is_new_file = not os.path.exists(file_path)
     
-    with open(file_path, "a") as f:  # 使用 "a" 模式追加内容
-        if is_new_file:
-            f.write(f"from zafkiel import Template\n\n")  # 只在新文件时写入import
-        f.write(f"{variable_name} = Template(r\"{image_path}\", ({x}, {y}))\n")
+#     with open(file_path, "a") as f:  # 使用 "a" 模式追加内容
+#         if is_new_file:
+#             f.write(f"from zafkiel import Template\n\n")  # 只在新文件时写入import
+#         f.write(f"{variable_name} = Template(r\"{image_path}\", ({x}, {y}))\n")
     
-    print(f"{variable_name} generated in {file_path}.")
+#     print(f"{variable_name} generated in {file_path}.")
 
 if __name__ == "__main__":
     # 读取图片
-    image_path = "../screenshot/main_page_screenshot.png"
+    image_path = "../screenshot/dispatch_reward_max_off.png"
     image = cv2.imread(image_path)
     clone = image.copy()
+
+    print(f"image shape: {image.shape}")
 
     # 创建窗口并设置鼠标回调
     cv2.namedWindow("Image")
@@ -73,7 +76,7 @@ if __name__ == "__main__":
 
         # 按 's' 键保存选定区域
         if key == ord("s") and start_point and end_point:
-            save_selected_area(clone, start_point, end_point, filename='MAIN_FLAG')
+            save_selected_area(clone, start_point, end_point, filename='DISPATCH_REWARD_INTELLIGENCE_RESERVE_TAKE_OUT'.upper())
             relative_position = calculate_relative_position(start_point, end_point, image.shape)
             print(f"Relative position: (x: {relative_position[0]}, y: {relative_position[1]})")
 
