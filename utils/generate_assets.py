@@ -23,12 +23,12 @@ def draw_rectangle(event, x, y, flags, param):
         cv2.rectangle(image, start_point, end_point, (0, 255, 0), 2)
         cv2.imshow("Image", image)
 
-def save_selected_area(image, start, end, filename):
+def save_selected_area(image, start, end, variable_name):
     x1, y1 = start
     x2, y2 = end
     rect = image[y1:y2, x1:x2]
-    cv2.imwrite(f"../templates/{filename}.png", rect)
-    print(f"Selected area saved as 'templates/{filename}.png'.")
+    cv2.imwrite(f"../templates/{variable_name}.png", rect)
+    print(f"Selected area saved as 'templates/{variable_name}.png'.")
 
 def calculate_relative_position(start, end, image_shape):
     # 计算图像中心
@@ -45,22 +45,43 @@ def calculate_relative_position(start, end, image_shape):
 
     return relative_x, relative_y
 
-# 保存assets_task.py文件
-# def save_assets_task(variable_name, task_name, x, y):
+def save_assets_task(variable_name, save_dir, filename, x, y, keyword=None or str, rgb=False):
+    """
+    Args: 
+        variable_name: template asset's variable_name
+        x, y: relative position (note that y is divided by screen_width)
+        keyword: if necessary to OCR text
+        rgb: True if you need to recognize a color image, e.g., some buttons have different statuses
+    """
+    file_path = os.path.join(save_dir, filename)
+    is_new_file = not os.path.exists(file_path)
     
-#     file_path = f"../tasks/{task_name}/assets_{task_name}.py"
-#     is_new_file = not os.path.exists(file_path)
+    with open(file_path, "a") as f:  # 使用 "a" 模式追加内容
+        if is_new_file:
+            f.write(f"from zafkiel import Template\n")
+            f.write(f"from zafkiel.ocr import Keyword\n")
+
+        # 格式化 x 和 y 保留三位小数
+        x_str = f"{x:.3f}"
+        y_str = f"{y:.3f}"
+
+        # 构建参数字符串
+        params = [f"r\"{variable_name}.png\"", f"({x_str}, {y_str})"]
+        
+        if keyword is not None:
+            params.append(f"Keyword('{keyword.encode(encoding='utf-8') }')")
+        if rgb:
+            params.append("rgb=True")
+
+        # 拼接最终定义
+        param_string = ", ".join(params)
+        f.write(f"\n{variable_name} = Template({param_string})\n")
     
-#     with open(file_path, "a") as f:  # 使用 "a" 模式追加内容
-#         if is_new_file:
-#             f.write(f"from zafkiel import Template\n\n")  # 只在新文件时写入import
-#         f.write(f"{variable_name} = Template(r\"{image_path}\", ({x}, {y}))\n")
-    
-#     print(f"{variable_name} generated in {file_path}.")
+    print(f"{variable_name} generated in {file_path}.")
 
 if __name__ == "__main__":
     # 读取图片
-    image_path = "../screenshot/dispatch_reward_max_off.png"
+    image_path = "../screenshot/share/get_item.png"
     image = cv2.imread(image_path)
     clone = image.copy()
 
@@ -76,10 +97,12 @@ if __name__ == "__main__":
 
         # 按 's' 键保存选定区域
         if key == ord("s") and start_point and end_point:
-            save_selected_area(clone, start_point, end_point, filename='DISPATCH_REWARD_INTELLIGENCE_RESERVE_TAKE_OUT'.upper())
+            variable_name = 'item_get_flag'.upper()
+            save_selected_area(clone, start_point, end_point, variable_name)
             relative_position = calculate_relative_position(start_point, end_point, image.shape)
             print(f"Relative position: (x: {relative_position[0]}, y: {relative_position[1]})")
-
+            save_assets_task(variable_name=variable_name, save_dir= '../tasks/base/assets', filename='assets_share.py', x=relative_position[0], y=relative_position[1],
+                             keyword="获得道具")
         # 按 'q' 键退出
         elif key == ord("q"):
             break

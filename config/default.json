@@ -1,7 +1,7 @@
 {
     "General": {
         "Game": {
-            "game_path": "E:\\gfl2\\Games\\GF2_Exilium.exe",
+            "game_path": "C:\\GF2\\Games\\GF2_Exilium.exe",
             "log_retain": "1week"
         }
     }

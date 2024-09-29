@@ -27,7 +27,7 @@ def all_tasks(config):
     try:
         # # 日常
         Login(config).app_start()
-        DispatchRoom(config).run()
+        # DispatchRoom(config).run()
     except Exception as e:
         logger.exception(e)
         raise
@@ -64,7 +64,9 @@ def main():
 
 if __name__ == '__main__':
     # 以管理员身份运行
-    if ctypes.windll.shell32.IsUserAnAdmin():
-        main()
-    else:
-        ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
+    # if ctypes.windll.shell32.IsUserAnAdmin():
+    #     main()
+    # else:
+    #     ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
+    from tasks.base.popup  import  main_function
+    main_function()

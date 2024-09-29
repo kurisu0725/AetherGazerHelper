@@ -62,9 +62,8 @@ class Login(UI):
         self.handle_app_login()
 
     def handle_app_login(self):
-        logger.info("######################################################")
-        logger.info("######################################################")
-        logger.info("######################################################")
+        from utils.logger_func import task_info
+        task_info('Login Program')
         
         logger.info("Handle_app_login......")
         logger.debug(f"finding LOGIN_FLAG")
