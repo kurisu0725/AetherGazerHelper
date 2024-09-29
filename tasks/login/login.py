@@ -7,10 +7,11 @@ import shutil
 from zafkiel import Template, logger
 from pathlib import Path
 from zafkiel.ui import UI
+from zafkiel.exception import LoopError
 from typing import Dict
 from tasks.base.popup import popup_list, popup_handler
 from tasks.base.page import *
-from tasks.login.assets.assets_login import LOGIN_FLAG, LOGIN_CLICK, CLICK_TO_START
+from tasks.login.assets.assets_login import LOGIN_FLAG, LOGIN_CLICK
 
 class Login(UI):
     def __init__(self, config: Dict) -> None:
@@ -44,9 +45,7 @@ class Login(UI):
         self.stop_app()
 
     def app_start(self):
-
-        Template.template_path = 'assets'
-
+        
         subprocess.Popen([self.config['General']['Game']['game_path']])
         date = datetime.datetime.now().strftime("%Y-%m-%d")
         process_str = "少女前线2：追放"
@@ -54,7 +53,7 @@ class Login(UI):
         self.manage_log()
         self.get_popup_list(popup_list)  # TODO: Move to program start instead of game start
 
-        self.sleep(5)
+        self.sleep(10)
         self.handle_app_login()
 
     def app_restart(self):
@@ -63,13 +62,19 @@ class Login(UI):
         self.handle_app_login()
 
     def handle_app_login(self):
-        print("handle_app_login......")
-        self.find_click(CLICK_TO_START, CLICK_TO_START,
-                  timeout=10, interval=3, local_search=False)
-
-        self.find_click(LOGIN_FLAG, LOGIN_CLICK,
-                   times=2, blind=False, interval=3, local_search=False)
+        logger.info("######################################################")
+        logger.info("######################################################")
+        logger.info("######################################################")
         
+        logger.info("Handle_app_login......")
+        logger.debug(f"finding LOGIN_FLAG")
+        find_res = self.find_click(LOGIN_FLAG, LOGIN_FLAG,
+                   timeout=10, interval=3, ocr_mode=0,local_search=True)
+        if find_res == False:
+            raise LoopError("finding too many times")
+        logger.debug(f"finding LOGIN_CLICK")
+        self.find_click(LOGIN_CLICK, LOGIN_CLICK,
+                   times=2, blind=False, interval=3, local_search=True)
         while True:
             if self.ui_additional():
                 continue
@@ -82,6 +87,7 @@ class Login(UI):
                     break
 
         return True
+
     def test(self):
         print("start test...................")
         img = self.screenshot()

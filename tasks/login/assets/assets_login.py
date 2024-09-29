@@ -1,5 +1,5 @@
 from zafkiel import Template
+from zafkiel.ocr import Keyword
 
-LOGIN_FLAG = Template(r"LOGIN_FLAG.png", (0.00, 0.38))
-LOGIN_CLICK = Template(r"LOGIN_CLICK.png", (0.00, 0.15))
-CLICK_TO_START = Template(r"CLICK_TO_START.png", (0, 0))
+LOGIN_FLAG = Template(r"LOGIN_FLAG.png", (0.00, 0.213))
+LOGIN_CLICK = Template(r"LOGIN_CLICK.png", (0.00, 0.075))
