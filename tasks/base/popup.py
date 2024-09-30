@@ -36,9 +36,9 @@ def main_function():
     run_as_admin()
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     process_str = "少女前线2：追放"
-    popup_handler.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={process_str}", ])
-        
-    popup_handler.handle_notice()
+    
 
 if __name__ == "__main__":
     main_function()
+    popup_handler.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={process_str}", ])
+    popup_handler.handle_notice()

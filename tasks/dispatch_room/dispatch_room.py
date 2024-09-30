@@ -8,6 +8,7 @@ from tasks.base.assets.assets_switch import *
 from tasks.dispatch_room.assets.assets_dispatch_room import *
 
 class DispatchRoom(UI):
+    
     def __init__(self, config: Dict = None):
         self.config = config
 
@@ -23,6 +24,7 @@ class DispatchRoom(UI):
         """
         logger.info('Start claim rewards')
         self.ui_ensure(page_dispatch_reward)
+
         # 选择 情报储备选项
         self.ui_goto(page_dispatch_reward, state=DISPATCH_REWARD_INTELLIGENCE_RESERVE_SWITCH_ON)
 

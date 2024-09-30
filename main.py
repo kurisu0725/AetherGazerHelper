@@ -68,5 +68,5 @@ if __name__ == '__main__':
     #     main()
     # else:
     #     ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
-    from tasks.base.popup  import  main_function
-    main_function()
+    from tasks.team.team  import  test_function
+    test_function()

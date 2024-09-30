@@ -45,7 +45,7 @@ def calculate_relative_position(start, end, image_shape):
 
     return relative_x, relative_y
 
-def save_assets_task(variable_name, save_dir, filename, x, y, keyword=None or str, rgb=False):
+def save_assets_task(variable_name, save_dir, filename, x, y, keyword=None or str, rgb=False, description: str = None):
     """
     Args: 
         variable_name: template asset's variable_name
@@ -56,7 +56,7 @@ def save_assets_task(variable_name, save_dir, filename, x, y, keyword=None or st
     file_path = os.path.join(save_dir, filename)
     is_new_file = not os.path.exists(file_path)
     
-    with open(file_path, "a") as f:  # 使用 "a" 模式追加内容
+    with open(file_path, "a", encoding="utf-8") as f:  # 使用 "a" 模式追加内容
         if is_new_file:
             f.write(f"from zafkiel import Template\n")
             f.write(f"from zafkiel.ocr import Keyword\n")
@@ -69,19 +69,21 @@ def save_assets_task(variable_name, save_dir, filename, x, y, keyword=None or st
         params = [f"r\"{variable_name}.png\"", f"({x_str}, {y_str})"]
         
         if keyword is not None:
-            params.append(f"Keyword('{keyword.encode(encoding='utf-8') }')")
+            params.append(f"Keyword(u'{keyword}')")  # 加上 u 前缀
         if rgb:
             params.append("rgb=True")
 
         # 拼接最终定义
         param_string = ", ".join(params)
+        if description is not None:
+            f.write(f"\n# {description}")
         f.write(f"\n{variable_name} = Template({param_string})\n")
     
     print(f"{variable_name} generated in {file_path}.")
 
 if __name__ == "__main__":
     # 读取图片
-    image_path = "../screenshot/share/get_item.png"
+    image_path = "../screenshot/battle/battle_confirm.png"
     image = cv2.imread(image_path)
     clone = image.copy()
 
@@ -97,12 +99,12 @@ if __name__ == "__main__":
 
         # 按 's' 键保存选定区域
         if key == ord("s") and start_point and end_point:
-            variable_name = 'item_get_flag'.upper()
+            variable_name = 'battle_complete_confirm'.upper()
             save_selected_area(clone, start_point, end_point, variable_name)
             relative_position = calculate_relative_position(start_point, end_point, image.shape)
             print(f"Relative position: (x: {relative_position[0]}, y: {relative_position[1]})")
-            save_assets_task(variable_name=variable_name, save_dir= '../tasks/base/assets', filename='assets_share.py', x=relative_position[0], y=relative_position[1],
-                             keyword="获得道具")
+            save_assets_task(variable_name=variable_name, save_dir= '../tasks/base/assets/', filename='assets_share.py', x=relative_position[0], y=relative_position[1],
+                            keyword="确认", description="战斗完毕 确认", rgb=False)
         # 按 'q' 键退出
         elif key == ord("q"):
             break
