@@ -48,7 +48,8 @@ class Login(UI):
         
         subprocess.Popen([self.config['General']['Game']['game_path']])
         date = datetime.datetime.now().strftime("%Y-%m-%d")
-        process_str = "少女前线2：追放"
+        process_str = self.config['General']['Game']['game_process_str']
+        
         self.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={process_str}", ])
         self.manage_log()
         self.get_popup_list(popup_list)  # TODO: Move to program start instead of game start

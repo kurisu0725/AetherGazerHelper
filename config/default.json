@@ -1,8 +1,9 @@
 {
     "General": {
         "Game": {
-            "game_path": "C:\\GF2\\Games\\GF2_Exilium.exe",
-            "log_retain": "1week"
+            "game_path": "E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
+            "log_retain": "1week",
+            "game_process_str" : "深空之眼"
         }
     }
 }
