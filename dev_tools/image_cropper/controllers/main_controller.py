@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from PyQt5.QtCore import QRect, QEvent
 import cv2
 import os
-
+import logging
 class MainController(QObject):
     def __init__(self, model, view):
         super().__init__()
@@ -13,11 +13,15 @@ class MainController(QObject):
     
     def connect_signals(self):
         """连接所有信号"""
-        self.view.load_btn.clicked.connect(self.load_image)
+        self.view.load_btn.clicked.connect(self.btn_load_image)
         self.view.save_btn.clicked.connect(self.save_image)
         self.view.browse_btn.clicked.connect(self.browse_directory)
 
+        # 图像crop的触发信号
         self.view.original_label.mouseReleaseSignal.connect(self.handle_roi_selection)
+        # 拖拽图像文件输入的信号
+        self.view.original_label.imageDropped.connect(self.handle_image_drop)
+
         # 窗口缩放信号（通过事件过滤器实现）
         self.view.installEventFilter(self)
     
@@ -33,41 +37,59 @@ class MainController(QObject):
         self.view.cropped_label.update_display()
         event.accept()
     
+    def handle_image_drop(self, file_path):
+        """处理拖拽的图像文件"""
+        logging.info(f"handle image drop -> file path : {file_path}")
+        success = self.load_image(file_path)
+        if success:
+            logging.info("Image loaded successfully!")
+        else:
+            QMessageBox.warning(self.view, "Error", "Failed to load the image!")
+
     def handle_roi_selection(self, rect):
         """处理ROI选择"""
+        print(f"handle_roi_selection -> ROI selected: {rect}")
         try:
             if not isinstance(rect, QRect) or not rect.isValid():
                 return
-                
+            print(f"ROI selected: {rect}")
             # 获取ROI参数
             x, y, w, h = rect.x(), rect.y(), rect.width(), rect.height()
             orig_roi = (x, y, w, h)
             # 执行裁剪
-            norm_roi = self.model.crop_image((x, y, w, h))
-            original_height, original_width = self.model.original_image.shape[:2]
-            print(f"orig img: {self.model.original_image.shape}")
-            y_norm_w = norm_roi[1] * original_height / original_width if original_width > 0 else 0  # 新增：y按高度归一化
+            norm_roi = self.model.crop_image(orig_roi)
 
-            if norm_roi and self.model.cropped_image is not None:
+            relative_x, relative_y = self.model.recalculate_xy()
+            print(f"norm_roi: {norm_roi}, relative_x: {relative_x}, relative_y: {relative_y}")
+            if norm_roi is not None and self.model.cropped_image is not None:
                 # 显示裁剪结果
                 self.view.display_cropped_image(self.model.cropped_image)
                 
                 # 更新ROI信息
-                self.view.update_roi_info(orig_roi, norm_roi, y_norm_w)
+                self.view.update_roi_info(orig_roi, norm_roi, relative_x, relative_y)
                 
                 # 启用保存按钮
                 self.view.save_btn.setEnabled(True)
         except Exception as e:
             QMessageBox.warning(self.view, "Error", f"裁剪失败: {str(e)}")
 
-    def load_image(self):
+    def load_image(self, path) -> bool:
+        if path is None:
+            return False
+        success = self.model.load_image(path)
+        if not success:
+            return False
+        self.view.display_original_image(self.model.original_image)
+        # 自动填充文件名
+        base_name = os.path.splitext(os.path.basename(path))[0]
+        self.view.name_edit.setText(base_name)
+        self.view.path_edit.setText(os.path.join(os.path.dirname(path)))
+        return True
+
+    def btn_load_image(self):
         """处理图像加载"""
         path = self.view.get_image_path()
-        if path and self.model.load_image(path):
-            self.view.display_original_image(self.model.original_image)
-            # 自动填充文件名
-            base_name = os.path.splitext(os.path.basename(path))[0]
-            self.view.name_edit.setText(base_name)
+        self.load_image(path)
     
     def browse_directory(self):
         """处理目录选择"""
@@ -93,18 +115,24 @@ class MainController(QObject):
             
         try:
             # 保存图像
-            img_path = os.path.join(save_dir, f"{file_name}.png")
-            cv2.imwrite(img_path, self.model.cropped_image)
+            img_path = os.path.join(save_dir, "crop")
+            os.makedirs(img_path, exist_ok=True)
+            img_name = f"{file_name}.png"
+            cv2.imwrite(os.path.join(img_path, img_name), self.model.cropped_image)
             
             # 保存ROI信息
-            roi_path = os.path.join(save_dir, f"{file_name}_roi.txt")
-            norm_roi = self.model.get_normalized_roi(self.model.original_image.shape[1])
+            roi_path = os.path.join(img_path, f"{file_name}_roi.txt")
+            norm_roi = self.model.norm_roi
+            relative_x, relative_y = self.model.relative_x, self.model.relative_y
+
             with open(roi_path, 'w') as f:
                 f.write(f"Normalized ROI (x, y, width, height):\n")
                 f.write(f"x: {norm_roi[0]:.4f}\n")
                 f.write(f"y: {norm_roi[1]:.4f}\n")
                 f.write(f"width: {norm_roi[2]:.4f}\n")
                 f.write(f"height: {norm_roi[3]:.4f}\n")
+                f.write(f"Relative x: {relative_x:.4f}\n")
+                f.write(f"Relative y: {relative_y:.4f}\n")
             
             QMessageBox.information(
                 self.view, "Success", 

@@ -25,5 +25,5 @@ def test_task():
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     process_str = "少女前线2：追放"
     
-    team.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={process_str}", ])
-    team.take_supply()
+    # team.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={process_str}", ])
+    # team.take_supply()

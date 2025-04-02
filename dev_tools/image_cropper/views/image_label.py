@@ -2,15 +2,17 @@ import cv2
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtGui import QPixmap, QImage, QPainter, QPen
 from PyQt5.QtCore import Qt, QRect, QSize, pyqtSignal, QPoint
-
+import logging
 class ImageLabel(QLabel):
     mouseReleaseSignal = pyqtSignal(QRect)
-    
+    imageDropped = pyqtSignal(str)  # 定义信号，传递文件路径
+
     def __init__(self, text="", parent=None):
         super().__init__(text, parent)
         self.setAlignment(Qt.AlignCenter)
         self.setStyleSheet("border: 2px solid black;")
         self.setMinimumSize(100, 100)
+        self.setAcceptDrops(True)  # 启用拖拽功能
         
         self.original_pixmap = None
         self.display_pixmap = None
@@ -155,3 +157,26 @@ class ImageLabel(QLabel):
         """窗口大小改变事件"""
         super().resizeEvent(event)
         self.update_display()
+
+    def dragEnterEvent(self, event):
+        """拖拽进入事件"""
+        logging.info("drag enter")
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        """处理拖拽松开事件"""
+        logging.info("drop event")
+        for url in event.mimeData().urls():
+            file_path = url.toLocalFile()
+            logging.info(f"file path : {file_path}")
+            print(f"file path : {file_path}")
+            if self.is_image_file(file_path):
+                self.imageDropped.emit(file_path)  # 发射信号
+                break
+    
+    def is_image_file(self, file_path):
+        """检查文件是否为图像文件"""
+        return file_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tif'))

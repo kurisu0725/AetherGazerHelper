@@ -100,12 +100,5 @@ class Login(UI):
 
 
 if __name__ == "__main__":
-    import pygetwindow as gw
-    img = cv2.imread()
-    def print_open_window_titles():
-        windows = gw.getAllTitles()
-        for title in windows:
-            print(title)
-
-    print_open_window_titles()
+    pass
     

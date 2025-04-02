@@ -7,9 +7,11 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        
         self.init_ui()
     
     def init_ui(self):
+
         # 主窗口设置
         self.setWindowTitle("Image Cropper")
         self.setGeometry(100, 100, 1200, 800)
@@ -37,7 +39,8 @@ class MainWindow(QMainWindow):
         self.roi_y_label = QLabel("y: ")
         self.roi_w_label = QLabel("width: ")
         self.roi_h_label = QLabel("height: ")
-        self.roi_yw_label = QLabel("y (y/w): ")     # 新增：y按width归一化
+        self.roi_rel_y_label = QLabel("relative y: ")     # 新增：y按width归一化
+        self.roi_rel_x_label = QLabel("relative x: ")     
 
         # 保存路径设置
         self.path_edit = QLineEdit()
@@ -55,9 +58,11 @@ class MainWindow(QMainWindow):
         right_layout.addWidget(self.roi_info_label)
         right_layout.addWidget(self.roi_x_label)
         right_layout.addWidget(self.roi_y_label)
-        right_layout.addWidget(self.roi_yw_label)  # 新增：y按高度归一化
         right_layout.addWidget(self.roi_w_label)
         right_layout.addWidget(self.roi_h_label)
+        right_layout.addWidget(self.roi_rel_x_label)
+        right_layout.addWidget(self.roi_rel_y_label)  # 新增：y按高度归一化
+       
         right_layout.addSpacing(20)
         right_layout.addWidget(QLabel("Save Path:"))
         right_layout.addWidget(self.path_edit)
@@ -91,17 +96,14 @@ class MainWindow(QMainWindow):
     def display_original_image(self, image):
         """显示原始图像"""
         self.original_label.display_image(image)
-    
-    # def display_cropped_image(self, image):
-    #     """显示裁剪后的图像"""
-    #     self.cropped_label.display_image(image)
-    #     self.save_btn.setEnabled(True)
 
-    def update_roi_info(self, orig_roi, norm_roi, y_norm_w):
+
+    def update_roi_info(self, orig_roi, norm_roi, relative_x, relative_y):
         """更新ROI信息显示"""
         self.roi_x_label.setText(f"x: {orig_roi[0]:.1f} -> {norm_roi[0]:.4f}")
+        self.roi_rel_x_label.setText(f"relative x: {relative_x:.4f}")
         self.roi_y_label.setText(f"y: {orig_roi[1]:.1f} -> {norm_roi[1]:.4f}")
-        self.roi_yw_label.setText(f"y (y/w): {y_norm_w:.4f}")  # 新增：y按高度归一化
+        self.roi_rel_y_label.setText(f"relative y: {relative_y:.4f}")  # 新增：y按高度归一化
         self.roi_w_label.setText(f"width: {orig_roi[2]:.1f} -> {norm_roi[2]:.4f}")
         self.roi_h_label.setText(f"height: {orig_roi[3]:.1f} -> {norm_roi[3]:.4f}")
         self.roi_info_label.setVisible(True)

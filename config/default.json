@@ -3,7 +3,7 @@
         "Game": {
             "game_path": "E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
             "log_retain": "1week",
-            "game_process_str" : "深空之眼"
+            "game_process_str" : "AetherGazer"
         }
     }
 }

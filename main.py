@@ -64,9 +64,8 @@ def main():
 
 if __name__ == '__main__':
     # 以管理员身份运行
-    # if ctypes.windll.shell32.IsUserAnAdmin():
-    #     main()
-    # else:
-    #     ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
-    from tasks.team.team  import  test_function
-    test_function()
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        main()
+    else:
+        ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
+    
