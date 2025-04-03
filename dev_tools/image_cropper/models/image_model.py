@@ -67,8 +67,6 @@ class ImageModel:
         重新计算ROI的x和y坐标
         x, y 以图像中心点为(0, 0) , 以宽度为基准，适配自动化的Template 
         """
-        if self.relative_x is not None and self.relative_y is not None:
-            return self.relative_x, self.relative_y
         if self.original_image is None:
             return None
         total_height, total_width = self.original_image.shape[:2]

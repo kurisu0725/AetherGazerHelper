@@ -83,7 +83,7 @@ class MainController(QObject):
         # 自动填充文件名
         base_name = os.path.splitext(os.path.basename(path))[0]
         self.view.name_edit.setText(base_name)
-        self.view.path_edit.setText(os.path.join(os.path.dirname(path)))
+        self.view.path_edit.setText(os.path.dirname(path))
         return True
 
     def btn_load_image(self):
@@ -109,13 +109,14 @@ class MainController(QObject):
             return
             
         file_name = self.view.get_file_name()
+        file_name = file_name.upper()
         if not file_name:
             QMessageBox.warning(self.view, "Error", "Please enter a file name!")
             return
             
         try:
             # 保存图像
-            img_path = os.path.join(save_dir, "crop")
+            img_path = save_dir
             os.makedirs(img_path, exist_ok=True)
             img_name = f"{file_name}.png"
             cv2.imwrite(os.path.join(img_path, img_name), self.model.cropped_image)

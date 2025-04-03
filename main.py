@@ -15,15 +15,16 @@ logger.remove()
 logger.add(sys.stdout, level="INFO", format="<green>{time:HH:mm:ss}</green> | "
                                             "<level>{level: <7}</level> | "
                                             "<level>{message}</level>",
-           )
+        )
 date = datetime.datetime.now().strftime("%Y-%m-%d")
 logger.add(f'./log/{date}/{date}.log', level="DEBUG", format="<green>{time:HH:mm:ss}</green> | "
-                                                             "<level>{level: <7}</level> | "
-                                                             "<level>{message}</level>",
-           )
+                                                            "<level>{level: <7}</level> | "
+                                                            "<level>{message}</level>",
+        )
 
 
 def all_tasks(config):
+
     try:
         # # 日常
         Login(config).app_start()

@@ -1,5 +1,11 @@
 from zafkiel import Template
 from zafkiel.ocr import Keyword
 
-LOGIN_FLAG = Template(r"assets/login/LOGIN_FLAG.png", (0.000, 0.205))
-LOGIN_CLICK = Template(r"LOGIN_CLICK.png", (0.00, 0.075))
+LOGIN_CHECK = Template(
+    filename=r"LOGIN_CHECK.png",
+    record_pos=(0.000, 0.205), 
+    resolution=(1600, 900) , 
+    rgb=True, 
+    template_path="assets/login",
+)
+

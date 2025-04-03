@@ -3,7 +3,6 @@ from zafkiel import Template, logger, Timer
 from zafkiel.ui import UI, Page
 from zafkiel.ocr import DigitCounter
 from zafkiel.exception import LoopError
-from tasks.base.page import page_dispatch_room, page_dispatch_reward
 from tasks.base.assets.assets_switch import *
 from tasks.dispatch_room.assets.assets_dispatch_room import *
 

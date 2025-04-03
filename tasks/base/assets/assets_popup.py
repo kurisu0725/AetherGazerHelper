@@ -1,5 +1,29 @@
 from zafkiel import API, Template
 from zafkiel.ocr import Keyword
 
-NOTICE_FLAG = Template(r"NOTICE_FLAG.png", (-0.099, -0.169), Keyword('活动公告'))
-NOTICE_CLOSE = Template(r"NOTICE_CLOSE.png", (0.347, -0.169))
+POPUP_ACTIVITY_CHECK = Template(
+    filename=r"POPUP_ACTIVITY_CHECK.png",
+    record_pos=(0.27, 0.19), 
+    keyword=Keyword(u'今日登录不再提示'),
+    resolution=(1600, 900) , 
+    rgb=False, 
+    template_path="assets/share/base/popup",
+)
+
+POPUP_ACTIVITY_CLICK = Template(
+    filename=r"POPUP_ACTIVITY_CLICK.png",
+    record_pos=(0.00, 0.24), 
+    keyword=Keyword(u'点击图片进行跳转'),
+    resolution=(1600, 900) , 
+    rgb=False, 
+    template_path="assets/share/base/popup",
+)
+
+POPUP_CHECK_IN_REWARD_CHECK = Template(
+    filename=r"POPUP_CHECK_IN_REWARD_CHECK.png",
+    record_pos=(-0.36, -0.18), 
+    keyword=Keyword(u'每日签到'),
+    resolution=(1600, 900) , 
+    rgb=False, 
+    template_path="assets/share/base/popup",
+)

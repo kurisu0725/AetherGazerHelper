@@ -1,0 +1,7 @@
+Normalized ROI (x, y, width, height):
+x: 0.4569
+y: 0.9122
+width: 0.0881
+height: 0.0478
+Relative x: 0.0013
+Relative y: 0.2462
