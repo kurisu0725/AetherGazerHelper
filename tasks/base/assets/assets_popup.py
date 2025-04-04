@@ -1,4 +1,4 @@
-from zafkiel import API, Template
+from zafkiel import Template
 from zafkiel.ocr import Keyword
 
 POPUP_ACTIVITY_CHECK = Template(

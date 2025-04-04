@@ -1,4 +1,4 @@
-from zafkiel import API, Template
+from zafkiel import Template
 from zafkiel.ocr import Keyword
 
 GET_ITEM = Template(
@@ -17,4 +17,20 @@ CLICK_TO_CONTINUE = Template(
     resolution=(1600, 900) , 
     rgb=False, 
     template_path="assets/share/claim",
+)
+
+BACK_BUTTON = Template(
+    filename=r"BACK_BUTTON.png",
+    record_pos=(-0.45, -0.25), 
+    resolution=(1920, 1080), 
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+BACK_TO_MAIN = Template(
+    filename=r"BACK_TO_MAIN.png",
+    record_pos=(-0.399, -0.25), 
+    resolution=(1920, 1080), 
+    rgb=False, 
+    template_path="assets/share/base/page",
 )

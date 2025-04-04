@@ -1,7 +1,7 @@
 {
     "General": {
         "Game": {
-            "game_path": "E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
+            "game_path": "C:\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
             "log_retain": "1week",
             "game_process_str" : "AetherGazer"
         }

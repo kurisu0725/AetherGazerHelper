@@ -6,16 +6,16 @@ import shutil
 import psutil
 import os
 
-from zafkiel import logger
+from zafkiel import logger, find_click, sleep, auto_setup
 from pathlib import Path
 from zafkiel.exception import LoopError
 from typing import Dict
 from tasks.base.page import *
 from tasks.login.assets.assets_login import *
-from tasks.base.AetherGazerUI import AetherGazerUI
+from tasks.base.AetherGazerHelper import AetherGazerHelper
 
 
-class Login(AetherGazerUI):
+class Login(AetherGazerHelper):
     def __init__(self, config: Dict) -> None:
         super().__init__(config)
 
@@ -52,7 +52,7 @@ class Login(AetherGazerUI):
 
         logger.info("Handle_app_login.")
 
-        find_res = self.find_click(LOGIN_CHECK, LOGIN_CHECK, times=3, interval=3, ocr_mode=0, local_search=True)
+        find_res = find_click(LOGIN_CHECK, LOGIN_CHECK, times=5, interval=3, ocr_mode=0, local_search=True)
         if find_res == False:
             logger.error("Loop exceed time limit!")
             raise LoopError("Loop exceed time limit!")

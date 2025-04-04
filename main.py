@@ -5,11 +5,12 @@ import json
 import sys
 from pathlib import Path
 
-from loguru import logger
-from zafkiel import API, simple_report
+from zafkiel import simple_report, logger
 
 from tasks.login.login import Login
-from tasks.dispatch_room.dispatch_room import DispatchRoom
+from tasks.guild.guild import Guild
+from tasks.mimir.mimir import Mimir
+from tasks.daily.daily import Daily
 
 logger.remove()
 logger.add(sys.stdout, level="INFO", format="<green>{time:HH:mm:ss}</green> | "
@@ -27,8 +28,11 @@ def all_tasks(config):
 
     try:
         # # 日常
-        Login(config).app_start()
-        # DispatchRoom(config).run()
+        # Login(config).app_start()
+        # Guild(config).run()
+        # Mimir(config).run()
+        Daily(config).run()
+        
     except Exception as e:
         logger.exception(e)
         raise
@@ -64,9 +68,11 @@ def main():
 
 
 if __name__ == '__main__':
+    from utils.test_program import run_as_admin
+    run_as_admin()
     # 以管理员身份运行
-    if ctypes.windll.shell32.IsUserAnAdmin():
-        main()
-    else:
-        ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
+    # if ctypes.windll.shell32.IsUserAnAdmin():
+    main()
+    # else:
+        # ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
     

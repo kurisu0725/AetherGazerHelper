@@ -6,10 +6,10 @@ import psutil
 import os
 
 from zafkiel import logger
-from tasks.base.AetherGazerUI import AetherGazerUI
+from tasks.base.AetherGazerHelper import AetherGazerHelper
 from typing import Dict
 
-class Store(AetherGazerUI):
+class Store(AetherGazerHelper):
 
     def __init__(self, config : Dict) -> None:
         super().__init__(config)
