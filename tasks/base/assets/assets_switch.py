@@ -1,11 +1,38 @@
 from zafkiel import Template
 from zafkiel.ocr import Keyword
 
-# 调度收益 -> 情报储备 Switch
-DISPATCH_REWARD_INTELLIGENCE_RESERVE_SWITCH_ON = Template(r"DISPATCH_REWARD_INTELLIGENCE_RESERVE_SWITCH_ON.png", (-0.389, -0.199), rgb=True)
+MISSION_DAILY_SWITCH_ON = Template(
+    filename="MISSION_DAILY_SWITCH_ON.png",
+    record_pos=(-0.455, -0.188),
+    resolution=(1920, 1080),
+    rgb=True,
+    threshold=0.8,
+    template_path="assets/base/switch",
+)
 
-DISPATCH_REWARD_INTELLIGENCE_RESERVE_SWITCH_OFF = Template(r"DISPATCH_REWARD_INTELLIGENCE_RESERVE_SWITCH_OFF.png", (-0.414, -0.198), rgb=True)
+MISSION_DAILY_SWITCH_OFF = Template(
+    filename="MISSION_DAILY_SWITCH_OFF.png",
+    record_pos=(-0.455, -0.188),
+    resolution=(1920, 1080),
+    rgb=True,
+    threshold=0.8,
+    template_path="assets/base/switch",
+)
 
-# 调度收益 -> 资源生产 Switch
-DISPATCH_REWARD_RESOURCE_PRODUCTION_SWITCH_OFF = Template(r"DISPATCH_REWARD_RESOURCE_PRODUCTION_SWITCH_OFF.png", (-0.401, -0.146),rgb=True)
-DISPATCH_REWARD_RESOURCE_PRODUCTION_SWITCH_ON = Template(r"DISPATCH_REWARD_RESOURCE_PRODUCTION_SWITCH_ON.png", (-0.399, -0.146), rgb=True)
+MISSION_WEEKLY_SWITCH_ON = Template(
+    filename="MISSION_WEEKLY_SWITCH_ON.png",
+    record_pos=(-0.455, -0.126),
+    resolution=(1920, 1080),
+    rgb=True,
+    threshold=0.8,
+    template_path="assets/base/switch",
+)
+
+MISSION_WEEKLY_SWITCH_OFF = Template(
+    filename="MISSION_WEEKLY_SWITCH_OFF.png",
+    record_pos=(-0.455, -0.126),
+    resolution=(1920, 1080),
+    rgb=True,
+    threshold=0.8,
+    template_path="assets/base/switch",
+)

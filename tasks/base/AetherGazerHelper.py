@@ -2,16 +2,17 @@ import time
 import shutil
 import datetime
 
-from zafkiel import logger, auto_setup, sleep, find_click
+from zafkiel import logger
 from zafkiel.ui import UI
 from typing import Dict
 from pathlib import Path
 from tasks.base.popup import popup_list
-from utils.timer import Timer
+from tasks.base.Controller import Controller
 
 class AetherGazerHelper(UI):
     def __init__(self, config : Dict = None):
-        self.config = config
+        self.config = config or {}
+        self._ops = Controller()
         self.process_str = self.config['General']['Game']['game_process_str']
         self.get_popup_list(popup_list)
 
@@ -54,10 +55,37 @@ class AetherGazerHelper(UI):
     def connect_device(self):
         logger.info(f'start connect to device')
         date = datetime.datetime.now().strftime("%Y-%m-%d")
-        auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={self.process_str}", ])
+        self.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={self.process_str}", ])
 
-    def sleep(self, time : float):
-        sleep(time)
+    def find_click(self, *args, **kwargs):
+        """
+        Find and click on the specified element(s).
+        """
+        return self._ops.find_click(*args, **kwargs)
+
+    def exists(self, *args, **kwargs):
+        """
+        Check if the specified element(s) exist.
+        """
+        return self._ops.exists(*args, **kwargs)
+    
+    def touch(self, *args, **kwargs):
+        """
+        Touch the specified element(s).
+        """
+        return self._ops.touch(*args, **kwargs)
+    
+    def sleep(self, *args, **kwargs):
+        """
+        Sleep for the specified duration.
+        """
+        return self._ops.sleep(*args, **kwargs)
+    
+    def auto_setup(self, *args, **kwargs):
+        """
+        Automatically set up the environment.
+        """
+        return self._ops.auto_setup(*args, **kwargs)
 
         
 

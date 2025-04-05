@@ -6,7 +6,7 @@ import shutil
 import psutil
 import os
 
-from zafkiel import logger, find_click, sleep, auto_setup
+from zafkiel import logger
 from pathlib import Path
 from zafkiel.exception import LoopError
 from typing import Dict
@@ -52,7 +52,7 @@ class Login(AetherGazerHelper):
 
         logger.info("Handle_app_login.")
 
-        find_res = find_click(LOGIN_CHECK, LOGIN_CHECK, times=5, interval=3, ocr_mode=0, local_search=True)
+        find_res = self.find_click(LOGIN_CHECK, LOGIN_CHECK, times=5, interval=3, ocr_mode=0, local_search=True)
         if find_res == False:
             logger.error("Loop exceed time limit!")
             raise LoopError("Loop exceed time limit!")

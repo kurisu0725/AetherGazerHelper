@@ -2,7 +2,6 @@ from zafkiel import Template
 from tasks.base.assets.assets_switch import *
 from zafkiel.ui import Switch
 
-# 调度收益界面的 Switch
-switch_dispatch_reward = Switch('switch_dispatch_reward', is_selector=True)
-switch_dispatch_reward.add_state('DISPATCH_REWARD_INTELLIGENCE_RESERVE_SWITCH_ON', DISPATCH_REWARD_INTELLIGENCE_RESERVE_SWITCH_ON, DISPATCH_REWARD_INTELLIGENCE_RESERVE_SWITCH_OFF)
-switch_dispatch_reward.add_state('DISPATCH_REWARD_RESOURCE_PRODUCTION_SWITCH_ON', DISPATCH_REWARD_RESOURCE_PRODUCTION_SWITCH_ON, DISPATCH_REWARD_RESOURCE_PRODUCTION_SWITCH_OFF)
+switch_mission = Switch('switch_mission', is_selector=True)
+switch_mission.add_state('MISSION_DAILY_SWITCH_ON', MISSION_DAILY_SWITCH_ON, MISSION_DAILY_SWITCH_OFF)
+switch_mission.add_state('MISSION_WEEKLY_SWITCH_ON', MISSION_WEEKLY_SWITCH_ON, MISSION_WEEKLY_SWITCH_OFF)

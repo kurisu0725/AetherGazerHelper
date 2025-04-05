@@ -5,7 +5,7 @@ MAIN_TO_STAMINA = Template(
     filename=r"MAIN_TO_STAMINA.png",
     record_pos=(0.0974, -0.2536), 
     resolution=(1920, 1080) , 
-    rgb=True, 
+    rgb=False, 
     template_path="assets/daily",
 )
 

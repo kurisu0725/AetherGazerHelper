@@ -69,3 +69,56 @@ MIMI_OBSERVATION_CHECK = Template(
     rgb=False, 
     template_path="assets/share/base/page",
 )
+
+
+MAIN_TO_MISSION = Template(
+    filename=r"MAIN_TO_MISSION.png", 
+    record_pos=(0.3177, -0.2169), 
+    resolution=(1920, 1080),
+    rgb=True,
+    template_path="assets/share/base/page",
+)
+
+MISSION_CHECK = Template(
+    filename=r"MISSION_CHECK.png", 
+    record_pos=(-0.3945, -0.1883), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'每日任务'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+MAIN_TO_STORE = Template(
+    filename=r"MAIN_TO_STORE.png", 
+    record_pos=(0.0677, 0.2531), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'商店'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+STORE_CHECK = Template(
+    filename=r"STORE_CHECK.png", 
+    record_pos=(-0.185, 0.207), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+STORE_TO_STORE_SUPPLY = Template(
+    filename=r"STORE_CHECK.png", 
+    record_pos=(-0.1862, 0.1991), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+
+STORE_SUPPLY_CHECK = Template(
+    filename=r"STORE_SUPPLY_CHECK.png", 
+    record_pos=(-0.4006, 0.2441), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'累计充值'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)

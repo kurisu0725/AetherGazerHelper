@@ -17,18 +17,18 @@ class Guild(AetherGazerHelper):
         领取矩阵补给
         """
         while True:
-            if exists(GUILD_MATRIX_SUPPLY_COMPLETE):
+            if self.exists(GUILD_MATRIX_SUPPLY_COMPLETE):
                 logger.info("矩阵补给已领取")
                 break
-            if find_click(GET_ITEM, CLICK_TO_CONTINUE, local_search=True):
+            if self.find_click(GET_ITEM, CLICK_TO_CONTINUE, local_search=True):
                 logger.info("确认领取物品")
                 break
             # 检测是否存在领取按钮
-            if exists(GUILD_MATRIX_SUPPLY_CLAIM):
-                touch(GUILD_MATRIX_SUPPLY_CLAIM)
+            if self.exists(GUILD_MATRIX_SUPPLY_CLAIM):
+                self.touch(GUILD_MATRIX_SUPPLY_CLAIM)
                 logger.info("领取矩阵补给成功")
                 continue
-            if find_click(GUILD_MATRIX_SUPPLY, GUILD_MATRIX_SUPPLY, local_search=True):
+            if self.find_click(GUILD_MATRIX_SUPPLY, GUILD_MATRIX_SUPPLY, local_search=True):
                 logger.info("领取矩阵补给")
                 continue
                 

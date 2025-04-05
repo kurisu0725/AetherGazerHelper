@@ -18,15 +18,15 @@ class Mimir(AetherGazerHelper):
         logger.info("弥弥观测站界面")
         while True:
             # TODO: 周期奖励添加  
-            if find_click(MIMI_OBSERVATION_DISPATCH, MIMI_OBSERVATION_DISPATCH, local_search=True):
+            if self.find_click(MIMI_OBSERVATION_DISPATCH, MIMI_OBSERVATION_DISPATCH, local_search=True):
                 logger.info("弥弥观测站派遣")
                 break
 
-            if find_click(MIMI_OBSERVATION_EXPLORATION_COMPLETE_CHECK, MIMI_OBSERVATION_EXPLORATION_COMPLETE_CLICK, local_search=True):
+            if self.find_click(MIMI_OBSERVATION_EXPLORATION_COMPLETE_CHECK, MIMI_OBSERVATION_EXPLORATION_COMPLETE_CLICK, local_search=True):
                 logger.info("弥弥观测站探索完成")
                 continue
 
-            if find_click(MIMI_OBSERVATION_CLAIM_ALL, MIMI_OBSERVATION_CLAIM_ALL, local_search=True):
+            if self.find_click(MIMI_OBSERVATION_CLAIM_ALL, MIMI_OBSERVATION_CLAIM_ALL, local_search=True):
                 logger.info("弥弥观测站一键领取奖励")
                 continue
 

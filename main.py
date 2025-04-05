@@ -11,6 +11,9 @@ from tasks.login.login import Login
 from tasks.guild.guild import Guild
 from tasks.mimir.mimir import Mimir
 from tasks.daily.daily import Daily
+from tasks.store.store import Store
+from tasks.mission.mission import Mission
+
 
 logger.remove()
 logger.add(sys.stdout, level="INFO", format="<green>{time:HH:mm:ss}</green> | "
@@ -30,8 +33,10 @@ def all_tasks(config):
         # # 日常
         # Login(config).app_start()
         # Guild(config).run()
-        # Mimir(config).run()
-        Daily(config).run()
+        Mimir(config).run()
+        # Daily(config).run()
+        # Store(config).run()
+        # Mission(config).run()
         
     except Exception as e:
         logger.exception(e)
@@ -69,10 +74,9 @@ def main():
 
 if __name__ == '__main__':
     from utils.test_program import run_as_admin
-    run_as_admin()
-    # 以管理员身份运行
-    # if ctypes.windll.shell32.IsUserAnAdmin():
-    main()
-    # else:
-        # ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
+    # run_as_admin()
+    try:
+        main()  # 你的主函数
+    except Exception as e:
+        print(f"程序崩溃: {repr(e)}")
     

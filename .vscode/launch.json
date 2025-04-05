@@ -2,12 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Run without Terminal",
+            "name": "Python: 当前文件",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
-            "console": "internalConsole",  // 关键设置：不显示终端
+            "console": "integratedTerminal", // 输出到VS Code内置终端
+            "justMyCode": false,
+            "purpose": ["debug-in-terminal"]
         }
     ]
-    
 }

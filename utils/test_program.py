@@ -13,9 +13,11 @@ def is_admin():
         return ctypes.windll.shell32.IsUserAnAdmin()  # Windows
 
 def run_as_admin():
-    """以管理员权限重新启动脚本"""
     if not is_admin():
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, ' '.join(sys.argv), None, 1)
+        ctypes.windll.shell32.ShellExecuteW(
+            None, "runas", sys.executable, 
+            ' '.join([f'"{arg}"' for arg in sys.argv]), None, 1
+        )
         sys.exit()
 
 def test_task():
