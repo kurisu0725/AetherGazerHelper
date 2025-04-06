@@ -41,7 +41,8 @@ class Mission(AetherGazerHelper):
             logger.info("切换至每周任务")
             if self.find_click(MISSION_WEEKLY_CLAIM, MISSION_WEEKLY_CLAIM):
                 logger.info("领取每周任务奖励.")
-            
+    
+    
     def test_mission(self):
         if self.find_click(MISSION_WEEKLY_SWITCH_OFF, MISSION_WEEKLY_SWITCH_OFF):
             logger.info("切换每周任务奖励.")

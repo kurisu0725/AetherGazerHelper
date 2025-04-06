@@ -1,6 +1,7 @@
 import time
 import shutil
 import datetime
+import inspect
 
 from zafkiel import logger
 from zafkiel.ui import UI
@@ -15,9 +16,12 @@ class AetherGazerHelper(UI):
         self._ops = Controller()
         self.process_str = self.config['General']['Game']['game_process_str']
         self.get_popup_list(popup_list)
-
-        if self.check_device() == False:
-           self.connect_device()
+        logger.info(f'init {self.process_str}')
+        checkStatus = self.check_device()
+        logger.info(f'check device status: {checkStatus}')
+        if checkStatus == False:
+            self.connect_device()
+            logger.info(f'connect to device {self.process_str}')
 
     def app_stop(self):
         self.stop_app()

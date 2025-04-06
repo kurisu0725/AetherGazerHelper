@@ -123,3 +123,20 @@ STORE_SUPPLY_CHECK = Template(
     rgb=False, 
     template_path="assets/share/base/page",
 )
+
+MAIN_TO_MAIL = Template(
+    filename=r"MAIN_TO_MAIL.png", 
+    record_pos=(0.3586, -0.2172), 
+    resolution=(1920, 1080),
+    rgb=False,
+    template_path="assets/share/base/page",
+)
+
+MAIL_CHECK = Template(
+    filename=r"MAIL_CHECK.png", 
+    record_pos=(-0.4391, -0.1977), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'邮件'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)

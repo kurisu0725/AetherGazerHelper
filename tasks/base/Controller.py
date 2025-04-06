@@ -41,6 +41,6 @@ class Controller:
         """
         Check if the device is connected.
         """
-        if G.DEVICE is None:
+        if len(G.DEVICE_LIST) == 0:
             return False
         return True

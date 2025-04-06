@@ -21,9 +21,9 @@ CLICK_TO_CONTINUE = Template(
 
 BACK_BUTTON = Template(
     filename=r"BACK_BUTTON.png",
-    record_pos=(-0.45, -0.25), 
+    record_pos=(-0.4583, -0.2505), 
     resolution=(1920, 1080), 
-    rgb=True, 
+    rgb=False, 
     template_path="assets/share/base/page",
 )
 
@@ -37,8 +37,9 @@ BACK_BUTTON_2 = Template(
 
 BACK_TO_MAIN = Template(
     filename=r"BACK_TO_MAIN.png",
-    record_pos=(-0.399, -0.25), 
+    record_pos=(-0.3990, -0.2510), 
     resolution=(1920, 1080), 
-    rgb=True, 
+    threshold=0.4,
+    rgb=False, 
     template_path="assets/share/base/page",
 )
