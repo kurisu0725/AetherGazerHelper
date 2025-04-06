@@ -16,6 +16,9 @@ class AetherGazerHelper(UI):
         self.process_str = self.config['General']['Game']['game_process_str']
         self.get_popup_list(popup_list)
 
+        if self.check_device() == False:
+           self.connect_device()
+
     def app_stop(self):
         self.stop_app()
 
@@ -81,11 +84,18 @@ class AetherGazerHelper(UI):
         """
         return self._ops.sleep(*args, **kwargs)
     
+    def check_device(self):
+        """
+        Check if the device is connected.
+        """
+        return self._ops.check_device()
+
     def auto_setup(self, *args, **kwargs):
         """
         Automatically set up the environment.
         """
         return self._ops.auto_setup(*args, **kwargs)
+
 
         
 

@@ -1,0 +1,101 @@
+{
+  "Project": {
+    "General": {
+      "_Base": {
+        "work_dir": {
+          "value": "./repos/DaCapoExample"
+        },
+        "config_path": {
+          "value": "./repos/DaCapoExample/config.json"
+        }
+      },
+      "Group1": {
+        "_help": {
+          "value": "This group shows 5 types of setting"
+        },
+        "input": {
+          "type": "input",
+          "value": "someting",
+          "help": "type \"input\" shows a text box"
+        },
+        "select": {
+          "option": [
+            "option1",
+            "option2"
+          ],
+          "type": "select",
+          "value": "option1",
+          "help": "type \"select\" shows a dropdown list"
+        },
+        "checkbox": {
+          "type": "checkbox",
+          "value": true,
+          "help": "type \"checkbox\" shows a checkbox"
+        },
+        "folder": {
+          "type": "folder",
+          "value": "./repos/DaCapoExample",
+          "help": "type \"folder\" shows a text box with a browse button"
+        },
+        "file": {
+          "type": "file",
+          "value": "./repos/DaCapoExample/template/template.yml",
+          "help": "type \"file\" shows a text box with a browse button"
+        }
+      }
+    }
+  },
+  "Menu": {
+    "Task1": {
+      "_Base": {
+        "priority": {
+          "value": 1,
+          "disabled": true
+        }
+      },
+      "Group2": {
+        "setting1": {
+          "value": "",
+          "type": "input",
+          "help": "settings can be disabled",
+          "disabled": true
+        },
+        "setting2": {
+          "value": "",
+          "type": "input",
+          "help": "settings can be hidden",
+          "hidden": true
+        },
+        "setting3": {
+          "value": "",
+          "type": "input"
+        }
+      }
+    },
+    "Task2": {
+      "Group3": {
+        "_help": {
+          "value": "If all settings are hidden, the group will be hidden"
+        },
+        "setting1": {
+          "value": "",
+          "type": "input",
+          "hidden": true
+        },
+        "setting2": {
+          "value": "",
+          "type": "input",
+          "hidden": true
+        }
+      }
+    },
+    "Task3": {
+      "Group4": {
+        "setting1": {
+          "value": "",
+          "type": "input"
+        }
+      }
+    }
+  }
+}

@@ -39,14 +39,15 @@ MAIN_TO_GUILD = Template(
 
 MAIN_TO_MIMIR = Template(
     filename=r"MAIN_TO_MIMIR.png", 
-    record_pos=(0.41, -0.21), 
+    record_pos=(0.4128, -0.2159), 
     resolution=(1920, 1080),
+    rgb = False,
     template_path="assets/share/base/page",
 )
 
 MIMIR_CHECK = Template(
     filename=r"MIMIR_TO_MIMI_OBSERVATION.png", 
-    record_pos=(0.33, -0.04), 
+    record_pos=(0.3339, -0.0456), 
     resolution=(1920, 1080),
     rgb=True, 
     template_path="assets/share/base/page",
@@ -55,7 +56,7 @@ MIMIR_CHECK = Template(
 
 MIMIR_TO_MIMI_OBSERVATION = Template(
     filename=r"MIMIR_TO_MIMI_OBSERVATION.png", 
-    record_pos=(0.33, -0.04), 
+    record_pos=(0.3339, -0.0456), 
     resolution=(1920, 1080),
     rgb=True, 
     template_path="assets/share/base/page",

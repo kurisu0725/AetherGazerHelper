@@ -13,6 +13,10 @@ from tasks.mimir.mimir import Mimir
 from tasks.daily.daily import Daily
 from tasks.store.store import Store
 from tasks.mission.mission import Mission
+from airtest.core.settings import Settings as ST
+ST.OPDELAY = 0
+ST.FIND_TIMEOUT = 5
+ST.THRESHOLD = 0.5 # TODO: 写进config类中
 
 
 logger.remove()
@@ -33,9 +37,9 @@ def all_tasks(config):
         # # 日常
         # Login(config).app_start()
         # Guild(config).run()
-        Mimir(config).run()
+        # Mimir(config).run()
         # Daily(config).run()
-        # Store(config).run()
+        Store(config).run()
         # Mission(config).run()
         
     except Exception as e:

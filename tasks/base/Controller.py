@@ -1,7 +1,9 @@
 from zafkiel import find_click, exists, touch, sleep, auto_setup
+from airtest.core.helper import G
 
 class Controller:
     def __init__(self):
+        self.screenshot = None
         pass
 
     def find_click(self, *args, **kwargs):
@@ -34,3 +36,11 @@ class Controller:
         Automatically set up the environment.
         """
         return auto_setup(*args, **kwargs)
+
+    def check_device(self):
+        """
+        Check if the device is connected.
+        """
+        if G.DEVICE is None:
+            return False
+        return True

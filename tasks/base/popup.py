@@ -28,7 +28,7 @@ class PopupHandler:
                     continue
                 break
             #领取奖励后仍会停留在签到界面
-            if exists(POPUP_CHECK_IN_REWARD_CHECK, blind=False):
+            if exists(POPUP_CHECK_IN_REWARD_CHECK):
                 touch(CLICK_TO_CONTINUE, blind=False)
             logger.info("Handle_notice() complete")
             return True
