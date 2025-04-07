@@ -1,17 +1,11 @@
-import datetime
-import cv2
-import time
-import shutil
-import psutil
-import os
 
 from zafkiel import logger, Timer
 from zafkiel.exception import LoopError
-from tasks.base.AetherGazerHelper import AetherGazerHelper
+from module.AetherGazerHelper import AetherGazerHelper
 from typing import Dict
 from tasks.store.assets.assets_store import *
 from tasks.base.assets.assets_share import *
-from tasks.base.page import page_store, page_store_supply
+from tasks.base.page import page_store_supply
 
 class Store(AetherGazerHelper):
 
@@ -21,8 +15,8 @@ class Store(AetherGazerHelper):
 
     def purchase_free_stamina(self):
         """
-        Purchase free stamina from the store.
         购买商店的免费体力
+        Purchase free stamina from the Page: page_store_supply.
         """
         logger.info('购买商店的免费体力.')
         self.ui_ensure(page_store_supply)

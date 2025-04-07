@@ -140,3 +140,20 @@ MAIL_CHECK = Template(
     rgb=False, 
     template_path="assets/share/base/page",
 )
+
+MAIN_TO_DORM = Template(
+    filename=r"MAIN_TO_DORM.png", 
+    record_pos=(0.2867, 0.2526), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'游园街'),
+    rgb=False,
+    template_path="assets/share/base/page",
+)
+
+DORM_CHECK = Template(
+    filename=r"DORM_CHECK.png", 
+    record_pos=(0.2156, 0.2385), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)

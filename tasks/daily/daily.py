@@ -1,5 +1,5 @@
 
-from tasks.base.AetherGazerHelper import AetherGazerHelper
+from module.AetherGazerHelper import AetherGazerHelper
 from typing import Dict
 from zafkiel import logger, find_click, exists, touch
 from tasks.base.page import page_main
@@ -9,11 +9,12 @@ from tasks.base.assets.assets_share import BACK_BUTTON
 class Daily(AetherGazerHelper):
     def __init__(self, config: Dict) -> None:
         super().__init__(config)
-        self.connect_device()
+        
 
     def claim_stamina(self):
         """
-        领取体力
+        领取早上和下午的体力
+        to claim free stamina in AM and PM
         """
         self.ui_ensure(page_main)
         if self.exists(MAIN_TO_STAMINA, timeout=5, local_search=True):
@@ -31,6 +32,13 @@ class Daily(AetherGazerHelper):
             self.touch(BACK_BUTTON, blind=True)
         else:
             logger.info("匹配失败")
+
+    def use_stamina(self):
+        """
+        TODO: 使用体力扫荡联防协议，或日常资源关卡
+        """
+        # self.ui_ensure(page_resource)
+        pass
 
     def run(self):
         """

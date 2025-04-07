@@ -1,7 +1,7 @@
 
 from zafkiel import logger, Timer
 from zafkiel.exception import LoopError
-from tasks.base.AetherGazerHelper import AetherGazerHelper
+from module.AetherGazerHelper import AetherGazerHelper
 from typing import Dict
 from tasks.base.page import page_mission, page_store, page_main, page_store_supply
 from tasks.base.assets.assets_share import GET_ITEM, CLICK_TO_CONTINUE

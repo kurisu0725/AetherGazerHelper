@@ -4,7 +4,7 @@ from zafkiel import logger, Timer
 from tasks.mail.assets.assets_mail import * 
 from tasks.base.page import page_mail
 from tasks.base.assets.assets_share import GET_ITEM, CLICK_TO_CONTINUE
-from tasks.base.AetherGazerHelper import AetherGazerHelper
+from module.AetherGazerHelper import AetherGazerHelper
 
 class Mail(AetherGazerHelper):
     def __init__(self, config: Dict) -> None:

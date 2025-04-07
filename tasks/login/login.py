@@ -12,7 +12,7 @@ from zafkiel.exception import LoopError
 from typing import Dict
 from tasks.base.page import *
 from tasks.login.assets.assets_login import *
-from tasks.base.AetherGazerHelper import AetherGazerHelper
+from module.AetherGazerHelper import AetherGazerHelper
 
 
 class Login(AetherGazerHelper):

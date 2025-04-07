@@ -30,6 +30,9 @@ page_mission = Page(MISSION_CHECK, switch=switch_mission)
 # 邮件界面
 page_mail = Page(MAIL_CHECK)
 
+# 宿舍界面
+page_dorm = Page(DORM_CHECK) 
+
 
 # from page_main to 
 page_main.link(MAIN_TO_GUILD, destination=page_guild)
@@ -37,6 +40,7 @@ page_main.link(MAIN_TO_MIMIR, destination=page_mimir)
 page_main.link(MAIN_TO_STORE, destination=page_store)
 page_main.link(MAIN_TO_MISSION, destination=page_mission)
 page_main.link(MAIN_TO_MAIL, destination=page_mail)
+page_main.link(MAIN_TO_DORM, destination=page_dorm)
 
 # from page_mimir to mimir observation
 page_mimir.link(MIMIR_TO_MIMI_OBSERVATION, destination=page_mimi_observation)
@@ -66,3 +70,7 @@ page_mail.link(BACK_TO_MAIN, destination=page_main)
 # from page_guild to
 page_guild.link(BACK_BUTTON, destination=page_main)
 page_guild.link(BACK_TO_MAIN, destination=page_main)
+
+# from page_dorm to
+page_dorm.link(BACK_BUTTON, destination=page_main)
+page_dorm.link(BACK_TO_MAIN, destination=page_main)

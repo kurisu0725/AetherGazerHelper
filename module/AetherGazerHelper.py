@@ -1,24 +1,25 @@
 import time
 import shutil
 import datetime
-import inspect
 
 from zafkiel import logger
 from zafkiel.ui import UI
 from typing import Dict
 from pathlib import Path
 from tasks.base.popup import popup_list
-from tasks.base.Controller import Controller
+from module.Controller import Controller
 
 class AetherGazerHelper(UI):
     def __init__(self, config : Dict = None):
         self.config = config or {}
-        self._ops = Controller()
+        self.controller = Controller()
         self.process_str = self.config['General']['Game']['game_process_str']
         self.get_popup_list(popup_list)
+
         logger.info(f'init {self.process_str}')
         checkStatus = self.check_device()
         logger.info(f'check device status: {checkStatus}')
+
         if checkStatus == False:
             self.connect_device()
             logger.info(f'connect to device {self.process_str}')
@@ -68,37 +69,37 @@ class AetherGazerHelper(UI):
         """
         Find and click on the specified element(s).
         """
-        return self._ops.find_click(*args, **kwargs)
+        return self.controller.find_click(*args, **kwargs)
 
     def exists(self, *args, **kwargs):
         """
         Check if the specified element(s) exist.
         """
-        return self._ops.exists(*args, **kwargs)
+        return self.controller.exists(*args, **kwargs)
     
     def touch(self, *args, **kwargs):
         """
         Touch the specified element(s).
         """
-        return self._ops.touch(*args, **kwargs)
+        return self.controller.touch(*args, **kwargs)
     
     def sleep(self, *args, **kwargs):
         """
         Sleep for the specified duration.
         """
-        return self._ops.sleep(*args, **kwargs)
+        return self.controller.sleep(*args, **kwargs)
     
     def check_device(self):
         """
         Check if the device is connected.
         """
-        return self._ops.check_device()
+        return self.controller.check_device()
 
     def auto_setup(self, *args, **kwargs):
         """
         Automatically set up the environment.
         """
-        return self._ops.auto_setup(*args, **kwargs)
+        return self.controller.auto_setup(*args, **kwargs)
 
 
         

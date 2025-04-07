@@ -1,5 +1,5 @@
 
-from tasks.base.AetherGazerHelper import AetherGazerHelper
+from module.AetherGazerHelper import AetherGazerHelper
 from typing import Dict
 from zafkiel import logger, Timer
 from zafkiel.exception import LoopError

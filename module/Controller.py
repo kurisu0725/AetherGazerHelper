@@ -1,9 +1,9 @@
-from zafkiel import find_click, exists, touch, sleep, auto_setup
+from zafkiel import find_click, exists, touch, sleep, auto_setup, screenshot
 from airtest.core.helper import G
 
 class Controller:
     def __init__(self):
-        self.screenshot = None
+        self.image = None
         pass
 
     def find_click(self, *args, **kwargs):
@@ -44,3 +44,12 @@ class Controller:
         if len(G.DEVICE_LIST) == 0:
             return False
         return True
+
+    def screenshot(self):
+        """
+        Take a screenshot of the current screen.
+        """
+        self.image = screenshot()
+        return self.image
+
+    
