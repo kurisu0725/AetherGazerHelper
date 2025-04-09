@@ -1,14 +1,14 @@
 
 from module.AetherGazerHelper import AetherGazerHelper
 from typing import Dict
-from zafkiel import logger, find_click, exists, touch
-from tasks.base.page import page_main
+from zafkiel import logger
+from tasks.base.page import page_main, page_activity, page_store_supply
 from tasks.daily.assets.assets_daily import *
 from tasks.base.assets.assets_share import BACK_BUTTON
-
+from module.Controller import Controller
 class Daily(AetherGazerHelper):
-    def __init__(self, config: Dict) -> None:
-        super().__init__(config)
+    def __init__(self, config: Dict, controller: Controller) -> None:
+        super().__init__(config, controller)
         
 
     def claim_stamina(self):
@@ -23,7 +23,7 @@ class Daily(AetherGazerHelper):
             if self.find_click(DAILY_STAMINA_CLAIM_AM, DAILY_STAMINA_CLAIM_AM, times=2, local_search=True):
                 logger.info("领取早上体力")
             else:
-                logger.info("没有早上体力,或者已经领取")
+                logger.warning("没有早上体力,或者已经领取")
             if self.find_click(DAILY_STAMINA_CLAIM_PM, DAILY_STAMINA_CLAIM_PM, times=2, local_search=True):
                 logger.info("领取晚上体力")
             else:
@@ -37,7 +37,10 @@ class Daily(AetherGazerHelper):
         """
         TODO: 使用体力扫荡联防协议，或日常资源关卡
         """
-        # self.ui_ensure(page_resource)
+        self.ui_ensure(page_main)
+        logger.info("前往活动")
+        self.ui_goto(page_activity)
+        self.ui_goto(page_store_supply)
         pass
 
     def run(self):
@@ -46,5 +49,6 @@ class Daily(AetherGazerHelper):
         """
         from utils.logger_func import task_info
         task_info('Daily')
-        logger.info("日常任务")
-        self.claim_stamina()
+
+        # self.claim_stamina()
+        self.use_stamina()

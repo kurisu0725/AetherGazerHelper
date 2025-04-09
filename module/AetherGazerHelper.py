@@ -3,16 +3,19 @@ import shutil
 import datetime
 
 from zafkiel import logger
-from zafkiel.ui import UI
+from module.ui import UI
 from typing import Dict
 from pathlib import Path
 from tasks.base.popup import popup_list
 from module.Controller import Controller
 
 class AetherGazerHelper(UI):
-    def __init__(self, config : Dict = None):
+    config : Dict
+    controller : Controller
+    def __init__(self, config : Dict = None, controller : Controller = None):
         self.config = config or {}
-        self.controller = Controller()
+        self.controller = controller
+
         self.process_str = self.config['General']['Game']['game_process_str']
         self.get_popup_list(popup_list)
 

@@ -14,8 +14,9 @@ from tasks.daily.daily import Daily
 from tasks.store.store import Store
 from tasks.mission.mission import Mission
 from tasks.mail.mail import Mail
-from airtest.core.settings import Settings as ST
+from module.Controller import Controller
 
+from airtest.core.api import ST
 ST.OPDELAY = 0.01
 ST.FIND_TIMEOUT = 10
 ST.THRESHOLD = 0.5 # TODO: 写进config类中
@@ -36,13 +37,14 @@ logger.add(f'./log/{date}/{date}.log', level="DEBUG", format="<green>{time:HH:mm
 def all_tasks(config):
 
     try:
+        controller = Controller()
         # # 日常
         # Login(config).app_start()
-        Guild(config).run()
-        # Mimir(config).run()
-        # Daily(config).run()
+        # Guild(config).run()
+        # Mimir(config, controller).run()
+        Daily(config, controller).run()
         # Store(config).run()
-        # Mission(config).run()
+        # Mission(config, controller).run()
         # Mail(config).run()
         
     except Exception as e:

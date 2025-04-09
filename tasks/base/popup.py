@@ -12,7 +12,8 @@ class PopupHandler:
     @register_handler
     def handle_check_in_reward(self):
         """
-        领取签到奖励
+        Claim check-in reward.
+        领取签到, 月卡奖励
         """
         if exists(GET_ITEM):
             logger.info("Dealing with ui_addtional: handle_check_in_reward()")
@@ -41,6 +42,19 @@ class PopupHandler:
             logger.info("Handle_activity() complete")
             return True
         return False
+
+    @register_handler
+    def handle_battle_pass(self):
+        """
+        Handle with popup battle pass.
+        处理战令弹窗
+        """
+        if exists(POPUP_BATTLE_PASS_CHECK):
+            logger.info('Dealing with ui_addtional: handle_battle_pass()')
+            touch(BACK_BUTTON, blind=True)
+            logger.info("Handle_battle_pass() complete")
+            return True
+
 
 popup_handler = PopupHandler()
 popup_list = [

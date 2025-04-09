@@ -157,3 +157,119 @@ DORM_CHECK = Template(
     rgb=False, 
     template_path="assets/share/base/page",
 )
+
+DORM_NAV_CHECK = Template(
+    filename=r"DORM_NAV_CHECK.png", 
+    record_pos=(0.0026, -0.0135), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'宿舍'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+
+DORM_NAV_KITCHEN_CHECK = Template(
+    filename=r"DORM_NAV_KITCHEN_CHECK.png", 
+    record_pos=(0.0003, -0.2589), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'餐厅'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+
+DORM_TO_DORM_NAV = Template(
+    filename=r"DORM_TO_DORM_NAV.png", 
+    record_pos=(-0.3992, 0.2456), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'导航'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+DORM_NAV_TO_DORM_NAV_CHARACTER = Template(
+    filename=r"DORM_NAV_TO_DORM_NAV_CHARACTER.png", 
+    record_pos=(0.1906, 0.1031), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'训练室'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+DORM_NAV_TO_DORM_NAV_KITCHEN = Template(
+    filename=r"DORM_NAV_TO_DORM_NAV_KITCHEN.png", 
+    record_pos=(-0.2375, 0.0664), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'餐厅'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+DORM_NAV_KITCHEN_TO_DORM_NAV = Template(
+    filename=r"DORM_TO_DORM_NAV.png", 
+    record_pos=(-0.3992, 0.2456), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'导航'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+MAIN_TO_BATTLE_PASS = Template(
+    filename=r"MAIN_TO_BATTLE_PASS.png", 
+    record_pos=(-0.4586, -0.1607), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'对策协议'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+BATTLE_PASS_CHECK = Template(
+    filename=r"BATTLE_PASS_CHECK.png", 
+    record_pos=(-0.2008, -0.1073), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'基础合约'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+DORM_NAV_CHARACTER_CHECK = Template(
+    filename=r"DORM_NAV_CHARACTER_CHECK.png", 
+    record_pos=(-0.1771, 0.2276), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+BATTLE_PASS_TO_BATTLE_PASS_MISSION = Template(
+    filename=r"BATTLE_PASS_TO_BATTLE_PASS_MISSION.png", 
+    record_pos=(-0.3977, 0.2422), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'任务'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+BATTLE_PASS_MISSION_CHECK = Template(
+    filename=r"BATTLE_PASS_MISSION_CHECK.png", 
+    record_pos=(-0.3883, -0.1896), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'今日任务'),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+MAIN_TO_ACTIVITY = Template(
+    filename=r"MAIN_TO_ACTIVITY.png", 
+    record_pos=(0.3917, -0.1198), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)
+
+ACTIVITY_CHECK = Template(
+    filename=r"ACTIVITY_CHECK.png", 
+    record_pos=(-0.4536, 0.2513), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)

@@ -27,3 +27,11 @@ POPUP_CHECK_IN_REWARD_CHECK = Template(
     rgb=False, 
     template_path="assets/share/base/popup",
 )
+
+POPUP_BATTLE_PASS_CHECK = Template(
+    filename=r"POPUP_BATTLE_PASS_CHECK.png",
+    record_pos=(-0.2698, 0.1247), 
+    resolution=(1920, 1080), 
+    rgb=True, 
+    template_path="assets/share/base/popup",
+)

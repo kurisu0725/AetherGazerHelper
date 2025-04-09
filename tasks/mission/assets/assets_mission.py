@@ -15,6 +15,24 @@ MISSION_WEEKLY_CLAIM = Template(
     record_pos=(0.4102, 0.2391), 
     resolution=(1920, 1080),
     keyword=Keyword(u'一键领取'),
-    rgb=True, 
+    rgb=False, 
+    template_path="assets/mission",
+)
+
+BATTLE_PASS_CLAIM_ALL_CLICK = Template(
+    filename=r"BATTLE_PASS_CLAIM_ALL_CLICK.png", 
+    record_pos=(0.4099, 0.2437), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'一键领取'),
+    rgb=False, 
+    template_path="assets/mission",
+)
+
+BATTLE_PASS_MISSION_CLAIM_ALL_CLICK = Template(
+    filename=r"BATTLE_PASS_CLAIM_ALL_CLICK.png", 
+    record_pos=(0.4099, 0.2437), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'一键领取'),
+    rgb=False, 
     template_path="assets/mission",
 )
