@@ -1,6 +1,8 @@
 import time
 import shutil
 import datetime
+import numpy as np
+import cv2
 
 from zafkiel import logger
 from module.ui import UI
@@ -20,7 +22,7 @@ class AetherGazerHelper(UI):
         self.get_popup_list(popup_list)
 
         logger.info(f'init {self.process_str}')
-        checkStatus = self.check_device()
+        checkStatus = self.controller.check_device()
         logger.info(f'check device status: {checkStatus}')
 
         if checkStatus == False:
@@ -62,50 +64,14 @@ class AetherGazerHelper(UI):
 
     def run(self):
         pass
-
     def connect_device(self):
         logger.info(f'start connect to device')
         date = datetime.datetime.now().strftime("%Y-%m-%d")
         self.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={self.process_str}", ])
-
-    def find_click(self, *args, **kwargs):
-        """
-        Find and click on the specified element(s).
-        """
-        return self.controller.find_click(*args, **kwargs)
-
-    def exists(self, *args, **kwargs):
-        """
-        Check if the specified element(s) exist.
-        """
-        return self.controller.exists(*args, **kwargs)
+    def __getattr__(self, name):
+        method = getattr(self.controller, name)
+        if callable(method):
+            return lambda *args, **kwargs: method(*args, **kwargs)  # 动态包装
+        return method
     
-    def touch(self, *args, **kwargs):
-        """
-        Touch the specified element(s).
-        """
-        return self.controller.touch(*args, **kwargs)
-    
-    def sleep(self, *args, **kwargs):
-        """
-        Sleep for the specified duration.
-        """
-        return self.controller.sleep(*args, **kwargs)
-    
-    def check_device(self):
-        """
-        Check if the device is connected.
-        """
-        return self.controller.check_device()
-
-    def auto_setup(self, *args, **kwargs):
-        """
-        Automatically set up the environment.
-        """
-        return self.controller.auto_setup(*args, **kwargs)
-
-
-        
-
-
 

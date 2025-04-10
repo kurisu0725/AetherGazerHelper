@@ -72,7 +72,7 @@ class Page:
         self.check_button = check_button
         self.switch = switch
         self.links = {}
-        self.is_blind = {}
+        self.is_blind = {}  # modified, while True means that button don't need templatematching
         (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
         self.name = text[:text.find('=')].strip()
         self.parent = None

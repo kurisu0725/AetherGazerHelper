@@ -42,6 +42,7 @@ class DraggableList:
         self.check_row_order = check_row_order
         self.active_color = active_color
         self.default_drag_direction = drag_direction
+        self.is_list_changeable = is_list_changeable
 
         self.row_min = 1
         self.row_max = len(self.known_rows)
@@ -77,7 +78,7 @@ class DraggableList:
         Parse current rows to get list position.
         """
         self.cur_buttons = self.ocr_class(self.search_button) \
-            .matched_ocr(main.device.image, self.keyword_class)
+            .matched_ocr(main.controller.image, self.keyword_class)
         # Get indexes
         indexes = [self.keyword2index(row.matched_keyword)
                    for row in self.cur_buttons]
@@ -131,7 +132,7 @@ class DraggableList:
         if direction == 'right':
             return 'left'
 
-    def insight_row(self, row: Keyword, main: AetherGazerHelper, skip_first_screenshot=True, blind=False) -> bool:
+    def insight_row(self, row: Keyword, main: AetherGazerHelper, skip_first_screenshot=True) -> bool:
         """
         Args:
             row:
@@ -141,6 +142,7 @@ class DraggableList:
         Returns:
             If success
         """
+        blind = self.is_list_changeable
         if not blind:
             row_index = self.keyword2index(row)
             if not row_index:
@@ -231,7 +233,7 @@ class DraggableList:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                main.device.screenshot()
+                main.controller.screenshot()
 
             if skip_first_load_rows:
                 skip_first_load_rows = False
@@ -252,5 +254,18 @@ class DraggableList:
 
             # Click
             if interval.reached():
-                main.device.click(button)
+                main.controller.click(button)
                 interval.reset()
+
+from tasks.daily.assets.assets_daily import ACTIVITY_SEARCH_BUTTON
+
+ACTIVITY_DRAGGABLE_LIST = DraggableList(
+    name='ACTIVITY_DRAGGABLE_LIST',
+    keyword_class=Keyword,
+    ocr_class=OcrResultButton,
+    search_button=ACTIVITY_SEARCH_BUTTON,
+    check_row_order=False,
+    active_color=(244, 250, 246),
+    drag_direction='down',
+    is_list_changeable=True
+)

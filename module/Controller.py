@@ -70,7 +70,7 @@ class Controller:
             v,
             timeout=ST.FIND_TIMEOUT,
             threshold=None,
-            interval=0.3,
+            interval=0.02,
             interval_func=None,
             ocr_mode=0,
             cls=Ocr,
@@ -132,8 +132,7 @@ class Controller:
                 try_log_screen(screen)
                 raise TargetNotFoundError(f'Picture {v.filepath} not found on screen')
 
-            """unuse interval"""
-            # else:
-            #     time.sleep(interval)
+            else:
+                time.sleep(interval)
 
         

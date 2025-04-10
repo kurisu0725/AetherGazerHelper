@@ -1,11 +1,16 @@
 
 from module.AetherGazerHelper import AetherGazerHelper
-from typing import Dict
-from zafkiel import logger
+from typing import Dict, Optional
+from zafkiel import logger, Timer
 from tasks.base.page import page_main, page_activity, page_store_supply
 from tasks.daily.assets.assets_daily import *
 from tasks.base.assets.assets_share import BACK_BUTTON
 from module.Controller import Controller
+from zafkiel import Ocr
+from zafkiel.ocr import OcrResultButton
+from tasks.daily.keywords.classes import ActivityOption
+from tasks.daily.keywords import KEYWORDS_ACTIVITY_OPTION
+
 class Daily(AetherGazerHelper):
     def __init__(self, config: Dict, controller: Controller) -> None:
         super().__init__(config, controller)
@@ -37,11 +42,40 @@ class Daily(AetherGazerHelper):
         """
         TODO: 使用体力扫荡联防协议，或日常资源关卡
         """
-        self.ui_ensure(page_main)
-        logger.info("前往活动")
-        self.ui_goto(page_activity)
-        self.ui_goto(page_store_supply)
-        pass
+        from tasks.base.assets.assets_page import MAIN_CHECK
+        # self.find_click(MAIN_CHECK, MAIN_CHECK, local_search=True)
+        # self.ui_ensure(page_main)
+        logger.info("使用体力扫荡联防协议，或日常资源关卡")
+        self.goto_joint_defense_agreement()
+
+
+    def goto_joint_defense_agreement(self):
+        from airtest.core.api import ST
+        self.ui_ensure(page_activity)
+        ocr = Ocr(ACTIVITY_SEARCH_BUTTON, lang='cn')
+        loop_timer = Timer(0, 5).start()
+        while True:
+            if loop_timer.reached():
+                logger.error("Can't find Stage within time limit.")
+                return False
+            
+            button = self.insight_row(row=KEYWORDS_ACTIVITY_OPTION.JointDefenseAgreement, keyword_cls=ActivityOption,ocr=ocr)[0]
+            logger.info("")
+            if button is not None:
+                self.touch(button.area, blind=True)
+                logger.info("Find Stage.")
+                break
+            self.swipe(v1=ACTIVITY_SWIPE_START, vector=(0, -0.15), blind1=True, blind2=True)
+            self.sleep(ST.OPDELAY)
+        return True
+
+    def insight_row(self, row: Keyword, keyword_cls: Keyword, ocr: Ocr) -> list[OcrResultButton]:
+
+        cur_buttons = ocr.ocr_match_keyword(self.controller.screenshot(), keyword_instance=row, mode=2)
+        logger.info(f"cur_buttons: {cur_buttons}")
+        for button in cur_buttons:
+            logger.info(f"button: {button}")
+        return button
 
     def run(self):
         """
@@ -52,3 +86,6 @@ class Daily(AetherGazerHelper):
 
         # self.claim_stamina()
         self.use_stamina()
+
+if __name__ == '__main__':
+    pass

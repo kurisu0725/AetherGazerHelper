@@ -162,12 +162,12 @@ class UI:
 
         # Create connection
         Page.init_connection(destination)
-        logger.debug(Page.display_all_pages_parent())
+        # logger.debug(Page.display_all_pages_parent())
         while True:
 
             # Destination page
             if self.ui_page_appear(destination, timeout=0.5):
-                self.ui_current['page'] = destination
+                # self.ui_current['page'] = destination
                 logger.debug(f'Page arrive: {destination}')
                 if state is not None:
                     self._set_state(destination.switch, state)
@@ -175,20 +175,18 @@ class UI:
 
             # Other pages
             clicked = False
-            # for page in Page.iter_pages(start_page=self.ui_current['page']):
-            #     if page.parent is None or page.check_button is None:
-            #         continue
-            page = self.ui_get_current_page()
 
-            # if check_button is None, means this page's check_button is changeable, like page_activity
-            # so I need blind click
+            page = self.ui_get_current_page()
+            logger.debug(f"page: {page}, parent: {page.parent}")
+            # the button from page to page  like  page_main to page_activity, it is changeable, and i don't want to update this assets in  game's each version,
+            # but it's pos always the same, so I need a blind click param
             if exists(page.check_button):
                 button = page.links[page.parent]
-                touch(button, blind=page.is_blind[page.parent])
+                touch(button, blind=page.is_blind[page.parent]) # modified
                 self.ui_current['page'] = page.parent
                 logger.info(f'Page switch: {page} -> {page.parent}')
                 clicked = True
-                break
+        
             if clicked:
                 continue
 

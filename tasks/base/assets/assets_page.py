@@ -2,11 +2,10 @@ from zafkiel import Template
 from zafkiel.ocr import Keyword
 
 MAIN_CHECK = Template(
-    filename=r"MAIN_CHECK.png", 
-    record_pos=(-0.07, 0.25), 
-    resolution=(1600, 900),
-    keyword=Keyword(u'修正者'),
-    rgb=False, 
+    filename=r"MAIN_TO_MAIL.png", 
+    record_pos=(0.3586, -0.2172), 
+    resolution=(1920, 1080),
+    rgb=False,
     template_path="assets/share/base/page",
 )
 

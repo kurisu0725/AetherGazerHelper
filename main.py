@@ -37,6 +37,7 @@ logger.add(f'./log/{date}/{date}.log', level="DEBUG", format="<green>{time:HH:mm
 def all_tasks(config):
 
     try:
+        logger.info(f"ST.OPDELAY : {ST.OPDELAY}, ST.FIND_TIMEOUT : {ST.FIND_TIMEOUT}, ST.THRESHOLD : {ST.THRESHOLD}")
         controller = Controller()
         # # 日常
         # Login(config).app_start()

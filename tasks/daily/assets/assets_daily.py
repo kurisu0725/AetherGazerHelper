@@ -24,3 +24,21 @@ DAILY_STAMINA_CLAIM_PM = Template(
     rgb=True, 
     template_path="assets/daily",
 )
+
+
+
+ACTIVITY_SEARCH_BUTTON = Template(
+    filename=r"ACTIVITY_SEARCH_BUTTON.png",
+    record_pos=(-0.3870, -0.0005), 
+    resolution=(1920, 1080) , 
+    rgb=False, 
+    template_path="assets/daily",
+)
+
+ACTIVITY_SWIPE_START = Template(
+    filename=r"ACTIVITY_SWIPE_START.png",
+    record_pos=(-0.3971, -0.0336), 
+    resolution=(1920, 1080) , 
+    rgb=False, 
+    template_path="assets/daily",
+)
