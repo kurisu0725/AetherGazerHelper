@@ -272,3 +272,20 @@ ACTIVITY_CHECK = Template(
     rgb=False, 
     template_path="assets/share/base/page",
 )
+
+
+RESOURCE_CHECK = Template(
+    filename=r"RESOURCE_CHECK.png", 
+    record_pos=(-0.3641, 0.2375), 
+    resolution=(1920, 1080),
+    rgb=True, 
+    template_path="assets/share/base/page",
+)
+
+MAIN_TO_RESOURCE = Template(
+    filename=r"MAIN_TO_RESOURCE.png", 
+    record_pos=(0.4151, 0.2466), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/share/base/page",
+)

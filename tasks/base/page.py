@@ -53,6 +53,8 @@ page_activity = Page(ACTIVITY_CHECK)
 
 # 活动-联防协议
 
+# 日常资源界面
+page_resource = Page(RESOURCE_CHECK, switch=switch_resource)
 
 
 # from page_main to 
@@ -64,6 +66,7 @@ page_main.link(MAIN_TO_MAIL, destination=page_mail)
 page_main.link(MAIN_TO_DORM, destination=page_dorm)
 page_main.link(MAIN_TO_BATTLE_PASS, destination=page_battle_pass)
 page_main.link(MAIN_TO_ACTIVITY, destination=page_activity, blind_to_click=True)
+page_main.link(MAIN_TO_RESOURCE, destination=page_resource)
 
 # from page_mimir to mimir observation
 page_mimir.link(MIMIR_TO_MIMI_OBSERVATION, destination=page_mimi_observation)
@@ -120,3 +123,7 @@ page_battle_pass_mission.link(BACK_TO_MAIN, destination=page_main)
 
 # from page_activity to
 page_activity.link(BACK_BUTTON, destination=page_main)
+
+
+# from page_resource to
+page_resource.link(BACK_TO_MAIN, destination=page_main)

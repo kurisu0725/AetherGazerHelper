@@ -4,12 +4,13 @@ import datetime
 import numpy as np
 import cv2
 
-from zafkiel import logger
+from zafkiel import logger, Timer, Template
 from module.ui import UI
 from typing import Dict
 from pathlib import Path
 from tasks.base.popup import popup_list
 from module.Controller import Controller
+from module.utils import match_template
 
 class AetherGazerHelper(UI):
     config : Dict
@@ -68,6 +69,46 @@ class AetherGazerHelper(UI):
         logger.info(f'start connect to device')
         date = datetime.datetime.now().strftime("%Y-%m-%d")
         self.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={self.process_str}", ])
+
+    def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10)):
+        logger.info(f"Wait until stable: {button}")
+        prev_image = self.image_crop(button)
+        timer.reset()
+        timeout.reset()
+
+        while True:
+            self.controller.screenshot()
+
+            if timeout.reached():
+                logger.warning(f'wait_until_stable({button}) timeout')
+                break
+                
+            image = self.image_crop(button, new_screenshot=False)
+            if match_template(image, prev_image):
+                if timer.reached():
+                    logger.info(f'{button} stabled')
+                    break
+            else:
+                prev_image = image
+                timer.reset()
+
+
+    def image_crop(self, button, new_screenshot=True):
+        """Extract the area from image.
+
+        Args:
+            button(Button, tuple): Button instance or area tuple.
+            copy:
+        """
+        from zafkiel.utils import crop
+        if new_screenshot:
+            self.controller.screenshot()
+        return crop(self.controller.image, button.area)
+        
+        
+        
+            
+
     def __getattr__(self, name):
         method = getattr(self.controller, name)
         if callable(method):
