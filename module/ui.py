@@ -61,7 +61,7 @@ class UI:
         """
         return exists(page.check_button, timeout)
 
-    def ui_get_current_page(self):
+    def ui_get_current_page(self, reload: bool = True):
         """
         Returns:
             Page:
@@ -75,8 +75,12 @@ class UI:
         def app_check():
             if not app_is_running():
                 raise NotRunningError("Game not running")
-        if self.ui_current['page'] is not None:
-            return self.ui_current['page']
+            
+        if reload == False:
+            if self.ui_current['page'] is not None :
+                return self.ui_current['page']
+            else:
+                raise PageUnknownError("Unknown page")
 
         timeout = Timer(10, count=20).start()
         while True:
@@ -167,7 +171,7 @@ class UI:
 
             # Destination page
             if self.ui_page_appear(destination, timeout=0.5):
-                # self.ui_current['page'] = destination
+                self.ui_current['page'] = destination
                 logger.debug(f'Page arrive: {destination}')
                 if state is not None:
                     self._set_state(destination.switch, state)

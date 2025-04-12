@@ -17,9 +17,9 @@ from tasks.mail.mail import Mail
 from module.Controller import Controller
 
 from airtest.core.api import ST
-ST.OPDELAY = 0.01
+ST.OPDELAY = 0.02
 ST.FIND_TIMEOUT = 10
-ST.THRESHOLD = 0.5 # TODO: 写进config类中
+ST.THRESHOLD = 0.6 # TODO: 写进config类中
 
 
 logger.remove()
@@ -41,10 +41,10 @@ def all_tasks(config):
         controller = Controller()
         # # 日常
         # Login(config).app_start()
-        # Guild(config).run()
+        # Guild(config, controller).run()
         # Mimir(config, controller).run()
         Daily(config, controller).run()
-        # Store(config).run()
+        # Store(config, controller).run()
         # Mission(config, controller).run()
         # Mail(config).run()
         

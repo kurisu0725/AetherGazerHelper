@@ -4,9 +4,10 @@ from zafkiel import Template, logger, Timer
 from zafkiel.exception import LoopError
 from zafkiel.ocr import Ocr, DigitCounter, Digit
 from utils.logger_func import task_info
-from module.AetherGazerController import Controller
+from module.Controller import Controller
 from module.AetherGazerHelper import AetherGazerHelper
 from tasks.battle.assets.assets_battle import *
+from tasks.base.assets.assets_share import *
 
 class Battle(AetherGazerHelper):
 
@@ -30,21 +31,26 @@ class Battle(AetherGazerHelper):
         stamina_cost = self.get_ocr_digit_or_digit_counter(ocr_class=Digit, image=self.controller.screenshot(), button=STAMINA_COST, name= "Stamina Cost")
 
         accept_count = min(count, remain_stamina / stamina_cost)
+        logger.info(f"Remain Stamina: {remain_stamina}, Stamina Cost: {stamina_cost}, Accept Count: {accept_count} times.")
         if accept_count > 0:
             rest_count = accept_count
             loop_timer = Timer(10).start()
             while rest_count > 0:
                 if loop_timer.reached():
                     raise LoopError("Loop timeout")
-                self.find_click(RIGHT_DOUBLE_ARROW, RIGHT_DOUBLE_ARROW, blind=True)
-                self.touch(STAGE_SWEEP) # 点击扫荡
+                
                 if self.find_click(SWEEP_CONFIRM_CHECK, SWEEP_CONFIRM_CLICK, blind=True):
                     self.confirm_battle_end()       #扫荡-确定
                     rest_count -= min(Battle.BATTLE_SELECT_COUNT_MAX, rest_count)
                     loop_timer.reset()
+
+                if self.find_click(RIGHT_DOUBLE_ARROW, RIGHT_DOUBLE_ARROW, blind=True):
+                    self.touch(STAGE_SWEEP)
+                    continue
             logger.info(f"Sweep {accept_count} times complete.")
         else:
             logger.info(f"Not enough stamina to sweep {count} times.")
+        self.find_click(BACK_TO_MAIN)
 
     @staticmethod
     def get_ocr_digit_or_digit_counter(ocr_class, image, button, lang = 'en', name = None) -> int:

@@ -20,7 +20,7 @@ MAIN_TO_STORE = Template(
 
 GUILD_CHECK = Template(
     filename=r"GUILD_CHECK.png", 
-    record_pos=(-0.40, -0.19), 
+    record_pos=(-0.4031, -0.1938), 
     resolution=(1920, 1080),
     keyword=Keyword(u'矩阵公会'),
     rgb=False, 

@@ -52,7 +52,7 @@ class Mission(AetherGazerHelper):
         self.ui_goto(page_battle_pass_mission)
         
         logger.info("Trying to claim battle pass rewards.")
-            
+        
         if self.find_click(BATTLE_PASS_MISSION_CLAIM_ALL_CLICK, BATTLE_PASS_MISSION_CLAIM_ALL_CLICK, blind=True):
             logger.info("Claim battle pass mission rewards.")
             if self.find_click(GET_ITEM, CLICK_TO_CONTINUE, blind=True):

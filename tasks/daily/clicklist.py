@@ -3,6 +3,9 @@ from typing import Optional
 from zafkiel import Template, logger, Timer
 from zafkiel.ocr import OcrResultButton, Keyword, Ocr
 from module.AetherGazerHelper import AetherGazerHelper
+from tasks.daily.assets.assets_daily import RESOURCE_NEXT_BUTTON, RESOURCE_SEARCH_BUTTON, RESOURCE_PREV_BUTTON
+from .keywords.classes import ResourceStage
+from zafkiel.utils import random_rectangle_point
 
 class ClickList:
     """
@@ -29,6 +32,8 @@ class ClickList:
         self.keyword_class = keyword_class
         self.ocr_class = ocr_class
         self.known_rows = list(keyword_class.instances.values())
+        logger.info(f'clicklist.known_rows: {self.known_rows} initialized')
+
         self.search_button = search_button
         self.next_button = next_button
         self.prev_button = prev_button
@@ -58,12 +63,13 @@ class ClickList:
             # logger.warning(f'Row "{row}" does not belong to {self}')
             return 0
 
-    def is_row_selected(self, button: OcrResultButton, main: AetherGazerHelper) -> bool:
-        # Having gold letters
-        if main.image_color_count(button, color=self.active_color, threshold=221, count=50):
-            return True
+    # def is_row_selected(self, button: OcrResultButton, main: AetherGazerHelper) -> bool:
+    #     # Having gold letters
+    #     if main.image_color_count(button, color=self.active_color, threshold=221, count=50):
+    #         return True
 
-        return False
+    #     return False
+
     def keyword2button(self, row: Keyword, show_warning=True) -> Optional[OcrResultButton]:
         for button in self.cur_buttons:
             if button == row:
@@ -79,7 +85,7 @@ class ClickList:
         Parse current rows to get list position.
         """
         self.cur_buttons = self.ocr_class(self.search_button) \
-            .matched_ocr(main.device.image, self.keyword_class)
+            .matched_ocr(main.controller.image, self.keyword_class)
         # Get indexes
         indexes = [self.keyword2index(row.matched_keyword)
                    for row in self.cur_buttons]
@@ -91,7 +97,7 @@ class ClickList:
 
         self.cur_min = min(indexes)
         self.cur_max = max(indexes)
-        logger.attr(self.name, f'{self.cur_min} - {self.cur_max}')
+        logger.info(self.name, f'{self.cur_min} - {self.cur_max}')
 
     def insight_row(self, row: Keyword, main: AetherGazerHelper, skip_first_screenshot=True) -> bool:
         """
@@ -102,12 +108,12 @@ class ClickList:
         Returns:
             bool: True if row is detected.
         """
-        row_index = self.keyword2index(row)
-        if not row_index:
+        dest_row_index = self.keyword2index(row)
+        if not dest_row_index:
             logger.warning(f'Insight row {row} but index unknown')
             return False
         
-        logger.info(f'Insight row: {row}, index={row_index}')
+        logger.info(f'Insight row: {row}, index={dest_row_index}')
         last_buttons: set[OcrResultButton] = None
         bottom_check = Timer(3, count=5).start()
         while True:
@@ -117,15 +123,18 @@ class ClickList:
                 main.controller.screenshot()
 
             self.load_rows(main=main)
-
+            logger.info(f'Current rows: {self.cur_buttons}')
             # End
-            if self.cur_buttons and self.cur_min <= row_index <= self.cur_max:
+            if self.cur_buttons and self.cur_min <= dest_row_index <= self.cur_max:
                 break
-            
-            if row_index < self.cur_min:
+
+            cur_row_index = self.keyword2index(self.cur_buttons[0].matched_keyword)
+
+            if cur_row_index < dest_row_index:
                 main.controller.touch(self.next_button, blind=True)
-            elif row_index > self.cur_max:
+            elif cur_row_index > dest_row_index:
                 main.controller.touch(self.prev_button, blind=True)
+            main.wait_until_stable(self.search_button)
 
             if self.cur_buttons and last_buttons == set(self.cur_buttons):
                 if bottom_check.reached():
@@ -146,14 +155,14 @@ class ClickList:
                 return False
         logger.info(f'Select row: {row}')
         skip_first_screenshot = True
-        # interval = Timer(5)
+        
         skip_first_load_rows = True
         load_rows_interval = Timer(1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                main.device.screenshot()
+                main.controller.screenshot()
 
             if skip_first_load_rows:
                 skip_first_load_rows = False
@@ -167,11 +176,12 @@ class ClickList:
             if not button:
                 return False
             else:
-                main.controller.touch(button, times=2, blind=True)
+                x1, y1, x2, y2 = button.area
+                pos = random_rectangle_point(center=( (x1 + x2) / 2, (y1 + y2) / 2), h=y2 - y1, w=x2 - x1)
+                main.controller.touch(pos, times=2, blind=True)
                 return True
 
-from tasks.daily.assets.assets_daily import RESOURCE_NEXT_BUTTON, RESOURCE_SEARCH_BUTTON, RESOURCE_PREV_BUTTON
-from .keywords.classes import ResourceStage
+
 ITEMCLICKLIST = ClickList(
     name="ItemClickList",
     keyword_class=ResourceStage,

@@ -53,7 +53,7 @@ RESOURCE_SEARCH_BUTTON = Template(
 
 RESOURCE_NEXT_BUTTON = Template(
     filename=r"RESOURCE_NEXT_BUTTON.png",
-    record_pos=(0.1552, 0.1487), 
+    record_pos=(0.1536,  0.1060), 
     resolution=(1920, 1080) , 
     rgb=False, 
     template_path="assets/daily",
@@ -61,8 +61,26 @@ RESOURCE_NEXT_BUTTON = Template(
 
 RESOURCE_PREV_BUTTON = Template(
     filename=r"RESOURCE_NEXT_BUTTON.png",
-    record_pos=(-0.1536, 0.1492), 
+    record_pos=(-0.1562, 0.1083), 
     resolution=(1920, 1080) , 
+    rgb=False, 
+    template_path="assets/daily",
+)
+
+ACTIVITY_TO_JOINT_DEFENSE = Template(
+    filename=r"ACTIVITY_TO_JOINT_DEFENSE.png",
+    record_pos=(0.4000, 0.2430), 
+    resolution=(1920, 1080), 
+    keyword=Keyword(u'前往挑战'),
+    rgb=False, 
+    template_path="assets/daily",
+)
+
+JOINT_DEFENSE_CHECK = Template(
+    filename=r"JOINT_DEFENSE_CHECK.png",
+    record_pos=(0.0086, -0.0180), 
+    resolution=(1920, 1080), 
+    keyword=Keyword(u'裂缝'),
     rgb=False, 
     template_path="assets/daily",
 )

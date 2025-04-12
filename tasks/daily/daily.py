@@ -8,8 +8,7 @@ from tasks.base.assets.assets_share import BACK_BUTTON
 from module.Controller import Controller
 from zafkiel import Ocr
 from zafkiel.ocr import OcrResultButton
-from tasks.daily.keywords.classes import ActivityOption
-from tasks.daily.keywords import KEYWORDS_ACTIVITY_OPTION
+from tasks.daily.keywords import KEYWORDS_ACTIVITY_OPTION, KEYWORDS_RESOURCE_STAGE
 from tasks.base.assets.assets_switch import RESOURCE_ITEMS_SWITCH_ON
 from tasks.daily.clicklist import ITEMCLICKLIST
 from tasks.battle.battle import Battle
@@ -46,7 +45,8 @@ class Daily(Battle):
         use stamina on resource page
         """
         self.ui_ensure(page_resource, state=RESOURCE_ITEMS_SWITCH_ON)
-        
+        logger.info(f"known rows: {ITEMCLICKLIST.known_rows}")
+        ITEMCLICKLIST.select_row(row=KEYWORDS_RESOURCE_STAGE.OriginRadiance, main=self, insight=True, skip_first_screenshot=False)
 
     def use_stamina_on_joint_defense_agreement(self):
         """
@@ -54,6 +54,7 @@ class Daily(Battle):
         """
         logger.info("使用体力扫荡联防协议")
         self.ui_goto_joint_defense_agreement()
+        self.find_click(JOINT_DEFENSE_CHECK, JOINT_DEFENSE_CHECK, local_search=True, blind=True)
         self.select_stage_sweep_count(count=1)
 
 
@@ -61,7 +62,6 @@ class Daily(Battle):
 
 
     def ui_goto_joint_defense_agreement(self):
-        from airtest.core.api import ST
         self.ui_ensure(page_activity)
         search_button = ACTIVITY_SEARCH_BUTTON
         ocr = Ocr(search_button, lang='cn')
@@ -75,15 +75,14 @@ class Daily(Battle):
             button = self.insight_row(row=KEYWORDS_ACTIVITY_OPTION.JointDefenseAgreement,ocr=ocr)
             if len(button) > 0:
                 from zafkiel.utils import random_rectangle_point
-                button = button[0]
-                x1, y1, x2, y2 = button.area
+                x1, y1, x2, y2 = button[0].area
                 pos = random_rectangle_point(center=( (x1 + x2) / 2, (y1 + y2) / 2), h=y2 - y1, w=x2 - x1)
                 self.touch(pos, blind=True)
                 break
             self.swipe(v1=ACTIVITY_SWIPE_START, vector=(0, -0.1), blind1=True, blind2=True)
             self.wait_until_stable(search_button, timer=Timer(
                 0, count=0), timeout=Timer(1.5, count=5))
-        
+        self.find_click(ACTIVITY_TO_JOINT_DEFENSE, ACTIVITY_TO_JOINT_DEFENSE, local_search=True, blind=True)
         logger.info("Now Select JointDefenseAgreement.")
         return True
 
@@ -94,6 +93,8 @@ class Daily(Battle):
             logger.info(f"button in cur_buttons: {button}")
         return cur_buttons
 
+    def return_event_mission(self):
+        self.ui_ensure(page_main)
     def run(self):
         """
         运行函数
@@ -102,7 +103,8 @@ class Daily(Battle):
         task_info('Daily')
 
         # self.claim_stamina()
-        self.use_stamina()
+        # self.use_stamina_on_joint_defense_agreement()
+        self.use_stamina_on_daily_resource()
 
 if __name__ == '__main__':
     pass

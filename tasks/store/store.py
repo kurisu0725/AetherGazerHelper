@@ -6,11 +6,12 @@ from typing import Dict
 from tasks.store.assets.assets_store import *
 from tasks.base.assets.assets_share import *
 from tasks.base.page import page_store_supply
+from module.Controller import Controller
 
 class Store(AetherGazerHelper):
 
-    def __init__(self, config : Dict) -> None:
-        super().__init__(config)
+    def __init__(self, config: Dict, controller: Controller) -> None:
+        super().__init__(config, controller)
 
 
     def purchase_free_stamina(self):
@@ -21,14 +22,12 @@ class Store(AetherGazerHelper):
         logger.info('购买商店的免费体力.')
         self.ui_ensure(page_store_supply)
         loop_timer = Timer(0, 10).start()
-
-
         while True:
             if loop_timer.reached():
-                logger.error("商店购买免费体力超出循环次数, 可能已经领取过免费体力.")
+                logger.critical("商店购买免费体力超出循环次数, 可能已经领取过免费体力.")
                 return False
             
-            if self.find_click(GET_ITEM, CLICK_TO_CONTINUE, local_search=True, blind=True):
+            if self.find_click(GET_ITEM, CLICK_TO_CONTINUE, local_search=True):
                 logger.info("获得免费体力.")
                 break
             

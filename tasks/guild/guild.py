@@ -5,21 +5,21 @@ from zafkiel import logger, Timer
 from tasks.guild.assets.assets_guild import *
 from tasks.base.page import page_guild, page_store_supply
 from tasks.base.assets.assets_share import GET_ITEM, CLICK_TO_CONTINUE, BACK_BUTTON
-
+from module.Controller import Controller
 
 class Guild(AetherGazerHelper):
-    def __init__(self, config: Dict) -> None:
-        super().__init__(config)
-
+    def __init__(self, config: Dict, controller: Controller) -> None:
+        super().__init__(config, controller)
     def claim_matrix_supply(self):
         """
         领取矩阵补给
         """
+        self.ui_ensure(page_guild)
         loop_timer = Timer(0, 10).start()
 
         while True:
             if loop_timer.reached():
-                logger.critical("矩阵补给领取超出循环次数")
+                logger.error("矩阵补给领取超出循环次数")
                 return False
             
             if self.exists(GUILD_MATRIX_SUPPLY_COMPLETE):
@@ -44,6 +44,26 @@ class Guild(AetherGazerHelper):
         """
         公会任务
         """
+        logger.info("Trying to claim guild mission. 尝试领取公会任务")
+        self.ui_ensure(page_guild)
+        loop_timer = Timer(3).start()
+        claimed = False
+        while True:
+            if loop_timer.reached():
+                if not claimed:
+                    logger.error("Guild mission claim timeout, not found claim button. 公会任务领取超时, 未找到领取按钮")
+                break
+            
+            if self.find_click(GUILD_MISSION_CLAIM_CLICK, GUILD_MISSION_CLAIM_CLICK, local_search=True, blind=True):
+                self.find_click(GET_ITEM, CLICK_TO_CONTINUE, local_search=True, blind=True)
+                claimed = True
+                logger.info("Claim guild mission. 领取公会任务")
+                loop_timer.reset()
+
+            if self.find_click(GUILD_TO_GUILD_MISSION, GUILD_TO_GUILD_MISSION, local_search=True, blind=True):
+                continue
+        logger.info("Back to page_guild. 返回公会界面")
+        self.touch(BACK_BUTTON)
 
     def test(self):
         """
@@ -55,10 +75,12 @@ class Guild(AetherGazerHelper):
 
     def run(self):
 
-        self.ui_ensure(page_guild)
+        # self.ui_ensure(page_guild)
         logger.info("公会界面")
-        # self.claim_matrix_supply()
-        self.test()
+        self.claim_matrix_supply()
+        # self.test()
+        self.claim_guild_mission()
+
 
 
 
