@@ -8,12 +8,13 @@ from module.Controller import Controller
 from module.AetherGazerHelper import AetherGazerHelper
 from tasks.battle.assets.assets_battle import *
 from tasks.base.assets.assets_share import *
+from config import Config
 
 class Battle(AetherGazerHelper):
 
     BATTLE_SELECT_COUNT_MAX: Final[int] = 10
 
-    def __init__(self, config: Dict = None, controller: Controller = None):
+    def __init__(self, config: Config, controller: Controller):
         super().__init__(config, controller)  # 单一路径初始化
 
     def is_in_battle(self) -> bool:

@@ -12,9 +12,10 @@ from tasks.daily.keywords import KEYWORDS_ACTIVITY_OPTION, KEYWORDS_RESOURCE_STA
 from tasks.base.assets.assets_switch import RESOURCE_ITEMS_SWITCH_ON
 from tasks.daily.clicklist import ITEMCLICKLIST
 from tasks.battle.battle import Battle
+from config import Config
 
 class Daily(Battle):
-    def __init__(self, config: Dict, controller: Controller) -> None:
+    def __init__(self, config: Config, controller: Controller) -> None:
         super().__init__(config, controller)
         
     def claim_stamina(self):

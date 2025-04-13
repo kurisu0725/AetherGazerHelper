@@ -4,19 +4,15 @@ import datetime
 import json
 import sys
 from pathlib import Path
-
+from typing import Type
 from zafkiel import simple_report, logger
-
-from tasks.login.login import Login
-from tasks.guild.guild import Guild
-from tasks.mimir.mimir import Mimir
-from tasks.daily.daily import Daily
-from tasks.store.store import Store
-from tasks.mission.mission import Mission
-from tasks.mail.mail import Mail
-from module.Controller import Controller
-
 from airtest.core.api import ST
+
+from tasks import Login, Guild, Mimir, Daily, Store, Mission, Mail, Dorm
+from module.Controller import Controller
+from module.AetherGazerHelper import AetherGazerHelper
+from config import Config
+
 ST.OPDELAY = 0.02
 ST.FIND_TIMEOUT = 10
 ST.THRESHOLD = 0.6 # TODO: 写进config类中
@@ -34,6 +30,31 @@ logger.add(f'./log/{date}/{date}.log', level="DEBUG", format="<green>{time:HH:mm
         )
 
 
+class TaskFactory:
+    _tasks = {
+        'login': Login,
+        'dorm': Dorm,
+        'guild': Guild,
+        'mimir': Mimir,
+        'daily': Daily,
+        'store': Store,
+        'mission': Mission,
+        'mail': Mail,
+        'daily': Daily,
+    }
+
+    @classmethod
+    def get_task(cls, task_name: str, config: Config, controller: Controller):
+        task_class = cls._tasks.get(task_name)
+        if not task_class:
+            raise ValueError(f"Unknown task: {task_name}")
+        return task_class(config, controller)
+
+    @classmethod
+    def register_task(cls, name: str, task_class: Type[AetherGazerHelper]):
+        """动态注册新任务"""
+        cls._tasks[name] = task_class
+
 def all_tasks(config):
 
     try:
@@ -43,7 +64,7 @@ def all_tasks(config):
         # Login(config).app_start()
         # Guild(config, controller).run()
         # Mimir(config, controller).run()
-        Daily(config, controller).run()
+        # Daily(config, controller).run()
         # Store(config, controller).run()
         # Mission(config, controller).run()
         # Mail(config).run()
@@ -56,13 +77,22 @@ def all_tasks(config):
         simple_report(__file__, log_path=Path(f'./log/{date}/report').resolve(), output=f'./log/{date}/report.html')
 
 
+def single_task(config, task):
+    try:
+       taskFactory = TaskFactory
+       controller = Controller()
+       cur_task = taskFactory.get_task(task, config, controller)
+       cur_task.run()
 
+    except Exception as e:
+        simple_report(__file__, log_path=Path(f'./log/{date}/report').resolve(), output=f'./log/{date}/report.html')
+        logger.error(e)
+        raise
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', '-t',
-                        choices=["armada", "dorm_bonus", "errand", "expedition", "login", "logout", "mail",
-                                 "mission", "sweep"],
+                        choices=["login", "dorm", "guild", "store", "mail", "mission", "daily"],
                         help='Task name, one of "armada, dorm_bonus, errand, expedition, login, logout, mail, '
                              'mission, sweep"')
     parser.add_argument('--config_path', '-c', default='./config/config.json')
@@ -73,12 +103,15 @@ def main():
         if not config_path.exists():
             logger.error(f'{config_path} not found')
             return
-        with open(config_path, 'r', encoding='utf-8') as f:
-            config = json.load(f)
+        # with open(config_path, 'r', encoding='utf-8') as f:
+        #     config = json.load(f)
         # single_task(config, args.task)
+        config = Config(config_path)
+        single_task(config, args.task)
     else:
-        with open('./config/default.json', 'r', encoding='utf-8') as f:
-            config = json.load(f)
+        config = Config('./config/default.json')
+        # with open('./config/default.json', 'r', encoding='utf-8') as f:
+        #     config = json.load(f)
         all_tasks(config)
 
 

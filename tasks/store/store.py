@@ -7,10 +7,11 @@ from tasks.store.assets.assets_store import *
 from tasks.base.assets.assets_share import *
 from tasks.base.page import page_store_supply
 from module.Controller import Controller
+from config import Config
 
 class Store(AetherGazerHelper):
 
-    def __init__(self, config: Dict, controller: Controller) -> None:
+    def __init__(self, config: Config, controller: Controller) -> None:
         super().__init__(config, controller)
 
 

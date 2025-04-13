@@ -5,14 +5,13 @@ from tasks.mail.assets.assets_mail import *
 from tasks.base.page import page_mail
 from tasks.base.assets.assets_share import GET_ITEM, CLICK_TO_CONTINUE
 from module.AetherGazerHelper import AetherGazerHelper
+from module.Controller import Controller
+from config import Config
 
 class Mail(AetherGazerHelper):
-    def __init__(self, config: Dict) -> None:
-        try:
-            super().__init__(config)
-        except Exception as e:
-            logger.error(f"初始化失败: {repr(e)}")
-
+    def __init__(self, config: Config, controller: Controller) -> None:
+        super().__init__(config, controller)
+        
     def check_mail(self):
         """
         检查邮件

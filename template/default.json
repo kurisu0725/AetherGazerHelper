@@ -1,0 +1,11 @@
+{
+    "Project": {
+      "General": {
+        "Game": {
+          "game_path": "",
+          "log_retain": "1week"
+        }
+      }
+    }
+    
+  }

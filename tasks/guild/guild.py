@@ -6,9 +6,11 @@ from tasks.guild.assets.assets_guild import *
 from tasks.base.page import page_guild, page_store_supply
 from tasks.base.assets.assets_share import GET_ITEM, CLICK_TO_CONTINUE, BACK_BUTTON
 from module.Controller import Controller
+from config import Config
+
 
 class Guild(AetherGazerHelper):
-    def __init__(self, config: Dict, controller: Controller) -> None:
+    def __init__(self, config: Config, controller: Controller) -> None:
         super().__init__(config, controller)
     def claim_matrix_supply(self):
         """

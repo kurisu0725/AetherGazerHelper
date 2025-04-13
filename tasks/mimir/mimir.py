@@ -6,9 +6,10 @@ from zafkiel.exception import LoopError
 from tasks.mimir.assets.assets_mimir import *
 from tasks.base.page import page_mimir, page_mimi_observation
 from module.Controller import Controller
+from config import Config
 from utils.utils import get_current_weekday_and_time
 class Mimir(AetherGazerHelper):
-    def __init__(self, config: Dict, controller : Controller) -> None:
+    def __init__(self, config: Config, controller : Controller) -> None:
         super().__init__(config, controller)
 
 
@@ -80,4 +81,4 @@ class Mimir(AetherGazerHelper):
         task_info('Mimir')
 
         self.ui_ensure(page_mimir)
-        self.mimi_observation()
+        self.mimi_observation()     # 测试成功

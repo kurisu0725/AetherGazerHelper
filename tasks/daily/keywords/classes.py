@@ -18,3 +18,11 @@ class ResourceStage(Keyword):
 @dataclass(repr=False)
 class ActivityOption(Keyword):
     instances: ClassVar = {}
+
+@dataclass(repr=False)
+class SigilsStage(Keyword):
+    instances: ClassVar = {}
+
+@dataclass(repr=False)
+class ChallengeStage(Keyword):
+    instances: ClassVar = {}

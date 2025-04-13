@@ -1,101 +1,154 @@
 {
-  "Project": {
-    "General": {
-      "_Base": {
-        "work_dir": {
-          "value": "./repos/DaCapoExample"
-        },
-        "config_path": {
-          "value": "./repos/DaCapoExample/config.json"
+    "Project": {
+        "General": {
+            "_Base": {
+                "language": {
+                    "type": "input",
+                    "value": "中文",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                },
+                "work_dir": {
+                    "type": "input",
+                    "value": "./repos/HonkaiHelper",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                },
+                "background": {
+                    "type": "input",
+                    "value": false,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "config_path": {
+                    "type": "input",
+                    "value": "./repos/HonkaiHelper/config/config.json",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            },
+            "Game": {
+                "_help": {
+                    "value": "This group shows 5 types of setting"
+                },
+                "game_path": {
+                    "type": "file",
+                    "value": "",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                },
+                "log_retain": {
+                    "type": "select",
+                    "value": "1week",
+                    "option": [
+                        "1day",
+                        "3days",
+                        "1week",
+                        "1month"
+                    ],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            }
         }
-      },
-      "Group1": {
-        "_help": {
-          "value": "This group shows 5 types of setting"
-        },
-        "input": {
-          "type": "input",
-          "value": "someting",
-          "help": "type \"input\" shows a text box"
-        },
-        "select": {
-          "option": [
-            "option1",
-            "option2"
-          ],
-          "type": "select",
-          "value": "option1",
-          "help": "type \"select\" shows a dropdown list"
-        },
-        "checkbox": {
-          "type": "checkbox",
-          "value": true,
-          "help": "type \"checkbox\" shows a checkbox"
-        },
-        "folder": {
-          "type": "folder",
-          "value": "./repos/DaCapoExample",
-          "help": "type \"folder\" shows a text box with a browse button"
-        },
-        "file": {
-          "type": "file",
-          "value": "./repos/DaCapoExample/template/template.yml",
-          "help": "type \"file\" shows a text box with a browse button"
-        }
-      }
-    }
-  },
-  "Menu": {
-    "Task1": {
-      "_Base": {
-        "priority": {
-          "value": 1,
-          "disabled": true
-        }
-      },
-      "Group2": {
-        "setting1": {
-          "value": "",
-          "type": "input",
-          "help": "settings can be disabled",
-          "disabled": true
-        },
-        "setting2": {
-          "value": "",
-          "type": "input",
-          "help": "settings can be hidden",
-          "hidden": true
-        },
-        "setting3": {
-          "value": "",
-          "type": "input"
-        }
-      }
     },
-    "Task2": {
-      "Group3": {
-        "_help": {
-          "value": "If all settings are hidden, the group will be hidden"
+    "Menu": {
+        "Login": {
+            "_Base": {
+                "priority": {
+                    "type": "input",
+                    "value": 31.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "command":{
+                    "type": "input",
+                    "value": "py main.py -t login",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                }
+            }
         },
-        "setting1": {
-          "value": "",
-          "type": "input",
-          "hidden": true
+        "Guild": {
+            "_Base": {
+                "priority": {
+                    "value": 1,
+                    "disabled": true
+                }
+            },
+            "Group": {
+                "setting2": {
+                    "type": "checkbox",
+                    "value": "false",
+                    "option": [],
+                    "hidden": false,
+                    "help": "weekly purchase guild store",
+                    "disabled": true
+                }
+            }
         },
-        "setting2": {
-          "value": "",
-          "type": "input",
-          "hidden": true
+        "Dorm": {
+            "Group3": {
+                "_help": {
+                    "value": "If all settings are hidden, the group will be hidden"
+                },
+                "setting1": {
+                    "value": "",
+                    "type": "input",
+                    "hidden": true
+                },
+                "setting2": {
+                    "value": "",
+                    "type": "input",
+                    "hidden": true
+                }
+            }
+        },
+        "Mimi_Observation": {
+            "Group4": {
+                "setting1": {
+                    "value": "",
+                    "type": "input"
+                }
+            }
+        },
+        "JointDefenseAgreement": {
+            "Group5": {
+                "setting1": {
+                    "value": "",
+                    "type": "input"
+                }
+            }
+        },
+        "Mail": {},
+        "Daily": {},
+        "Mission": {},
+        "Store":{
+            "Group": {
+                "setting": {
+                    "type": "checkbox",
+                    "value": true,
+                    "option": [],
+                    "hidden": false,
+                    "help": "Purchase free stamina in store.",
+                    "disabled": false
+                }
+            }
         }
-      }
-    },
-    "Task3": {
-      "Group4": {
-        "setting1": {
-          "value": "",
-          "type": "input"
-        }
-      }
     }
-  }
 }

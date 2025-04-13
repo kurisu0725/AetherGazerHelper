@@ -13,11 +13,13 @@ from typing import Dict
 from tasks.base.page import *
 from tasks.login.assets.assets_login import *
 from module.AetherGazerHelper import AetherGazerHelper
+from module.Controller import Controller
+from config import Config
 
 
 class Login(AetherGazerHelper):
-    def __init__(self, config: Dict) -> None:
-        super().__init__(config)
+    def __init__(self, config: Config, controller: Controller) -> None:
+        super().__init__(config, controller)
 
     def app_start(self):
         game_path = self.config['General']['Game']['game_path']

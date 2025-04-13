@@ -11,15 +11,19 @@ from pathlib import Path
 from tasks.base.popup import popup_list
 from module.Controller import Controller
 from module.utils import match_template
+from config import Config
 
 class AetherGazerHelper(UI):
-    config : Dict
+    config : Config
     controller : Controller
-    def __init__(self, config : Dict = None, controller : Controller = None):
-        self.config = config or {}
+    def __init__(self, config : Config = None, controller : Controller = None):
+        self.config = config
         self.controller = controller
 
-        self.process_str = self.config['General']['Game']['game_process_str']
+        self.game_path = self.config['Project']['General']['Game']['game_path']
+        self.process_str = self.game_path.split('/')[-1].split('.')[0]
+        logger.info(f"init process str: {self.process_str}")
+        
         self.get_popup_list(popup_list)
 
         logger.info(f'init {self.process_str}')
@@ -47,7 +51,7 @@ class AetherGazerHelper(UI):
             '1week': 7,
             '1month': 30,
         }
-        retain_days = log_retain_map.get(self.config['General']['Game']['log_retain'], 7)
+        retain_days = log_retain_map.get(self.config['Project']['General']['Game']['log_retain'], 7)
 
         current_time = time.time()
         log_path = Path('./log')
