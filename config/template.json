@@ -1,0 +1,111 @@
+{
+    "Project": {
+        "General": {
+            "_Base": {
+                "language": {
+                    "type": "input",
+                    "value": "中文",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                },
+                "work_dir": {
+                    "type": "input",
+                    "value": "D:\\VSCode_Workplace\\Python\\GF2_Exilium_Script",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                },
+                "background": {
+                    "type": "input",
+                    "value": false,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "config_path": {
+                    "type": "input",
+                    "value": "D:\\VSCode_Workplace\\Python\\GF2_Exilium_Script\\template\\config.json",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            },
+            "Game": {
+                "game_path": {
+                    "type": "file",
+                    "value": "E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                },
+                "log_retain": {
+                    "type": "select",
+                    "value": "1week",
+                    "option": [
+                        "1day",
+                        "3days",
+                        "1week",
+                        "1month"
+                    ],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            }
+        }
+    },
+    "Menu": {
+        "Login": {
+            "_Base": {
+                "priority": {
+                    "type": "input",
+                    "value": 31.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "command":{
+                    "type": "input",
+                    "value": "py main.py -t login",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                }
+            }
+        },
+        "Guild": {
+            "_Base": {
+                "priority": {
+                    "value": 1,
+                    "disabled": true
+                }
+            },
+            "Group": {
+                
+            }
+        },
+        "Dorm": {
+            "Group3": {
+            }
+        },
+        "Mimi_Observation": {
+            
+        },
+        "JointDefenseAgreement": {
+        },
+        "Mail": {},
+        "Daily": {},
+        "Mission": {},
+        "Store":{
+            
+        }
+    }
+}

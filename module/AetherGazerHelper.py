@@ -20,20 +20,27 @@ class AetherGazerHelper(UI):
         self.config = config
         self.controller = controller
 
-        self.game_path = self.config['Project']['General']['Game']['game_path']
-        self.process_str = self.game_path.split('/')[-1].split('.')[0]
+        self.game_path = self.config.data['Project']['General']['Game']['game_path']
+        self.process_str = self.game_path.split('/')[-1]
+        logger.info(f"game_path: {self.game_path}")
         logger.info(f"init process str: {self.process_str}")
-        
+
         self.get_popup_list(popup_list)
 
-        logger.info(f'init {self.process_str}')
+        # checkStatus = self.controller.check_device()
+        # logger.info(f'check device status: {checkStatus}')
+
+        # if checkStatus == False:
+        #     self.connect_device()
+        #     logger.info(f'connect to device {self.process_str}')
+    def check_and_connect_device(self):
         checkStatus = self.controller.check_device()
         logger.info(f'check device status: {checkStatus}')
 
         if checkStatus == False:
             self.connect_device()
             logger.info(f'connect to device {self.process_str}')
-
+            
     def app_stop(self):
         self.stop_app()
 
@@ -51,7 +58,7 @@ class AetherGazerHelper(UI):
             '1week': 7,
             '1month': 30,
         }
-        retain_days = log_retain_map.get(self.config['Project']['General']['Game']['log_retain'], 7)
+        retain_days = log_retain_map.get(self.config.data['Project']['General']['Game']['log_retain'], 7)
 
         current_time = time.time()
         log_path = Path('./log')

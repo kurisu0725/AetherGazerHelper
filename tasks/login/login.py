@@ -22,8 +22,7 @@ class Login(AetherGazerHelper):
         super().__init__(config, controller)
 
     def app_start(self):
-        game_path = self.config['General']['Game']['game_path']
-        game_exe_name = os.path.basename(game_path)  # 获取游戏可执行文件名（如 "Game.exe"）
+        game_exe_name = os.path.basename(self.game_path)  # 获取游戏可执行文件名（如 "Game.exe"）
 
         # 检查游戏是否已经在运行
         is_game_running = False
@@ -35,7 +34,7 @@ class Login(AetherGazerHelper):
 
         # 如果游戏未运行，则启动
         if not is_game_running:
-            subprocess.Popen([game_path])
+            subprocess.Popen([self.game_path])
 
         self.connect_device()
         self.manage_log()

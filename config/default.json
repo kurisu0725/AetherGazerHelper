@@ -1,9 +1,11 @@
 {
-    "General": {
+    "Project": {
+      "General": {
         "Game": {
-            "game_path": "E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
-            "log_retain": "1week",
-            "game_process_str" : "AetherGazer"
+          "game_path": "E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
+          "log_retain": "1week"
         }
+      }
     }
-}
+    
+  }

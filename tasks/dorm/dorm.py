@@ -14,6 +14,8 @@ class Dorm(AetherGazerHelper):
     def __init__(self, config: Config, controller: Controller):
         super().__init__(config, controller)
 
+        self.check_and_connect_device()
+
     def claim_kitchen(self):
         """
         Claim kitchen resources.
@@ -24,8 +26,6 @@ class Dorm(AetherGazerHelper):
         while True:
             if loop_timer.reached():
                 raise LoopError("Claim kitchen resources timed out.")
-            
-            
             
             if self.find_click(DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK, DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK, blind=True):
                 logger.info("Assigned kitchen tasks.")
@@ -46,6 +46,9 @@ class Dorm(AetherGazerHelper):
         Train characters in the dormitory.
         """
         self.ui_ensure(page_dorm_nav_character)
+        # solution1: 滑动拼接图像，
+        # solution2: 霍夫圆检测 + 图像匹配
+
 
     def run(self):
         """
