@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from zafkiel import Template
 
-def match_template(image, template, similarity=0.85):
+def match_template(image, template, similarity = 0.8, pad_size = 10):
     """
     from StarRailCopilot/module/base/button.py
     Args:
@@ -15,9 +15,21 @@ def match_template(image, template, similarity=0.85):
     Returns:
         bool:
     """
+    image = image.copy()
+    if pad_size > 0:
+        image = cv2.copyMakeBorder(
+            image,
+            top=pad_size,
+            bottom=pad_size,
+            left=pad_size,
+            right=pad_size,
+            borderType=cv2.BORDER_REFLECT_101  # 镜像填充（gfedcb|abcdefgh|gfedcba）
+        )
+
     res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
     _, sim, _, point = cv2.minMaxLoc(res)
-    return sim > similarity
+    
+    return sim >= similarity
 
 def stitch_image(img1, img2):
     stitcher = cv2.Stitcher_create(cv2.Stitcher_SCANS)  # 或使用 cv2.createStitcher()（旧版本）
@@ -28,7 +40,8 @@ def stitch_image(img1, img2):
     else:
         print(f"拼接失败，错误码: {status}")
 
-def hough_circle(image):
+def hough_circle(image, sort_func = None):
+    image = image.astype(np.uint8)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # 2. 高斯模糊降噪（减少边缘噪声）
@@ -41,7 +54,7 @@ def hough_circle(image):
         dp=1,            # 累加器分辨率
         minDist=50,      # 圆之间的最小距离
         param1=80,      # Canny 高阈值
-        param2=30,       # 累加器阈值（越小检测越多圆）
+        param2=50,       # 累加器阈值（越小检测越多圆）
         minRadius=50,    # 最小半径
         maxRadius=150    # 最大半径
     )
@@ -54,11 +67,18 @@ def hough_circle(image):
             cv2.circle(image, (x, y), r, (0, 255, 0), 2)
             # 绘制圆心
             cv2.circle(image, (x, y), 2, (0, 0, 255), 3)
+        circles = circles[0, :]
+        if sort_func:
+            circles = sorted(circles, key=sort_func)
+        
+        return circles
+    else:
+        return None
 
     # 5. 显示结果
-    cv2.imshow("Detected Circles", image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.imshow("Detected Circles", image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     img1 = cv2.imread(r"D:\VSCode_Workplace\Python\GF2_Exilium_Script\tmp_imgs\train_1.png")

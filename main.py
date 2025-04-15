@@ -61,8 +61,9 @@ def all_tasks(config):
         logger.info(f"ST.OPDELAY : {ST.OPDELAY}, ST.FIND_TIMEOUT : {ST.FIND_TIMEOUT}, ST.THRESHOLD : {ST.THRESHOLD}")
         controller = Controller()
         # # 日常
-        Login(config, controller).app_start()
+        # Login(config, controller).app_start()
         # Guild(config, controller).run()
+        Dorm(config, controller).run()
         # Mimir(config, controller).run()
         # Daily(config, controller).run()
         # Store(config, controller).run()

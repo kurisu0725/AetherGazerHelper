@@ -21,25 +21,21 @@ class AetherGazerHelper(UI):
         self.controller = controller
 
         self.game_path = self.config.data['Project']['General']['Game']['game_path']
-        self.process_str = self.game_path.split('/')[-1]
+        self.process_str = self.game_path.split('\\')[-1].split('.')[0]
         logger.info(f"game_path: {self.game_path}")
         logger.info(f"init process str: {self.process_str}")
 
         self.get_popup_list(popup_list)
 
-        # checkStatus = self.controller.check_device()
-        # logger.info(f'check device status: {checkStatus}')
-
-        # if checkStatus == False:
-        #     self.connect_device()
-        #     logger.info(f'connect to device {self.process_str}')
+        self.check_and_connect_device()
     def check_and_connect_device(self):
         checkStatus = self.controller.check_device()
         logger.info(f'check device status: {checkStatus}')
 
         if checkStatus == False:
             self.connect_device()
-            logger.info(f'connect to device {self.process_str}')
+            from airtest.core.api import G
+            logger.info(f'connect to device {G.DEVICE}, process: {self.process_str}')
             
     def app_stop(self):
         self.stop_app()
@@ -79,7 +75,7 @@ class AetherGazerHelper(UI):
     def connect_device(self):
         logger.info(f'start connect to device')
         date = datetime.datetime.now().strftime("%Y-%m-%d")
-        self.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={self.process_str}", ])
+        self.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={self.process_str}", ], project_root=str(Path.cwd()))
 
     def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10)):
         logger.info(f"Wait until stable: {button}")
@@ -95,7 +91,7 @@ class AetherGazerHelper(UI):
                 break
                 
             image = self.image_crop(button, new_screenshot=False)
-            if match_template(image, prev_image):
+            if match_template(image, prev_image, similarity=0.9):
                 if timer.reached():
                     logger.info(f'{button} stabled')
                     break
