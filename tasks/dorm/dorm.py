@@ -101,6 +101,9 @@ class Dorm(AetherGazerHelper):
         pass
     
     def claim_train_mission(self):
+        """
+        领取训练任务
+        """
         pass
 
     def swipe_and_train_modifier(self):
@@ -130,7 +133,7 @@ class Dorm(AetherGazerHelper):
                 break
             
             if cur_count == 0:
-                logger.info("Train modifier success.")
+                logger.info("Train modifier success, rest count equals 0.")
                 break
             
             logger.info(f"hough circles: {len(circles)}, circle_idx: {circle_idx}, cur_count: {cur_count}")
@@ -207,9 +210,9 @@ class Dorm(AetherGazerHelper):
                     return count
 
                 if loop_timer.reached():
-                    logger.info("Train modifier failed. Maybe all of modifiers' stats are full.")
+                    logger.info("Train modifier failed. Maybe this modifier's all stats are full.")
                     return count
-
+                # 某些情况下的ocr stamina 识别失败 120 识别为 -> 0?
                 modifier_stamina, _, _ = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
                 logger.info(f"Ocr modifier stamina: {modifier_stamina}")
                 if modifier_stamina < Dorm.TRAIN_MODIFIER_COST:
