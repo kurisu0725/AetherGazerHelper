@@ -4,13 +4,14 @@ from typing import Dict, Final, Union
 from module.AetherGazerHelper import AetherGazerHelper
 from module.Controller import Controller
 from tasks.base.page import page_dorm, page_dorm_nav_kitchen, page_dorm_nav_character
-from tasks.base.assets.assets_share import BACK_BUTTON
+from tasks.base.assets.assets_share import BACK_BUTTON, GET_ITEM, CLICK_TO_CONTINUE
 from tasks.dorm.assets.assets_dorm import *
 from zafkiel.exception import LoopError
 from zafkiel import Timer, logger
-from zafkiel.ocr import DigitCounter, Digit
+from zafkiel.ocr import Digit, Ocr
 from zafkiel.utils import crop
 from config import Config
+from module.ocr import DigitCounter
 from module.utils import hough_circle
 
 class Dorm(AetherGazerHelper):
@@ -78,7 +79,7 @@ class Dorm(AetherGazerHelper):
         self.find_click(TO_TRAIN)
 
         # swipe and train modifier
-        self.swipe_and_train_modifier()
+        self._train_modifiers()
         self.find_click(BACK_BUTTON, blind=True)
 
     def modifier_combat(self):
@@ -104,9 +105,18 @@ class Dorm(AetherGazerHelper):
         """
         领取训练任务
         """
-        pass
+        self.ui_ensure(page_dorm_nav_character)
 
-    def swipe_and_train_modifier(self):
+        self.touch(TO_TRAIN_MISSION)
+
+        if self.find_click(TRAIN_MISSION_CLAIM_CHECK, TRAIN_MISSION_CLAIM_CLICK, ocr_mode=2):
+            self.find_click(GET_ITEM, CLICK_TO_CONTINUE, blind=True)
+            logger.info("Dorm train missions claim.")
+        else:
+            logger.info("No dorm train mission to claim.")
+        self.touch(BACK_BUTTON, blind=True)
+
+    def _train_modifiers(self):
         
         search_button = TRAIN_SEARCH_BUTTON
         logger.info(f"search button filepath: {search_button.filepath}")
@@ -124,8 +134,6 @@ class Dorm(AetherGazerHelper):
     
         
         upper_left = tuple( int(i) for i in search_button.area)[:2]
-        # logger.info(f"upper_left: {upper_left}, item type: {type(upper_left[0])}")
-
 
         while True:
             if loop_timer.reached():
@@ -136,7 +144,7 @@ class Dorm(AetherGazerHelper):
                 logger.info("Train modifier success, rest count equals 0.")
                 break
             
-            logger.info(f"hough circles: {len(circles)}, circle_idx: {circle_idx}, cur_count: {cur_count}")
+            logger.info(f"cur_count: {cur_count}, hough circles: {len(circles)}, circle_idx: {circle_idx}, ")
 
             if circle_idx >= len(circles):
                 start_circle = tuple( int(i) for i in circles[1][:2] )
@@ -144,7 +152,7 @@ class Dorm(AetherGazerHelper):
                 self.swipe([sum(values) for values in zip(start_circle, upper_left)], [sum(values) for values in zip(end_circle, upper_left)], blind1=True, blind2=True)
 
                 self.wait_until_stable(search_button, timer=Timer(
-                    0, count=0), timeout=Timer(1.5, count=5))
+                    0.3, count=1), timeout=Timer(1.5, count=5))
                 self.controller.screenshot()
                 search_image = crop(self.controller.image, search_button.area)
                 circles = hough_circle(search_image, sort_func=lambda circle: circle[1])
@@ -196,10 +204,13 @@ class Dorm(AetherGazerHelper):
         存在点击后无反馈的情况(派遣)
         """
         ocr_modifier_stamina : DigitCounter = DigitCounter(button=OCR_TRAIN_MODIFIER_STAMINA, name='modifier_stamina')
+        ocr_full_stats_list : list[Ocr] = []
         modifier_stamina : int = 0
         train_button = Dorm.get_train_buttons()
         train_button_click = Dorm.get_train_buttons_click()
-        
+        for i in range(len(train_button)):
+            ocr_full_stats_list.append(Ocr(button=train_button[i], name=f'modifier_full_stats_{i + 1}'))
+
         for i in range(len(train_button)):
             button = train_button[i]
             button_click = train_button_click[i]
@@ -212,12 +223,17 @@ class Dorm(AetherGazerHelper):
                 if loop_timer.reached():
                     logger.info("Train modifier failed. Maybe this modifier's all stats are full.")
                     return count
-                # 某些情况下的ocr stamina 识别失败 120 识别为 -> 0?
+                # 某些情况下的ocr stamina 识别失败 120 识别为 -> 0? case '120 /120' 会导致失效,已修复。见module/ocr.py
                 modifier_stamina, _, _ = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
                 logger.info(f"Ocr modifier stamina: {modifier_stamina}")
                 if modifier_stamina < Dorm.TRAIN_MODIFIER_COST:
                     break
                 
+                is_full_stats = ocr_full_stats_list[i].ocr_match_keyword(self.controller.image, Keyword(u'已满'))
+                if is_full_stats:
+                    logger.info(f"Modifier's number {i + 1} stat is full.")
+                    break
+
                 if self.find_click(button, button_click, times = 2, blind=True):
                     cur_modifier_stamina, _, _ = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
                     if modifier_stamina == cur_modifier_stamina:
@@ -232,13 +248,21 @@ class Dorm(AetherGazerHelper):
                 break
         return count
 
+    def test_func(self):
+        ocr_modifier_stamina : DigitCounter = DigitCounter(button=OCR_TRAIN_MODIFIER_STAMINA, name='modifier_stamina')
+        modifier_stamina, zero, total_stamina = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
+        logger.info(f"modifier_stamina: {modifier_stamina}, zero: {zero}, total_stamina: {total_stamina}")
+
     def run(self):
         """
         Main function to run the dormitory task.
         """
         # self.ui_ensure(page_dorm)
 
-        # self.claim_kitchen()
-        self.train_modifiers()
+        self.claim_kitchen()
+        
+        # self.train_modifiers()
 
         # self.modifier_combat()
+
+        # self.claim_train_mission()

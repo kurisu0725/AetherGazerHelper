@@ -132,8 +132,7 @@ class MainController(QObject):
                 f.write(f"y: {norm_roi[1]:.4f}\n")
                 f.write(f"width: {norm_roi[2]:.4f}\n")
                 f.write(f"height: {norm_roi[3]:.4f}\n")
-                f.write(f"Relative x: {relative_x:.4f}\n")
-                f.write(f"Relative y: {relative_y:.4f}\n")
+                f.write(f"Template record pos: ({relative_x:.4f}, {relative_y:.4f})\n")
             
             QMessageBox.information(
                 self.view, "Success", 

@@ -13,7 +13,7 @@ from module.Controller import Controller
 from module.AetherGazerHelper import AetherGazerHelper
 from config import Config
 
-ST.OPDELAY = 0.02
+ST.OPDELAY = 0.15
 ST.FIND_TIMEOUT = 10
 ST.THRESHOLD = 0.6 # TODO: 写进config类中
 

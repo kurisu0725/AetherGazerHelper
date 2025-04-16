@@ -116,7 +116,7 @@ TRAIN_MODIFIER_ABILITY_5 = Template(
 
 TRAIN_MODIFIER_ABILITY_1_CLICK = Template(
     filename=r"TRAIN_MODIFIER_ABILITY_1_CLICK.png", 
-    record_pos=(0.1180, 0.2216), 
+    record_pos=(0.1177, 0.2161), 
     resolution=(1920, 1080),
     rgb=False, 
     template_path="assets/dorm",
@@ -124,7 +124,7 @@ TRAIN_MODIFIER_ABILITY_1_CLICK = Template(
 
 TRAIN_MODIFIER_ABILITY_2_CLICK = Template(
     filename=r"TRAIN_MODIFIER_ABILITY_2_CLICK.png", 
-    record_pos=(0.1997, 0.2216), 
+    record_pos=(0.1979, 0.2174), 
     resolution=(1920, 1080),
     rgb=False, 
     template_path="assets/dorm",
@@ -132,7 +132,7 @@ TRAIN_MODIFIER_ABILITY_2_CLICK = Template(
 
 TRAIN_MODIFIER_ABILITY_3_CLICK = Template(
     filename=r"TRAIN_MODIFIER_ABILITY_3_CLICK.png", 
-    record_pos=(0.2794, 0.2203), 
+    record_pos=(0.2781, 0.2159), 
     resolution=(1920, 1080),
     rgb=False, 
     template_path="assets/dorm",
@@ -140,7 +140,7 @@ TRAIN_MODIFIER_ABILITY_3_CLICK = Template(
 
 TRAIN_MODIFIER_ABILITY_4_CLICK = Template(
     filename=r"TRAIN_MODIFIER_ABILITY_4_CLICK.png", 
-    record_pos=(0.3589, 0.2224), 
+    record_pos=(0.3583, 0.2161), 
     resolution=(1920, 1080),
     rgb=False, 
     template_path="assets/dorm",
@@ -148,8 +148,35 @@ TRAIN_MODIFIER_ABILITY_4_CLICK = Template(
 
 TRAIN_MODIFIER_ABILITY_5_CLICK = Template(
     filename=r"TRAIN_MODIFIER_ABILITY_5_CLICK.png", 
-    record_pos=(0.4388, 0.2211), 
+    record_pos=(0.4388, 0.2148), 
     resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/dorm",
+)
+
+TO_TRAIN_MISSION = Template(
+    filename=r"TO_TRAIN_MISSION.png", 
+    record_pos=(-0.3135, 0.2477), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'任务'),
+    rgb=False, 
+    template_path="assets/dorm",
+)
+
+TRAIN_MISSION_CLAIM_CLICK = Template(
+    filename=r"TRAIN_MISSION_CLAIM_CLICK.png", 
+    record_pos=(0.2232, 0.1940), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'一键领取'),
+    rgb=False, 
+    template_path="assets/dorm",
+)
+
+TRAIN_MISSION_CLAIM_CHECK = Template(
+    filename=r"TRAIN_MISSION_CLAIM_CHECK.png", 
+    record_pos=(-0.2456, -0.2018), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'阶段目标'),
     rgb=False, 
     template_path="assets/dorm",
 )

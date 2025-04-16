@@ -91,7 +91,7 @@ class AetherGazerHelper(UI):
                 break
                 
             image = self.image_crop(button, new_screenshot=False)
-            if match_template(image, prev_image, similarity=0.9):
+            if match_template(image, prev_image, similarity=0.85):
                 if timer.reached():
                     logger.info(f'{button} stabled')
                     break

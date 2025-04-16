@@ -4,13 +4,11 @@ from zafkiel import Template
 
 def match_template(image, template, similarity = 0.8, pad_size = 10):
     """
-    from StarRailCopilot/module/base/button.py
     Args:
         image (np.ndarray): Screenshot
         template (np.ndarray):
-        area (tuple): Crop area of image.
-        offset (int, tuple): Detection area offset.
-        similarity (float): 0-1. Similarity. Lower than this value will return float(0).
+        similarity (float): 0-1. Similarity.
+        pad_size (int): image padding size. To avoid the effect of the image being cropped
 
     Returns:
         bool:
@@ -74,11 +72,6 @@ def hough_circle(image, sort_func = None):
         return circles
     else:
         return None
-
-    # 5. 显示结果
-    # cv2.imshow("Detected Circles", image)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     img1 = cv2.imread(r"D:\VSCode_Workplace\Python\GF2_Exilium_Script\tmp_imgs\train_1.png")

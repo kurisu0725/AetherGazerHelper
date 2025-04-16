@@ -28,7 +28,7 @@
                 },
                 "config_path": {
                     "type": "input",
-                    "value": "D:\\VSCode_Workplace\\Python\\GF2_Exilium_Script\\template\\config.json",
+                    "value": "D:\\VSCode_Workplace\\Python\\GF2_Exilium_Script\\config\\default.json",
                     "option": [],
                     "hidden": false,
                     "help": "",
