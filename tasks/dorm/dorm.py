@@ -18,7 +18,10 @@ class Dorm(AetherGazerHelper):
 
     _TRAIN_BUTTON : list[Template] | None = None
     _TRAIN_BUTTON_CLICK : list[Template] | None = None
+
     TRAIN_MODIFIER_COST : Final[int] = 20
+    MODIFIER_COMBAT_MAX_COUNT : Final[int] = 6
+
     def __init__(self, config: Config, controller: Controller):
         super().__init__(config, controller)
 
@@ -53,6 +56,8 @@ class Dorm(AetherGazerHelper):
             if loop_timer.reached():
                 raise LoopError("Claim kitchen resources timed out.")
             
+            # TODO: 还存在一个 "确定"情况，领取上次派遣
+
             if self.find_click(DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK, DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK, blind=True):
                 logger.info("Assigned kitchen tasks.")
                 break
@@ -82,24 +87,64 @@ class Dorm(AetherGazerHelper):
         self._train_modifiers()
         self.find_click(BACK_BUTTON, blind=True)
 
-    def modifier_combat(self):
+    def modifier_combat(self, num_of_combat : int = 1):
+        enable_combat : bool = self.config.data['Menu']['Dorm']['Combat']['enable_combat']
+        weekly_combat_count : int = self.config.data['Menu']['Dorm']['Combat']['weekly_combat_count']
+        last_combat_time : str = self.config.data['Menu']['Dorm']['Combat']['last_combat_time']
+
+        if enable_combat is False:
+            logger.info("Modifier combat is disabled. Skip this task.")
+            return
+
+        if weekly_combat_count == Dorm.MODIFIER_COMBAT_MAX_COUNT:
+            logger.info("The number of  combats recorded has reached the limit.")
+            return 
+
+        if len(last_combat_time) == 0 or last_combat_time is None:
+            weekly_combat_count = 0
+            self.config.update('Menu.Dorm.Group.last_combat_time', weekly_combat_count)
+
+        # TODO: 和周一的时间比较
+
         self.ui_ensure(page_dorm_nav_character)
-        # self.find_click()
-        # self.find_click()
-        ocr_rest_time = Digit()
-        loop_timer = Timer(5).start()
+        loop_timer = Timer(0, 10).start()
+
         while True:
             if loop_timer.reached():
-                rest_time = ocr_rest_time.ocr_single_line(self.controller.screenshot())
-                if rest_time > 0:
-                    logger.info(f"Modifier combating rest {rest_time}seconds.")
-                    loop_timer.reset()
-                else:
-                    logger.info("Modifier combating finished.")
-                    break
-                
+                logger.critical("Modifier combat end for unknown reason. ")
+                break
             
-        pass
+            if self.exists(MODIFIER_COMBATTING_CHECK):
+                self.sleep(5)
+                loop_timer.reset()
+                continue
+            
+            if self.exist(MODIFIER_COMBAT_END_CHECK):
+                num_of_combat -= 1
+                self.config.update('Menu.Dorm.Group.last_combat_time', weekly_combat_count)
+                if num_of_combat == 0:
+                    self.touch(MODIFIER_COMBAT_END_CLICK)
+                    logger.info("Modifier combat end.")
+                    break
+                else:
+                    self.touch(MODIFIER_COMBAT_AGAIN)
+                    logger.info(f"Modifier combat again. Rest {num_of_combat} times.")
+                continue
+
+
+            if self.find_click(MODIFIER_COMBAT_SELECT_STRANGER, MODIFIER_COMBAT_SELECT_STRANGER, blind=True, times=2):
+                self.find_click(MODIFIER_COMBAT_SELECT_TO_CHALLENGE, MODIFIER_COMBAT_SELECT_TO_CHALLENGE, blind=True, times=2)
+                continue
+
+            if self.find_click(MODIFIER_COMBAT_CLICK, MODIFIER_COMBAT_CLICK, blind=True):
+                continue
+
+            if self.find_click(TO_MODIFIER_COMBAT, TO_MODIFIER_COMBAT, blind=True):
+                continue
+
+        self.touch(BACK_BUTTON)
+                
+
     
     def claim_train_mission(self):
         """
@@ -260,9 +305,9 @@ class Dorm(AetherGazerHelper):
         # self.ui_ensure(page_dorm)
 
         self.claim_kitchen()
-        
-        # self.train_modifiers()
 
+        # self.train_modifiers()
+        
         # self.modifier_combat()
 
         # self.claim_train_mission()

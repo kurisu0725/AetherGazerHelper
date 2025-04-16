@@ -180,3 +180,39 @@ TRAIN_MISSION_CLAIM_CHECK = Template(
     rgb=False, 
     template_path="assets/dorm",
 )
+
+TO_MODIFIER_COMBAT = Template(
+    filename=r"TO_MODIFIER_COMBAT.png", 
+    record_pos=(0.4073, 0.2284), 
+    resolution=(1920, 1080),
+    rgb=True, 
+    template_path="assets/dorm",
+)
+
+
+MODIFIER_COMBAT_CLICK = Template(
+    filename=r"MODIFIER_COMBAT_CLICK.png", 
+    record_pos=(0.2901, 0.2229), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'玩家挑战'),
+    rgb=True, 
+    template_path="assets/dorm",
+)
+
+MODIFIER_COMBAT_SELECT_STRANGER = Template(
+    filename=r"MODIFIER_COMBAT_SELECT_STRANGER.png", 
+    record_pos=(-0.3982, -0.1951), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'陌生人'),
+    rgb=False, 
+    template_path="assets/dorm",
+)
+
+MODIFIER_COMBAT_SELECT_TO_CHALLENGE = Template(
+    filename=r"MODIFIER_COMBAT_SELECT_TO_CHALLENGE.png", 
+    record_pos=(0.0013, -0.1341), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'挑战'),
+    rgb=False, 
+    template_path="assets/dorm",
+)

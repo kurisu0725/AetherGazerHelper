@@ -67,20 +67,22 @@ class Guild(AetherGazerHelper):
         logger.info("Back to page_guild. 返回公会界面")
         self.touch(BACK_BUTTON)
 
-    def test(self):
+    def purchase_guild_store_item(self):
         """
-        测试函数
+        购买公会商店物品
         """
-        logger.info("测试函数")
-        self.ui_goto(page_store_supply)
+        last_purchase_guild_store_time = self.config.data['Menu']['Guild']['Guild_Store']['last_purchase_guild_store_time']
+        if len(last_purchase_guild_store_time) == 0 or last_purchase_guild_store_time is None:
+            logger.info(". 未记录购买公会商店物品时间, 判断为未购买.")
 
+        
+        pass
 
     def run(self):
 
         # self.ui_ensure(page_guild)
         logger.info("公会界面")
         self.claim_matrix_supply()
-        # self.test()
         self.claim_guild_mission()
 
 
