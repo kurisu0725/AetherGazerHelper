@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from datetime import datetime, timedelta
 from zafkiel import Template
 
 def match_template(image, template, similarity = 0.8, pad_size = 10):
@@ -72,6 +73,21 @@ def hough_circle(image, sort_func = None):
         return circles
     else:
         return None
+
+def get_format_time(is_now : bool = True):
+    # 获取当前时间
+    if is_now:
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        now = datetime.now()
+        # 计算本周周一（0表示周一）
+        monday = now - timedelta(days=now.weekday())
+        # 设置周一5:00:00
+        monday_5am = datetime(monday.year, monday.month, monday.day, 5, 0, 0)
+        monday_5am = monday_5am.strftime("%Y-%m-%d %H:%M:%S")
+        return monday_5am
+
+
 
 if __name__ == "__main__":
     img1 = cv2.imread(r"D:\VSCode_Workplace\Python\GF2_Exilium_Script\tmp_imgs\train_1.png")

@@ -13,9 +13,9 @@ from module.Controller import Controller
 from module.AetherGazerHelper import AetherGazerHelper
 from config import Config
 
-ST.OPDELAY = 0.15
+ST.OPDELAY = 0.2
 ST.FIND_TIMEOUT = 10
-ST.THRESHOLD = 0.6 # TODO: 写进config类中
+ST.THRESHOLD = 0.7 # TODO: 写进config类中
 
 
 logger.remove()
@@ -94,8 +94,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', '-t',
                         choices=["login", "dorm", "guild", "store", "mail", "mission", "daily"],
-                        help='Task name, one of "armada, dorm_bonus, errand, expedition, login, logout, mail, '
-                             'mission, sweep"')
+                        help='Task name, one of "login, dorm, guild, store, mail, '
+                             'mission, daily"')
     parser.add_argument('--config_path', '-c', default='./config/config.json')
     args = parser.parse_args()
 
@@ -111,8 +111,6 @@ def main():
         single_task(config, args.task)
     else:
         config = Config('./config/default.json')
-        # with open('./config/default.json', 'r', encoding='utf-8') as f:
-        #     config = json.load(f)
         all_tasks(config)
 
 

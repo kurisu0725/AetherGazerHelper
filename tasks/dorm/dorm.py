@@ -16,8 +16,8 @@ from module.utils import hough_circle
 
 class Dorm(AetherGazerHelper):
 
-    _TRAIN_BUTTON : list[Template] | None = None
-    _TRAIN_BUTTON_CLICK : list[Template] | None = None
+    _TRAIN_BUTTON : Union[list[Template], None] = None
+    _TRAIN_BUTTON_CLICK : Union[list[Template], None] = None
 
     TRAIN_MODIFIER_COST : Final[int] = 20
     MODIFIER_COMBAT_MAX_COUNT : Final[int] = 6
@@ -55,8 +55,6 @@ class Dorm(AetherGazerHelper):
         while True:
             if loop_timer.reached():
                 raise LoopError("Claim kitchen resources timed out.")
-            
-            # TODO: 还存在一个 "确定"情况，领取上次派遣
 
             if self.find_click(DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK, DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK, blind=True):
                 logger.info("Assigned kitchen tasks.")
@@ -68,6 +66,10 @@ class Dorm(AetherGazerHelper):
 
             if self.find_click(DORM_NAV_KITCHEN_TASK_ASSIGN, DORM_NAV_KITCHEN_TASK_ASSIGN, blind=True):
                 logger.info("Exit claim_kitchen tasks.")
+                continue
+            
+            if self.find_click(KITCHEN_DISPATCH_CONFIRM_CHECK, KITCHEN_DISPATCH_CONFIRM_CLICK):
+                logger.info("Claim last dispatch kitchen tasks.")
                 continue
 
         self.touch(BACK_BUTTON, blind=True)
@@ -87,48 +89,62 @@ class Dorm(AetherGazerHelper):
         self._train_modifiers()
         self.find_click(BACK_BUTTON, blind=True)
 
-    def modifier_combat(self, num_of_combat : int = 1):
-        enable_combat : bool = self.config.data['Menu']['Dorm']['Combat']['enable_combat']
-        weekly_combat_count : int = self.config.data['Menu']['Dorm']['Combat']['weekly_combat_count']
-        last_combat_time : str = self.config.data['Menu']['Dorm']['Combat']['last_combat_time']
+    def modifier_combat(self):
+        from module.utils import get_format_time
+        enable_combat : bool = self.config.data['Basic']['Dorm']['Combat']['enable_combat']
+        weekly_combat_count : int = self.config.data['Basic']['Dorm']['Combat']['weekly_combat_count']
+        last_combat_time : str = self.config.data['Basic']['Dorm']['Combat']['last_combat_time']
 
         if enable_combat is False:
             logger.info("Modifier combat is disabled. Skip this task.")
             return
+        
+        monday_5am = get_format_time(is_now=False)
 
-        if weekly_combat_count == Dorm.MODIFIER_COMBAT_MAX_COUNT:
-            logger.info("The number of  combats recorded has reached the limit.")
+        if len(last_combat_time) == 0 or last_combat_time is None or last_combat_time < monday_5am:
+            weekly_combat_count = 0.0
+            self.config.update(menu='Basic', task='Dorm', group='Combat', item='weekly_combat_count', value=weekly_combat_count)
+        elif last_combat_time >= monday_5am and weekly_combat_count == Dorm.MODIFIER_COMBAT_MAX_COUNT:
+            logger.info("The number of combats recorded has reached the limit.")
             return 
-
-        if len(last_combat_time) == 0 or last_combat_time is None:
-            weekly_combat_count = 0
-            self.config.update('Menu.Dorm.Group.last_combat_time', weekly_combat_count)
-
-        # TODO: 和周一的时间比较
-
+        
         self.ui_ensure(page_dorm_nav_character)
         loop_timer = Timer(0, 10).start()
 
+        recombat = False
         while True:
             if loop_timer.reached():
                 logger.critical("Modifier combat end for unknown reason. ")
                 break
             
-            if self.exists(MODIFIER_COMBATTING_CHECK):
-                self.sleep(5)
-                loop_timer.reset()
-                continue
-            
-            if self.exist(MODIFIER_COMBAT_END_CHECK):
-                num_of_combat -= 1
-                self.config.update('Menu.Dorm.Group.last_combat_time', weekly_combat_count)
-                if num_of_combat == 0:
+            if recombat == False:
+                if self.exists(MODIFIER_COMBATTING_CHECK):
+                    logger.info("In modifier combat.")
+                    self.find_click(BACK_BUTTON)
+                    loop_timer.reset()
+                    continue
+            else:
+                recombat = False
+                if self.wait(MODIFIER_COMBAT_CLICK):
+                    logger.info("In modifier combat.")
+                    self.find_click(BACK_BUTTON)
+                    loop_timer.reset()
+                    continue
+
+            if self.exists(MODIFIER_COMBAT_END_CHECK):
+                weekly_combat_count += 1
+                self.config.update(menu='Basic', task='Dorm', group='Combat', item='weekly_combat_count', value=weekly_combat_count)
+                self.config.update(menu='Basic', task='Dorm', group='Combat', item='last_combat_time', value=get_format_time())
+                if weekly_combat_count == Dorm.MODIFIER_COMBAT_MAX_COUNT:
                     self.touch(MODIFIER_COMBAT_END_CLICK)
                     logger.info("Modifier combat end.")
                     break
                 else:
-                    self.touch(MODIFIER_COMBAT_AGAIN)
-                    logger.info(f"Modifier combat again. Rest {num_of_combat} times.")
+                    self.touch(MODIFIER_COMBAT_END_AGAIN)
+                    # 点击后有加载界面耗时较久, 会导致上边的 COMBATTING CHECK 获得的截图不是战斗进行时的界面, 截图依然是结束阶段，出错。
+                    # 如果把opdelay增加特别多能解决，但是所以的操作都会受影响, 所以这里加个flag标记
+                    recombat = True
+                    logger.info(f"Modifier combat again. Rest {int(Dorm.MODIFIER_COMBAT_MAX_COUNT - weekly_combat_count)} times.")
                 continue
 
 
@@ -142,13 +158,19 @@ class Dorm(AetherGazerHelper):
             if self.find_click(TO_MODIFIER_COMBAT, TO_MODIFIER_COMBAT, blind=True):
                 continue
 
-        self.touch(BACK_BUTTON)
-                
+        pos = self.wait(BACK_BUTTON, timeout=5)
+        if pos:
+            self.touch(pos, blind=True)  
+            logger.info("Return to dorm train page.")
+        else:
+            logger.error("Modifier combat end for unknown reason. ")
+            raise Exception("Modifier combat end for unknown reason.")
 
     
     def claim_train_mission(self):
         """
         领取训练任务
+        Problem: 训练任务领取后，S级碎片需要选择?, 目前不知道对任务领取有无影响。
         """
         self.ui_ensure(page_dorm_nav_character)
 
@@ -236,6 +258,9 @@ class Dorm(AetherGazerHelper):
         return rect_image_list
 
     def get_last_rect_image_idx(self, last_rect_image, cur_rect_image_list):
+        """
+        Template matching last rect image with cur_rect_image_list, return the index of matched image in list.
+        """
         from module.utils import match_template
         for idx in range(len(cur_rect_image_list)):
             rect_image = cur_rect_image_list[idx]
@@ -304,10 +329,10 @@ class Dorm(AetherGazerHelper):
         """
         # self.ui_ensure(page_dorm)
 
-        self.claim_kitchen()
+        # self.claim_kitchen()
 
         # self.train_modifiers()
         
         # self.modifier_combat()
 
-        # self.claim_train_mission()
+        self.claim_train_mission()

@@ -71,12 +71,27 @@ class Guild(AetherGazerHelper):
         """
         购买公会商店物品
         """
-        last_purchase_guild_store_time = self.config.data['Menu']['Guild']['Guild_Store']['last_purchase_guild_store_time']
+        from module.utils import get_format_time
+        enable_purchase_guild_store = self.config.data['Basic']['Guild']['Guild_Store']['enable_purchase_guild_store']
+        last_purchase_guild_store_time = self.config.data['Basic']['Guild']['Guild_Store']['last_purchase_guild_store_time']
+
+        if enable_purchase_guild_store == False:
+            logger.info(". 未开启购买公会商店物品功能, 跳过.")
+            return
+        
         if len(last_purchase_guild_store_time) == 0 or last_purchase_guild_store_time is None:
             logger.info(". 未记录购买公会商店物品时间, 判断为未购买.")
-
+        elif last_purchase_guild_store_time >= get_format_time(is_now=False):
+            logger.info("本周已经购买了公会商店物品, 跳过.")
+            return
         
-        pass
+        # TODO: 具体操作的代码
+        self.ui_ensure(page_guild)
+        
+        last_purchase_guild_store_time = get_format_time()
+        logger.info(f"Record last_purchase_guild_store_time : {last_purchase_guild_store_time}")
+        self.config.update(menu = 'Basic', task = 'Guild', group = 'Guild_Store', item = 'last_purchase_guild_store_time', value = last_purchase_guild_store_time)
+
 
     def run(self):
 

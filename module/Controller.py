@@ -1,6 +1,6 @@
 import time
 from airtest.core.helper import logwrap
-from zafkiel import find_click, exists, touch, sleep, auto_setup, screenshot, swipe, loop_find
+from zafkiel import find_click, exists, touch, sleep, auto_setup, screenshot, swipe, wait
 from airtest.core.helper import G
 from airtest.core.settings import Settings as ST
 from zafkiel.ocr.ocr import Ocr
@@ -20,6 +20,8 @@ class Controller:
         """
         return find_click(*args, **kwargs)
     
+    def wait(self, *args, **kwargs):
+        return wait(*args, **kwargs)
 
     def exists(self, *args, **kwargs):
         """

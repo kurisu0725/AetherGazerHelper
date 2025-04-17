@@ -1,11 +1,25 @@
 {
-    "Project": {
-      "General": {
-        "Game": {
-          "game_path": "E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
-          "log_retain": "1week"
-        }
+  "Project": {
+    "General": {
+      "Game": {
+        "game_path": "E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe",
+        "log_retain": "1week"
       }
     }
-    
+  },
+  "Basic": {
+    "Guild": {
+      "Guild_Store": {
+        "enable_purchase_guild_store": true,
+        "last_purchase_guild_store_time": ""
+      }
+    },
+    "Dorm": {
+      "Combat": {
+        "enable_combat": true,
+        "last_combat_time": "2025-04-17 15:29:53",
+        "weekly_combat_count": 6.0
+      }
+    }
   }
+}

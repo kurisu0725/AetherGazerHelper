@@ -42,7 +42,7 @@ class TaskGeneral(BaseModel):
         config_path: Item = Item('./repos/AetherGazerHelper/config/config.json')
 
     class GroupGame(BaseModel):
-        game_path: Item = Item(type='file', value='')
+        game_path: Item = Item(type='file', value='E:\\AetherGazer\\AetherGazerStarter\\AetherGazer\\AetherGazer.exe')
         log_retain: Item = Item(type='select', value='1week', option=['1day', '3days', '1week', '1month'])
 
     Base: GroupGeneralBase = Field(GroupGeneralBase(), alias='_Base')
@@ -55,7 +55,7 @@ class TaskLogin(BaseModel):
 
 class TaskMail(BaseModel):
     Base: GroupCustomBase = Field(GroupCustomBase(
-        command=Item('py main.py -t mail'), priority=Item(value=4, disabled=True)
+        command=Item('py main.py -t mail'), priority=Item(value=6, disabled=True)
     ), alias='_Base')
 
 class TaskMission(BaseModel):
@@ -64,23 +64,41 @@ class TaskMission(BaseModel):
     ), alias='_Base')
 
 class TaskDorm(BaseModel):
+    class GroupCombat(BaseModel):
+        enable_combat : Item = Item(type="checkbox", value=True)
+        weekly_combat_count : Item = Item(type="input", value=0.0, hidden=False, disabled=True)
+        last_combat_time : Item = Item(type="input", value="", hidden=True, disabled=True)
+
     Base: GroupCustomBase = Field(GroupCustomBase(
-        command=Item('py main.py -t dorm'), priority=Item(value=6, disabled=True)
+        command=Item('py main.py -t dorm'), priority=Item(value=7, disabled=True)
     ), alias='_Base')
 
+    Combat : GroupCombat = GroupCombat()
+
 class TaskGuild(BaseModel):
+    class GroupGuildStore(BaseModel):
+        enable_purchase_guild_store : Item = Item(type="checkbox", value=True)
+        last_purchase_guild_store_time : Item = Item(type="input", value="", hidden=True)
+
     Base: GroupCustomBase = Field(GroupCustomBase(
-        command=Item('py main.py -t guild'), priority=Item(value=7, disabled=True)
+        command=Item('py main.py -t guild'), priority=Item(value=8, disabled=True)
     ), alias='_Base')
+
+    Guild_Store : GroupGuildStore = GroupGuildStore()
 
 class TaskStore(BaseModel):
     Base: GroupCustomBase = Field(GroupCustomBase(
-        command=Item('py main.py -t store'), priority=Item(value=8, disabled=True)
+        command=Item('py main.py -t store'), priority=Item(value=9, disabled=True)
     ), alias='_Base')
 
 class TaskMimir(BaseModel):
     Base: GroupCustomBase = Field(GroupCustomBase(
         command=Item('py main.py -t mimir'), priority=Item(value=9, disabled=True)
+    ), alias='_Base')
+
+class TaskDaily(BaseModel):
+    Base: GroupCustomBase = Field(GroupCustomBase(
+        command=Item('py main.py -t daily'), priority=Item(value=10, disabled=True)
     ), alias='_Base')
 
 #任务组级别
@@ -95,7 +113,7 @@ class MenuBasic(BaseModel):
     Store: TaskStore = TaskStore()
     Mimir: TaskMimir = TaskMimir()
     Mission: TaskMission = TaskMission()
-
+    Daily: TaskDaily = TaskDaily()
 
 #项目级别
 class UIContent(BaseModel):

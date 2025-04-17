@@ -216,3 +216,55 @@ MODIFIER_COMBAT_SELECT_TO_CHALLENGE = Template(
     rgb=False, 
     template_path="assets/dorm",
 )
+
+KITCHEN_DISPATCH_CONFIRM_CHECK = Template(
+    filename=r"KITCHEN_DISPATCH_CONFIRM_CHECK.png",
+    record_pos=(-0.1104, -0.0784),
+    resolution=(1920, 1080),
+    rgb=False,
+    template_path="assets/dorm",
+)
+
+KITCHEN_DISPATCH_CONFIRM_CLICK = Template(
+    filename=r"KITCHEN_DISPATCH_CONFIRM_CLICK.png",
+    record_pos=(0.0008, 0.2331),
+    resolution=(1920, 1080),
+    keyword=Keyword(u'确定'),
+    rgb=False,
+    template_path="assets/dorm",
+)
+
+MODIFIER_COMBATTING_CHECK = Template(
+    filename=r"MODIFIER_COMBATTING_CHECK.png",
+    record_pos=(0.0031, 0.1893),
+    resolution=(1920, 1080),
+    rgb=True,
+    template_path="assets/dorm",
+)
+
+MODIFIER_COMBAT_END_AGAIN = Template(
+    filename=r"MODIFIER_COMBAT_END_AGAIN.png",
+    record_pos=(-0.1081, 0.1953),
+    resolution=(1920, 1080),
+    keyword=Keyword(u'再次挑战'),
+    rgb=False,
+    template_path="assets/dorm",
+)
+
+MODIFIER_COMBAT_END_CHECK = Template(
+    filename=r"MODIFIER_COMBAT_END_CHECK.png",
+    record_pos=(-0.0013, -0.1026),
+    resolution=(1920, 1080),
+    keyword=Keyword(u'回顾'),
+    rgb=False,
+    template_path="assets/dorm",
+)
+
+MODIFIER_COMBAT_END_CLICK = Template(
+    filename=r"MODIFIER_COMBAT_END_CLICK.png",
+    record_pos=(0.1047, 0.1969),
+    resolution=(1920, 1080),
+    keyword=Keyword(u'返回'),
+    rgb=False,
+    template_path="assets/dorm",
+)
