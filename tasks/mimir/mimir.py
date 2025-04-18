@@ -12,6 +12,7 @@ class Mimir(AetherGazerHelper):
     def __init__(self, config: Config, controller : Controller) -> None:
         super().__init__(config, controller)
 
+        self.check_and_connect_device()
 
     def check_mimi_observation_rewards(self) -> bool:
         now = datetime.datetime.now()
@@ -32,6 +33,7 @@ class Mimir(AetherGazerHelper):
         """
         弥弥观测站
         """
+        self.ui_ensure(page_mimir)
         self.ui_goto(page_mimi_observation)
         logger.info("Trying to claim mimi observation rewards.")
         loop_timer = Timer(0, 10).start()
@@ -80,5 +82,4 @@ class Mimir(AetherGazerHelper):
         from utils.logger_func import task_info
         task_info('Mimir')
 
-        self.ui_ensure(page_mimir)
         self.mimi_observation()     # 测试成功

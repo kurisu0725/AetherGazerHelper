@@ -68,7 +68,8 @@ class Battle(AetherGazerHelper):
             logger.error("Sweep button is not available, please combat at this stage once. 扫荡按钮未解锁，请在本关卡战斗一次。")
         return is_exist
     def confirm_battle_end(self):
-        return self.find_click(SWEEP_END_CHECK, SWEEP_END_CLICK, blind=True)
+        self.wait(SWEEP_CONFIRM_CHECK)
+        self.touch(SWEEP_END_CLICK)
 
 
 

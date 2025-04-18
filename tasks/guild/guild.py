@@ -12,6 +12,8 @@ from config import Config
 class Guild(AetherGazerHelper):
     def __init__(self, config: Config, controller: Controller) -> None:
         super().__init__(config, controller)
+
+        self.check_and_connect_device()
     def claim_matrix_supply(self):
         """
         领取矩阵补给

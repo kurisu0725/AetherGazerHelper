@@ -16,6 +16,8 @@ class Mission(AetherGazerHelper):
     def __init__(self, config : Config, controller: Controller) -> None:
         super().__init__(config, controller)
 
+        self.check_and_connect_device()
+
     def check_mission(self):
         """
         Check the mission status.
@@ -41,6 +43,7 @@ class Mission(AetherGazerHelper):
             if self.find_click(MISSION_DAILY_CLAIM, MISSION_DAILY_CLAIM):
                 logger.info("Claim daily mission rewards complete.")
 
+        # TODO: bug: switch off 识别不出
         self.ui_goto(page_mission, MISSION_WEEKLY_SWITCH_ON)
         logger.info("Switch to weekly mission page.")
         loop_timer.reset()

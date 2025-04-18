@@ -11,6 +11,8 @@ from config import Config
 class Mail(AetherGazerHelper):
     def __init__(self, config: Config, controller: Controller) -> None:
         super().__init__(config, controller)
+
+        self.check_and_connect_device()
         
     def check_mail(self):
         """

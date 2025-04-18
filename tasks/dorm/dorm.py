@@ -25,7 +25,7 @@ class Dorm(AetherGazerHelper):
     def __init__(self, config: Config, controller: Controller):
         super().__init__(config, controller)
 
-        # self.check_and_connect_device()
+        self.check_and_connect_device()
         
     @classmethod
     def get_train_buttons(cls) -> list[Template]:
@@ -85,6 +85,7 @@ class Dorm(AetherGazerHelper):
         # enter train page 
         self.find_click(TO_TRAIN)
 
+        # TODO: 可能需要一个wait，不然截图速度过快导致函数失效
         # swipe and train modifier
         self._train_modifiers()
         self.find_click(BACK_BUTTON, blind=True)
@@ -331,8 +332,8 @@ class Dorm(AetherGazerHelper):
 
         # self.claim_kitchen()
 
-        # self.train_modifiers()
+        self.train_modifiers()
         
-        # self.modifier_combat()
+        self.modifier_combat()
 
         self.claim_train_mission()

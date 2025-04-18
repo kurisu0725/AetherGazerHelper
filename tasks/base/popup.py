@@ -21,7 +21,7 @@ class PopupHandler:
                 if exists(POPUP_CHECK_IN_REWARD_CHECK):
                     continue
                 if exists(GET_ITEM):
-                    touch(CLICK_TO_CONTINUE, blind=True)
+                    touch(BACK_BUTTON, blind=True)
                     continue
                 break
             #领取奖励后仍会停留在签到界面, 需要点击其他区域退出

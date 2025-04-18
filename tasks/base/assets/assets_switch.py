@@ -3,7 +3,7 @@ from zafkiel.ocr import Keyword
 
 MISSION_DAILY_SWITCH_ON = Template(
     filename=r"MISSION_DAILY_SWITCH_ON.png",
-    record_pos=(-0.455, -0.188),
+    record_pos=(-0.4552, -0.1885),
     resolution=(1920, 1080),
     rgb=True,
     threshold=0.5,
@@ -12,7 +12,7 @@ MISSION_DAILY_SWITCH_ON = Template(
 
 MISSION_DAILY_SWITCH_OFF = Template(
     filename=r"MISSION_DAILY_SWITCH_OFF.png",
-    record_pos=(-0.455, -0.188),
+    record_pos=(-0.4542, -0.1911),
     resolution=(1920, 1080),
     rgb=True,
     threshold=0.5,
@@ -21,7 +21,7 @@ MISSION_DAILY_SWITCH_OFF = Template(
 
 MISSION_WEEKLY_SWITCH_ON = Template(
     filename=r"MISSION_WEEKLY_SWITCH_ON.png",
-    record_pos=(-0.455, -0.126),
+    record_pos=(-0.4534, -0.1250),
     resolution=(1920, 1080),
     rgb=True,
     threshold=0.5,
@@ -30,7 +30,7 @@ MISSION_WEEKLY_SWITCH_ON = Template(
 
 MISSION_WEEKLY_SWITCH_OFF = Template(
     filename=r"MISSION_WEEKLY_SWITCH_OFF.png",
-    record_pos=(-0.455, -0.126),
+    record_pos=(-0.4565, -0.1268),
     resolution=(1920, 1080),
     rgb=True,
     threshold=0.5,

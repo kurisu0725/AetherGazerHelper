@@ -3,15 +3,19 @@ import shutil
 import datetime
 import numpy as np
 import cv2
-
-from zafkiel import logger, Timer, Template
-from module.ui import UI
+import psutil
+import os
+import subprocess
 from typing import Dict
 from pathlib import Path
+
+from zafkiel import logger, Timer, Template
+
 from tasks.base.popup import popup_list
 from module.Controller import Controller
 from module.utils import match_template
 from config import Config
+from module.ui import UI
 
 class AetherGazerHelper(UI):
     config : Config
@@ -27,7 +31,26 @@ class AetherGazerHelper(UI):
 
         self.get_popup_list(popup_list)
 
-        self.check_and_connect_device()
+        # self.check_and_connect_device()
+        
+
+    def check_game_start(self):
+        game_exe_name = os.path.basename(self.game_path)  # 获取游戏可执行文件名（如 "Game.exe"）
+
+        # 检查游戏是否已经在运行
+        is_game_running = False
+        for proc in psutil.process_iter(['name']):
+            if proc.info['name'] == game_exe_name:
+                logger.info(f"Detect game is already running.")
+                is_game_running = True
+                break
+
+        # 如果游戏未运行，则启动
+        if not is_game_running:
+            logger.info(f"Starting game: {game_exe_name}")
+            subprocess.Popen([self.game_path])
+        return is_game_running
+
     def check_and_connect_device(self):
         checkStatus = self.controller.check_device()
         logger.info(f'check device status: {checkStatus}')

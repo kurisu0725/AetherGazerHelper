@@ -34,6 +34,7 @@ class Login(AetherGazerHelper):
 
         # 如果游戏未运行，则启动
         if not is_game_running:
+            logger.info(f"Starting game: {game_exe_name}")
             subprocess.Popen([self.game_path])
 
         self.connect_device()
@@ -53,7 +54,7 @@ class Login(AetherGazerHelper):
 
         logger.info("Handle_app_login.")
 
-        find_res = self.find_click(LOGIN_CHECK, LOGIN_CHECK, times=5, interval=3, ocr_mode=0, local_search=True)
+        find_res = self.find_click(LOGIN_CHECK, LOGIN_CHECK, times=5, interval=5, ocr_mode=0, local_search=True)
         if find_res == False:
             logger.error("Loop exceed time limit!")
             raise LoopError("Loop exceed time limit!")

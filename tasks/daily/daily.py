@@ -18,6 +18,7 @@ class Daily(Battle):
     def __init__(self, config: Config, controller: Controller) -> None:
         super().__init__(config, controller)
         
+        self.check_and_connect_device()
     def claim_stamina(self):
         """
         领取早上和下午的体力
