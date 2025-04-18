@@ -51,7 +51,7 @@ class Daily(Battle):
 
     def use_stamina_on_joint_defense_agreement(self):
         """
-        TODO: 使用体力扫荡联防协议
+        使用体力扫荡联防协议
         """
         logger.info("使用体力扫荡联防协议")
         self.ui_goto_joint_defense_agreement()
@@ -59,7 +59,7 @@ class Daily(Battle):
         self.select_stage_sweep_count(count=1)
 
 
-        # TODO: 扫荡完成后返回活动界面领取消耗体力的券
+        # TODO: 扫荡完成后返回活动界面领取消耗体力的券,可以将返回的界面定义为新的page, 而不是page_activity
 
 
     def ui_goto_joint_defense_agreement(self):
@@ -103,9 +103,9 @@ class Daily(Battle):
         from utils.logger_func import task_info
         task_info('Daily')
 
-        # self.claim_stamina()
-        # self.use_stamina_on_joint_defense_agreement()
-        self.use_stamina_on_daily_resource()
+        self.claim_stamina()
+        self.use_stamina_on_joint_defense_agreement()
+        # self.use_stamina_on_daily_resource()
 
 if __name__ == '__main__':
     pass

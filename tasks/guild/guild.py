@@ -26,7 +26,6 @@ class Guild(AetherGazerHelper):
             
             if self.exists(GUILD_MATRIX_SUPPLY_COMPLETE):
                 logger.info("矩阵补给已领取")
-                self.touch(BACK_BUTTON, blind=True)
                 break
             if self.find_click(GET_ITEM, CLICK_TO_CONTINUE, local_search=True):
                 logger.info("确认领取物品")
@@ -39,6 +38,8 @@ class Guild(AetherGazerHelper):
             if self.find_click(GUILD_MATRIX_SUPPLY, GUILD_MATRIX_SUPPLY, local_search=True):
                 logger.info("领取矩阵补给")
                 continue
+        
+        self.touch(BACK_BUTTON, blind=True)
         return True
                 
 
@@ -76,13 +77,13 @@ class Guild(AetherGazerHelper):
         last_purchase_guild_store_time = self.config.data['Basic']['Guild']['Guild_Store']['last_purchase_guild_store_time']
 
         if enable_purchase_guild_store == False:
-            logger.info(". 未开启购买公会商店物品功能, 跳过.")
+            logger.info("Disenable purchase guild store item, skip. 未开启购买公会商店物品功能, 跳过.")
             return
         
         if len(last_purchase_guild_store_time) == 0 or last_purchase_guild_store_time is None:
-            logger.info(". 未记录购买公会商店物品时间, 判断为未购买.")
+            logger.info("The time of purchasing guild store item is not recorded, assume it is not purchased. 未记录购买公会商店物品时间, 判断为未购买.")
         elif last_purchase_guild_store_time >= get_format_time(is_now=False):
-            logger.info("本周已经购买了公会商店物品, 跳过.")
+            logger.info("Guild item has been have purchased this week, skip. 本周已经购买了公会商店物品, 跳过.")
             return
         
         # TODO: 具体操作的代码
@@ -96,7 +97,6 @@ class Guild(AetherGazerHelper):
     def run(self):
 
         # self.ui_ensure(page_guild)
-        logger.info("公会界面")
         self.claim_matrix_supply()
         self.claim_guild_mission()
 

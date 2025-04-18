@@ -1,0 +1,101 @@
+{
+    "Project": {
+        "tasks": {
+            "General": {
+                "groups": {
+                    "Game": {
+                        "name": "游戏设置",
+                        "help": "",
+                        "items": {
+                            "game_path": {
+                                "name": "游戏路径",
+                                "help": "游戏本体而非启动器路径，例如“G:\\Honkai Impact 3\\Games\\BH3.exe”"
+                            },
+                            "log_retain": {
+                                "name": "日志保留时间",
+                                "help": "",
+                                "options": {
+                                    "1day": "1天",
+                                    "3days": "3天",
+                                    "1week": "1周",
+                                    "1month": "1月"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "Basic": {
+        "name": "基础",
+        "tasks": {
+            "Login": {
+                "name": "启动游戏",
+                "groups": {}
+            },
+            "Mission": {
+                "name": "每日任务",
+                "groups": {}
+            },
+            "Mail": {
+                "name": "邮件",
+                "groups": {}
+            },
+            "Dorm": {
+                "name": "宿舍(游园街)",
+                "groups": {
+                    "Combat":{
+                        "name": "修正者训练-玩家战斗",
+                        "help": "",
+                        "items":{
+                            "enable_combat":{
+                                "name": "启用",
+                                "help": "勾选则会执行每周玩家战斗, 若次数达到上限即使勾选也会跳过执行"
+                            },
+                            "weekly_combat_count":{
+                                "name": "每周战斗次数",
+                                "help": ""
+                            },
+                            "last_combat_time":{
+                                "name": "上次战斗时间",
+                                "help": "仅作为代码逻辑需要, 无法手动更改"
+                            }
+                        }
+                    }
+                }
+            },
+            "Guild": {
+                "name": "公会",
+                "groups": {
+                    "Guild_Store":{
+                        "name": "公会商店",
+                        "help": "仅购买前两个稀有素材",
+                        "items":{
+                            "enable_purchase_guild_store":{
+                                "name": "启用每周购买",
+                                "help": ""
+                            },
+                            "last_purchase_guild_store_time":{
+                                "name": "上次购买时间",
+                                "help": "仅作为代码逻辑需要, 无法手动更改"
+                            }
+                        }
+                    }
+                }
+            },
+            "Mimir":{
+                "name": "弥弥尔观测站",
+                "groups":{}
+            },
+            "Store":{
+                "name": "商店(领取免费体力)",
+                "groups":{}
+            },
+            "Daily":{
+                "name": "联防协议/日常资源",
+                "groups":{}
+            }
+        }
+    }
+}

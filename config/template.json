@@ -12,7 +12,7 @@
                 },
                 "work_dir": {
                     "type": "input",
-                    "value": "D:\\VSCode_Workplace\\Python\\GF2_Exilium_Script",
+                    "value": "./repos/AetherGazerHelper",
                     "option": [],
                     "hidden": false,
                     "help": "",
@@ -28,7 +28,7 @@
                 },
                 "config_path": {
                     "type": "input",
-                    "value": "D:\\VSCode_Workplace\\Python\\GF2_Exilium_Script\\config\\default.json",
+                    "value": "./repos/AetherGazerHelper/config/config.json",
                     "option": [],
                     "hidden": false,
                     "help": "",
@@ -60,7 +60,7 @@
             }
         }
     },
-    "Menu": {
+    "Basic": {
         "Login": {
             "_Base": {
                 "priority": {
@@ -71,9 +71,75 @@
                     "help": "",
                     "disabled": true
                 },
-                "command":{
+                "command": {
                     "type": "input",
                     "value": "py main.py -t login",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            }
+        },
+        "Mail": {
+            "_Base": {
+                "priority": {
+                    "type": "input",
+                    "value": 6.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "command": {
+                    "type": "input",
+                    "value": "py main.py -t mail",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            }
+        },
+        "Dorm": {
+            "_Base": {
+                "priority": {
+                    "type": "input",
+                    "value": 7.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "command": {
+                    "type": "input",
+                    "value": "py main.py -t dorm",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            },
+            "Combat": {
+                "enable_combat": {
+                    "type": "checkbox",
+                    "value": true,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                },
+                "weekly_combat_count": {
+                    "type": "input",
+                    "value": 0.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "last_combat_time": {
+                    "type": "input",
+                    "value": "",
                     "option": [],
                     "hidden": false,
                     "help": "",
@@ -84,28 +150,120 @@
         "Guild": {
             "_Base": {
                 "priority": {
-                    "value": 1,
+                    "type": "input",
+                    "value": 8.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
                     "disabled": true
+                },
+                "command": {
+                    "type": "input",
+                    "value": "py main.py -t guild",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
                 }
             },
-            "Group": {
-                
+            "Guild_Store": {
+                "enable_purchase_guild_store": {
+                    "type": "checkbox",
+                    "value": true,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                },
+                "last_purchase_guild_store_time": {
+                    "type": "input",
+                    "value": "",
+                    "option": [],
+                    "hidden": true,
+                    "help": "",
+                    "disabled": false
+                }
             }
         },
-        "Dorm": {
-            "Group3": {
+        "Store": {
+            "_Base": {
+                "priority": {
+                    "type": "input",
+                    "value": 9.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "command": {
+                    "type": "input",
+                    "value": "py main.py -t store",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
             }
         },
-        "Mimi_Observation": {
-            
+        "Mimir": {
+            "_Base": {
+                "priority": {
+                    "type": "input",
+                    "value": 9.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "command": {
+                    "type": "input",
+                    "value": "py main.py -t mimir",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            }
         },
-        "JointDefenseAgreement": {
+        "Mission": {
+            "_Base": {
+                "priority": {
+                    "type": "input",
+                    "value": 5.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "command": {
+                    "type": "input",
+                    "value": "py main.py -t mission",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            }
         },
-        "Mail": {},
-        "Daily": {},
-        "Mission": {},
-        "Store":{
-            
+        "Daily": {
+            "_Base": {
+                "priority": {
+                    "type": "input",
+                    "value": 10.0,
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": true
+                },
+                "command": {
+                    "type": "input",
+                    "value": "py main.py -t daily",
+                    "option": [],
+                    "hidden": false,
+                    "help": "",
+                    "disabled": false
+                }
+            }
         }
     }
 }
