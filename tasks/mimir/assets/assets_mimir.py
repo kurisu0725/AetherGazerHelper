@@ -33,3 +33,25 @@ MIMI_OBSERVATION_DISPATCH = Template(
     keyword=Keyword(u'一键派遣'),
     template_path="assets/mimir",
 )
+
+MIMI_OBSERVATION_WEEKLY_REWARD = Template(
+    filename=r"MIMI_OBSERVATION_WEEKLY_REWARD.png",
+    record_pos=(0.4076, 0.2224), 
+    resolution=(1920, 1080), 
+    keyword=Keyword(u'堆栈递归'),
+    template_path="assets/mimir",
+)
+
+MIMI_OBSERVATION_WEEKLY_REWARD_OPEN = Template(
+    filename=r"MIMI_OBSERVATION_WEEKLY_REWARD_OPEN.png",
+    record_pos=(0.2335, -0.0005), 
+    resolution=(1920, 1080), 
+    template_path="assets/mimir",
+)
+
+MIMI_OBSERVATION_WEEKLY_REWARD_CLAIM = Template(
+    filename=r"MIMI_OBSERVATION_WEEKLY_REWARD_CLAIM.png",
+    record_pos=(0.0026, -0.0013), 
+    resolution=(1920, 1080), 
+    template_path="assets/mimir",
+)

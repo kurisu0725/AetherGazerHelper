@@ -70,12 +70,8 @@ class Login(AetherGazerHelper):
                 continue
         return True
 
-        
-
-    def test(self):
-        print("start test...................")
+    def run(self):
         self.app_start()
-        
             
 
 

@@ -98,5 +98,5 @@ class Mission(AetherGazerHelper):
         task_info('Mission')
 
         self.check_mission()
-        self.claim_battle_pass()
+        # self.claim_battle_pass()
         

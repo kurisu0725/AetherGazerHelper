@@ -90,17 +90,65 @@ class Guild(AetherGazerHelper):
         
         # TODO: 具体操作的代码
         self.ui_ensure(page_guild)
-        
-        last_purchase_guild_store_time = get_format_time()
-        logger.info(f"Record last_purchase_guild_store_time : {last_purchase_guild_store_time}")
-        self.config.update(menu = 'Basic', task = 'Guild', group = 'Guild_Store', item = 'last_purchase_guild_store_time', value = last_purchase_guild_store_time)
+        self.find_click(GUILD_TO_GUILD_STORE)
 
+        stat1 = self.purchase_item(GUILD_STORE_SIGIL_CORE, local_search=False)
+
+        stat2 = self.purchase_item(GUILD_STORE_SIGIL_MODULE_T3, local_search=False)
+
+        if stat1 and stat2:
+            logger.info("Purchase guild store item success. 购买公会商店物品成功")
+            last_purchase_guild_store_time = get_format_time()
+            logger.info(f"Record last_purchase_guild_store_time : {last_purchase_guild_store_time}")
+            self.config.update(menu = 'Basic', task = 'Guild', group = 'Guild_Store', item = 'last_purchase_guild_store_time', value = last_purchase_guild_store_time)
+        else:
+            logger.error("Purchase guild store item failed. 购买公会商店物品失败")
+
+       
+    def purchase_item(self, item: Template, local_search: bool = True):
+        loop_timer = Timer(0, 10).start()
+        while True:
+            if loop_timer.reached():
+                logger.error("Purchase item timeout, not found purchase button. 购买物品超时, 未找到购买按钮")
+                return False
+            
+            if self.exists(GUILD_STORE_PURCHASE_CLICK):
+                from zafkiel.ocr import Digit
+                from module.ocr import DigitCounter
+                ocr_number_limit = DigitCounter(button=GUILD_STORE_PURCHASE_LIMIT_NUMBER, name="GUILD_STORE_PURCHASE_LIMIT_NUMBER")
+                ocr_number_purchase = Digit(button=GUILD_STORE_PURCHASE_NUMBER, name="GUILD_STORE_PURCHASE_NUMBER")
+                rest_number, _, _ = ocr_number_limit.ocr_single_line(self.controller.screenshot())
+                cur_number = ocr_number_purchase.ocr_single_line(self.controller.image)
+                if cur_number > rest_number:
+                    self.touch(BACK_BUTTON)
+                    logger.info("No enough item.剩余物品不足")
+                else:
+                    timeout = Timer(0, 3).start()
+                    while cur_number < rest_number:
+                        if timeout.reached():
+                            logger.error("Purchase item timeout. 购买物品超时, 资源不足以购买全部数量")
+                            break
+                        self.touch(GUILD_STORE_PURCHASE_PLUS, blind=True)
+                        last_number = cur_number
+                        cur_number = ocr_number_purchase.ocr_single_line(self.controller.screenshot())
+                        if last_number != cur_number:
+                            timeout.reset()
+                        logger.info(f"Cur number: {cur_number}, Rest number: {rest_number}")
+                    self.touch(GUILD_STORE_PURCHASE_CLICK)
+                    logger.info("Click purchase button. 点击购买按钮")
+                break
+                
+            if self.find_click(item, local_search=local_search):
+                logger.info("Find item. 找到物品")
+                continue
+        return True
 
     def run(self):
 
         # self.ui_ensure(page_guild)
         self.claim_matrix_supply()
-        self.claim_guild_mission()
+        # self.claim_guild_mission()
+        # self.purchase_guild_store_item()
 
 
 

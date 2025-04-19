@@ -19,13 +19,13 @@ class Mimir(AetherGazerHelper):
         weekday_num = now.weekday()
         current_time = now.time()
         five_am = datetime.time(5, 0, 0)  # 5:00 AM
-
+        logger.info(f"Current time: {current_time}, Weekday: {weekday_num}, five_am : {five_am}")
         if weekday_num == 0:
-            return current_time >= five_am
+            return current_time < five_am
         elif weekday_num == 6:
             return True
-        elif weekday_num == 0:
-            return current_time < five_am
+        elif weekday_num == 5:
+            return current_time >= five_am
         else:
             return False
 
@@ -62,9 +62,25 @@ class Mimir(AetherGazerHelper):
             if self.find_click(MIMI_OBSERVATION_CLAIM_ALL, MIMI_OBSERVATION_CLAIM_ALL, local_search=True):
                 logger.info("Mimi observation claim all complete.")
                 continue
-        # TODO: 周期奖励添加  
+        
+        self.claim_mimi_observation_rewards()
+    def claim_mimi_observation_rewards(self):
+        """
+        领取弥弥观测站周期奖励
+        """
         if self.check_mimi_observation_rewards():
-            pass
+            loop_timer = Timer(0, 10).start()
+            while True:
+                if loop_timer.reached():
+                    logger.error("Mimi observation weekly reward check timed out.")
+                    break
+                if self.find_click(MIMI_OBSERVATION_WEEKLY_REWARD_CLAIM):
+                    logger.info("Mimi observation weekly reward claim complete.")
+                    break
+                if self.find_click(MIMI_OBSERVATION_WEEKLY_REWARD_OPEN):
+                    continue
+                if self.find_click(MIMI_OBSERVATION_WEEKLY_REWARD):
+                    continue
     
     def test_mimir(self):
         """
