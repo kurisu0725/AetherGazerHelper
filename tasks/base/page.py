@@ -42,6 +42,9 @@ page_dorm_nav_kitchen = Page(DORM_NAV_KITCHEN_CHECK)
 # 宿舍-修正者训练
 page_dorm_nav_character = Page(DORM_NAV_CHARACTER_CHECK)
 
+# 宿舍-修正者训练能力界面
+page_dorm_nav_character_train = Page(DORM_NAV_CHARACTER_TRAIN_CHECK)
+
 # 战令
 page_battle_pass = Page(BATTLE_PASS_CHECK)
 
@@ -110,6 +113,12 @@ page_dorm_nav_kitchen.link(DORM_NAV_KITCHEN_TO_DORM_NAV, destination=page_dorm_n
 # from page_dorm_nav_character to
 page_dorm_nav_character.link(BACK_BUTTON, destination=page_dorm)
 page_dorm_nav_character.link(BACK_TO_MAIN, destination=page_main)
+page_dorm_nav_character.link(TO_TRAIN, destination=page_dorm_nav_character_train)
+
+# from page_dorm_nav_character_train to
+page_dorm_nav_character_train.link(BACK_BUTTON, destination=page_dorm_nav_character)
+page_dorm_nav_character_train.link(BACK_TO_MAIN, destination=page_main)
+
 
 # from page_battle_pass to
 page_battle_pass.link(BACK_BUTTON, destination=page_main)
@@ -127,3 +136,4 @@ page_activity.link(BACK_BUTTON, destination=page_main)
 
 # from page_resource to
 page_resource.link(BACK_TO_MAIN, destination=page_main)
+

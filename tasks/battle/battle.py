@@ -29,25 +29,43 @@ class Battle(AetherGazerHelper):
         Returns:
         """
         remain_stamina, _, _ = self.get_ocr_digit_or_digit_counter(ocr_class=DigitCounter, image=self.controller.screenshot(), button=REMAIN_STAMINA, name= "Remain Stamina")
+
+        # 确保选择一次扫荡消耗的体力
+        self.find_click(LEFT_DOUBLE_ARROW, LEFT_DOUBLE_ARROW)
+
         stamina_cost = self.get_ocr_digit_or_digit_counter(ocr_class=Digit, image=self.controller.screenshot(), button=STAMINA_COST, name= "Stamina Cost")
 
-        accept_count = min(count, remain_stamina / stamina_cost)
+        accept_count = min(count, int(remain_stamina / stamina_cost) )
         logger.info(f"Remain Stamina: {remain_stamina}, Stamina Cost: {stamina_cost}, Accept Count: {accept_count} times.")
         if accept_count > 0:
             rest_count = accept_count
             loop_timer = Timer(10).start()
             while rest_count > 0:
                 if loop_timer.reached():
-                    raise LoopError("Loop timeout")
-                
+                    logger.error("Loop timeout. 扫荡超时")
+                    raise LoopError("Loop timeout. 扫荡超时")
+
                 if self.find_click(SWEEP_CONFIRM_CHECK, SWEEP_CONFIRM_CLICK, blind=True):
                     self.confirm_battle_end()       #扫荡-确定
                     rest_count -= min(Battle.BATTLE_SELECT_COUNT_MAX, rest_count)
+                    if rest_count <= 0:
+                        break
                     loop_timer.reset()
-
-                if self.find_click(RIGHT_DOUBLE_ARROW, RIGHT_DOUBLE_ARROW, blind=True):
-                    self.touch(STAGE_SWEEP)
                     continue
+
+                if rest_count >= Battle.BATTLE_SELECT_COUNT_MAX:
+                    if self.find_click(RIGHT_DOUBLE_ARROW, RIGHT_DOUBLE_ARROW, blind=True):
+                        self.touch(STAGE_SWEEP)
+                        continue
+                else:
+                    if rest_count <= 6:
+                        for i in range(rest_count - 1):
+                            self.touch(RIGHT_ARROW, RIGHT_ARROW, blind=True)
+                    else:
+                        self.find_click(RIGHT_DOUBLE_ARROW, RIGHT_DOUBLE_ARROW, blind=True)
+                        for i in range(Battle.BATTLE_SELECT_COUNT_MAX - rest_count):
+                            self.touch(LEFT_ARROW, LEFT_ARROW, blind=True)
+
             logger.info(f"Sweep {accept_count} times complete.")
         else:
             logger.info(f"Not enough stamina to sweep {count} times.")

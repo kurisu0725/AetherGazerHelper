@@ -1,0 +1,6 @@
+Normalized ROI (x, y, width, height):
+x: 0.7156
+y: 0.7667
+width: 0.0297
+height: 0.0509
+Template record pos: (0.2305, 0.1643)

@@ -95,6 +95,7 @@ class UI:
                     continue
                 if self.ui_page_appear(page=page):
                     self.ui_current['page'] = page
+                    Page.iter_pages(start_page=page)
                     return page
 
             # Unknown page but able to handle
@@ -169,11 +170,11 @@ class UI:
         # logger.debug(Page.display_all_pages_parent())
 
         while True:
-            page = self.ui_get_current_page()
+            page = self.ui_get_current_page()  # 在函数内更新 cls.all_pages
+            
             # Destination page
             if self.ui_current['page'] == destination:
-                # self.ui_page_appear(destination, timeout=0.5)
-                
+                # self.ui_page_appear(destination, timeout=0.5)    
                 logger.info(f'Page arrive: {destination}')
                 if state is not None:
                     self._set_state(destination.switch, state)
@@ -184,6 +185,7 @@ class UI:
             logger.debug(f"Page: {page}, Parent: {page.parent}")
             # the button from page to page  like  page_main to page_activity, it is changeable, and i don't want to update this assets in  game's each version,
             # but it's pos always the same, so I need a blind click param
+            # 存在 main to activity 界面的按钮，其模板是随版本变化的，为了不去每次都更新对应的asset, 将该按钮设置为 blind=True, 不需要识别，只要有位置信息即可。
             if exists(page.check_button):
                 button = page.links[page.parent]
                 touch(button, blind=page.is_blind[page.parent]) # modified

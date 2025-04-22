@@ -77,3 +77,19 @@ SWEEP_CONFIRM_CLICK = Template(
     rgb=False, 
     template_path="assets/battle",
 )
+
+LEFT_ARROW = Template(
+    filename=r"LEFT_ARROW.png",
+    record_pos=(0.2617, 0.1648), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/battle",
+)
+
+LEFT_DOUBLE_ARROW = Template(
+    filename=r"LEFT_DOUBLE_ARROW.png",
+    record_pos=(0.2305, 0.1643), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/battle",
+)

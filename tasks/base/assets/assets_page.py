@@ -289,3 +289,21 @@ MAIN_TO_RESOURCE = Template(
     rgb=False, 
     template_path="assets/share/base/page",
 )
+
+DORM_NAV_CHARACTER_TRAIN_CHECK = Template(
+    filename=r"DORM_NAV_CHARACTER_TRAIN_CHECK.png", 
+    record_pos=(0.3672, -0.1984), 
+    resolution=(1920, 1080),
+    rgb=False, 
+    template_path="assets/share/base/page",
+    keyword=Keyword(u'加成神系'),
+)
+
+TO_TRAIN = Template(
+    filename=r"TO_TRAIN.png", 
+    record_pos=(-0.1771, 0.2482), 
+    resolution=(1920, 1080),
+    keyword=Keyword(u'修正者'),
+    rgb=False, 
+    template_path="assets/dorm",    
+)

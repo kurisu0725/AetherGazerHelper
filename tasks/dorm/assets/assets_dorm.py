@@ -27,15 +27,6 @@ DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK = Template(
     template_path="assets/dorm",
 )
 
-TO_TRAIN = Template(
-    filename=r"TO_TRAIN.png", 
-    record_pos=(-0.1771, 0.2482), 
-    resolution=(1920, 1080),
-    keyword=Keyword(u'修正者'),
-    rgb=False, 
-    template_path="assets/dorm",    
-)
-
 TRAIN_SEARCH_BUTTON = Template(
     filename=r"TRAIN_SEARCH_BUTTON.png", 
     record_pos=(-0.4221, 0.0201), 

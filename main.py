@@ -13,9 +13,9 @@ from module.Controller import Controller
 from module.AetherGazerHelper import AetherGazerHelper
 from config import Config
 
-ST.OPDELAY = 0.3
+ST.OPDELAY = 0.2
 ST.FIND_TIMEOUT = 10
-ST.THRESHOLD = 0.65 # TODO: 写进config类中
+ST.THRESHOLD = 0.6 # TODO: 写进config类中
 
 
 logger.remove()
@@ -63,8 +63,8 @@ def all_tasks(config):
         # # 日常
         # Login(config, controller).run()
         # Guild(config, controller).run()
-        # Dorm(config, controller).run()
-        Mimir(config, controller).run()
+        Dorm(config, controller).run()
+        # Mimir(config, controller).run()
         # Daily(config, controller).run()
         # Store(config, controller).run()
         # Mission(config, controller).run()

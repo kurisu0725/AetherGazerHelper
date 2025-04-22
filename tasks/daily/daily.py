@@ -54,7 +54,7 @@ class Daily(Battle):
         """
         使用体力扫荡联防协议
         """
-        logger.info("使用体力扫荡联防协议")
+        logger.info("Use stamina on joint defense agreement. 使用体力扫荡联防协议")
         self.ui_goto_joint_defense_agreement()
         self.find_click(JOINT_DEFENSE_CHECK, JOINT_DEFENSE_CHECK, local_search=True, blind=True)
         self.select_stage_sweep_count(count=1)
@@ -97,6 +97,7 @@ class Daily(Battle):
 
     def return_event_mission(self):
         self.ui_ensure(page_main)
+        # TODO: 
     def run(self):
         """
         运行函数

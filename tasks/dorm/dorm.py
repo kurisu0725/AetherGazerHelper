@@ -3,7 +3,7 @@ import re
 from typing import Dict, Final, Union
 from module.AetherGazerHelper import AetherGazerHelper
 from module.Controller import Controller
-from tasks.base.page import page_dorm, page_dorm_nav_kitchen, page_dorm_nav_character
+from tasks.base.page import page_dorm_nav_kitchen, page_dorm_nav_character, page_dorm_nav_character_train
 from tasks.base.assets.assets_share import BACK_BUTTON, GET_ITEM, CLICK_TO_CONTINUE
 from tasks.dorm.assets.assets_dorm import *
 from zafkiel.exception import LoopError
@@ -81,9 +81,6 @@ class Dorm(AetherGazerHelper):
         """
         self.ui_ensure(page_dorm_nav_character)
         # 霍夫圆检测 + 图像匹配
-        
-        # enter train page 
-        self.find_click(TO_TRAIN)
 
         # TODO: 可能需要一个wait，不然截图速度过快导致函数失效
         # swipe and train modifier
@@ -110,27 +107,41 @@ class Dorm(AetherGazerHelper):
             return 
         
         self.ui_ensure(page_dorm_nav_character)
-        loop_timer = Timer(0, 10).start()
 
-        recombat = False
+        loop_timer = Timer(10).start()
+        while True:
+            if loop_timer.reached():
+                logger.critical("Modifier combat end for unknown reason. ")
+                break
+
+            if self.find_click(MODIFIER_COMBAT_SELECT_STRANGER, MODIFIER_COMBAT_SELECT_STRANGER, blind=True, times=2):
+                self.find_click(MODIFIER_COMBAT_SELECT_TO_CHALLENGE, MODIFIER_COMBAT_SELECT_TO_CHALLENGE, blind=True, times=2)
+                break
+
+            if self.find_click(MODIFIER_COMBAT_CLICK, MODIFIER_COMBAT_CLICK, blind=True):
+                continue
+
+            if self.find_click(TO_MODIFIER_COMBAT, TO_MODIFIER_COMBAT, blind=True):
+                continue
+
+        loop_timer = Timer(10).start()
+
+        recombat = True
         while True:
             if loop_timer.reached():
                 logger.critical("Modifier combat end for unknown reason. ")
                 break
             
-            if recombat == False:
+            if recombat == True:
                 if self.exists(MODIFIER_COMBATTING_CHECK):
                     logger.info("In modifier combat.")
                     self.find_click(BACK_BUTTON)
                     loop_timer.reset()
-                    continue
             else:
-                recombat = False
-                if self.wait(MODIFIER_COMBAT_CLICK):
-                    logger.info("In modifier combat.")
+                if self.exists(MODIFIER_COMBAT_CLICK):
+                    logger.info("End modifier combat.")
                     self.find_click(BACK_BUTTON)
-                    loop_timer.reset()
-                    continue
+                    break
 
             if self.exists(MODIFIER_COMBAT_END_CHECK):
                 weekly_combat_count += 1
@@ -139,6 +150,7 @@ class Dorm(AetherGazerHelper):
                 if weekly_combat_count == Dorm.MODIFIER_COMBAT_MAX_COUNT:
                     self.touch(MODIFIER_COMBAT_END_CLICK)
                     logger.info("Modifier combat end.")
+                    recombat = False
                     break
                 else:
                     self.touch(MODIFIER_COMBAT_END_AGAIN)
@@ -148,16 +160,6 @@ class Dorm(AetherGazerHelper):
                     logger.info(f"Modifier combat again. Rest {int(Dorm.MODIFIER_COMBAT_MAX_COUNT - weekly_combat_count)} times.")
                 continue
 
-
-            if self.find_click(MODIFIER_COMBAT_SELECT_STRANGER, MODIFIER_COMBAT_SELECT_STRANGER, blind=True, times=2):
-                self.find_click(MODIFIER_COMBAT_SELECT_TO_CHALLENGE, MODIFIER_COMBAT_SELECT_TO_CHALLENGE, blind=True, times=2)
-                continue
-
-            if self.find_click(MODIFIER_COMBAT_CLICK, MODIFIER_COMBAT_CLICK, blind=True):
-                continue
-
-            if self.find_click(TO_MODIFIER_COMBAT, TO_MODIFIER_COMBAT, blind=True):
-                continue
 
         pos = self.wait(BACK_BUTTON, timeout=5)
         if pos:
@@ -178,14 +180,16 @@ class Dorm(AetherGazerHelper):
         self.touch(TO_TRAIN_MISSION)
 
         if self.find_click(TRAIN_MISSION_CLAIM_CHECK, TRAIN_MISSION_CLAIM_CLICK, ocr_mode=2):
-            self.find_click(GET_ITEM, CLICK_TO_CONTINUE, blind=True)
+            while self.find_click(GET_ITEM, CLICK_TO_CONTINUE, blind=True):
+                pass
             logger.info("Dorm train missions claim.")
         else:
             logger.info("No dorm train mission to claim.")
         self.touch(BACK_BUTTON, blind=True)
 
     def _train_modifiers(self):
-        
+        self.ui_ensure(page_dorm_nav_character_train)
+
         search_button = TRAIN_SEARCH_BUTTON
         logger.info(f"search button filepath: {search_button.filepath}")
         loop_timer = Timer(0, 10).start()
@@ -330,10 +334,10 @@ class Dorm(AetherGazerHelper):
         """
         # self.ui_ensure(page_dorm)
 
-        # self.claim_kitchen()
+        self.claim_kitchen()
 
-        self.train_modifiers()
+        # self.train_modifiers()
         
-        self.modifier_combat()
+        # self.modifier_combat()
 
-        self.claim_train_mission()
+        # self.claim_train_mission()
