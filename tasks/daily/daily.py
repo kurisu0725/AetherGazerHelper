@@ -8,9 +8,9 @@ from tasks.base.assets.assets_share import BACK_BUTTON
 from module.Controller import Controller
 from zafkiel import Ocr
 from zafkiel.ocr import OcrResultButton
-from tasks.daily.keywords import KEYWORDS_ACTIVITY_OPTION, KEYWORDS_RESOURCE_STAGE
-from tasks.base.assets.assets_switch import RESOURCE_ITEMS_SWITCH_ON
-from tasks.daily.clicklist import ITEMCLICKLIST
+from tasks.daily.keywords import KEYWORDS_ACTIVITY_OPTION, KEYWORDS_RESOURCE_STAGE, KEYWORDS_SIGILS_STAGE
+from tasks.base.assets.assets_switch import RESOURCE_ITEMS_SWITCH_ON, RESOURCE_SIGILS_SWITCH_ON
+from tasks.daily.clicklist import SIGILS_CLICKLIST
 from tasks.battle.battle import Battle
 from config import Config
 
@@ -41,14 +41,17 @@ class Daily(Battle):
         else:
             logger.info("匹配失败")
 
-    def use_stamina_on_daily_resource(self):
+    def use_stamina_on_sigils_module(self):
         """
-        暂时在资源界面使用
-        use stamina on resource page
+        联合特勤关卡
+        use stamina on sigils page
         """
-        self.ui_ensure(page_resource, state=RESOURCE_ITEMS_SWITCH_ON)
-        logger.info(f"known rows: {ITEMCLICKLIST.known_rows}")
-        ITEMCLICKLIST.select_row(row=KEYWORDS_RESOURCE_STAGE.OriginRadiance, main=self, insight=True, skip_first_screenshot=False)
+        # self.ui_ensure(page_resource, state=RESOURCE_SIGILS_SWITCH_ON)
+        # logger.info(f"known rows: {SIGILS_CLICKLIST.known_rows}")
+        SIGILS_CLICKLIST.select_row(row=KEYWORDS_SIGILS_STAGE.SigilModule, main=self, insight=True, skip_first_screenshot=False)
+
+        # self.select_stage_sweep_count()
+
 
     def use_stamina_on_joint_defense_agreement(self):
         """
@@ -57,7 +60,7 @@ class Daily(Battle):
         logger.info("Use stamina on joint defense agreement. 使用体力扫荡联防协议")
         self.ui_goto_joint_defense_agreement()
         self.find_click(JOINT_DEFENSE_CHECK, JOINT_DEFENSE_CHECK, local_search=True, blind=True)
-        self.select_stage_sweep_count(count=1)
+        self.select_stage_sweep_count()
 
 
         # TODO: 扫荡完成后返回活动界面领取消耗体力的券,可以将返回的界面定义为新的page, 而不是page_activity
@@ -104,10 +107,10 @@ class Daily(Battle):
         """
         from utils.logger_func import task_info
         task_info('Daily')
-
-        self.claim_stamina()
-        self.use_stamina_on_joint_defense_agreement()
-        # self.use_stamina_on_daily_resource()
+ 
+        # self.claim_stamina()
+        # self.use_stamina_on_joint_defense_agreement()
+        self.use_stamina_on_sigils_module()
 
 if __name__ == '__main__':
     pass

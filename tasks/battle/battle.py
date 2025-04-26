@@ -15,12 +15,12 @@ class Battle(AetherGazerHelper):
     BATTLE_SELECT_COUNT_MAX: Final[int] = 10
 
     def __init__(self, config: Config, controller: Controller):
-        super().__init__(config, controller)  # 单一路径初始化
+        super().__init__(config, controller)  
 
     def is_in_battle(self) -> bool:
         pass
 
-    def select_stage_sweep_count(self, count: int = 1):
+    def select_stage_sweep_count(self, count: int = 10):
         """
         choose count of sweep, while checking if there is enough stamina and input param count exceed remain stamina
         选择扫荡次数, 检查是否有足够的体力和输入的次数是否超过剩余体力
@@ -30,13 +30,13 @@ class Battle(AetherGazerHelper):
         """
         remain_stamina, _, _ = self.get_ocr_digit_or_digit_counter(ocr_class=DigitCounter, image=self.controller.screenshot(), button=REMAIN_STAMINA, name= "Remain Stamina")
 
-        # 确保选择一次扫荡消耗的体力
+        # 确保识别到一次扫荡消耗的体力
         self.find_click(LEFT_DOUBLE_ARROW, LEFT_DOUBLE_ARROW)
 
         stamina_cost = self.get_ocr_digit_or_digit_counter(ocr_class=Digit, image=self.controller.screenshot(), button=STAMINA_COST, name= "Stamina Cost")
-
         accept_count = min(count, int(remain_stamina / stamina_cost) )
         logger.info(f"Remain Stamina: {remain_stamina}, Stamina Cost: {stamina_cost}, Accept Count: {accept_count} times.")
+
         if accept_count > 0:
             rest_count = accept_count
             loop_timer = Timer(10).start()

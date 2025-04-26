@@ -99,7 +99,7 @@ class TaskMimir(BaseModel):
 class TaskDaily(BaseModel):
     class GroupJointDefense(BaseModel):
         enable : Item = Item(type="select", value='auto', option=['enable', 'disable', 'enable_auto'])
-        count : Item = Item(type="input", value=0.0, hidden=False)
+        count : Item = Item(type="input", value=1.0, hidden=False)
 
     Base: GroupCustomBase = Field(GroupCustomBase(
         command=Item('py main.py -t daily'), priority=Item(value=10, disabled=True)

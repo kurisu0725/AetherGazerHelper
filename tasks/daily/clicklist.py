@@ -2,10 +2,12 @@ import numpy as np
 from typing import Optional
 from zafkiel import Template, logger, Timer
 from zafkiel.ocr import OcrResultButton, Keyword, Ocr
+from zafkiel.utils import random_rectangle_point
+
 from module.AetherGazerHelper import AetherGazerHelper
 from tasks.daily.assets.assets_daily import RESOURCE_NEXT_BUTTON, RESOURCE_SEARCH_BUTTON, RESOURCE_PREV_BUTTON
-from .keywords.classes import ResourceStage
-from zafkiel.utils import random_rectangle_point
+from .keywords.classes import ResourceStage, SigilsStage
+from module.ocr import BaseOcr
 
 class ClickList:
     """
@@ -46,7 +48,7 @@ class ClickList:
         self.cur_buttons: list[OcrResultButton] = []
 
     def __str__(self):
-        return f'DraggableList({self.name})'
+        return f'ClickList({self.name})'
 
     __repr__ = __str__
 
@@ -60,15 +62,8 @@ class ClickList:
         try:
             return self.known_rows.index(row) + 1
         except ValueError:
-            # logger.warning(f'Row "{row}" does not belong to {self}')
+            logger.warning(f'Row "{row}" does not belong to {self}')
             return 0
-
-    # def is_row_selected(self, button: OcrResultButton, main: AetherGazerHelper) -> bool:
-    #     # Having gold letters
-    #     if main.image_color_count(button, color=self.active_color, threshold=221, count=50):
-    #         return True
-
-    #     return False
 
     def keyword2button(self, row: Keyword, show_warning=True) -> Optional[OcrResultButton]:
         for button in self.cur_buttons:
@@ -83,9 +78,11 @@ class ClickList:
     def load_rows(self, main: AetherGazerHelper):
         """
         Parse current rows to get list position.
+        只识别search_button中间的一个button，不识别区域的所有
         """
         self.cur_buttons = self.ocr_class(self.search_button) \
-            .matched_ocr(main.controller.image, self.keyword_class)
+            .ocr_common(main.controller.image, self.keyword_class)
+            # ocr_match_keyword(main.controller.image, keyword_instance=row, direct_ocr=False, mode=2, threshold=0.7)
         # Get indexes
         indexes = [self.keyword2index(row.matched_keyword)
                    for row in self.cur_buttons]
@@ -99,7 +96,7 @@ class ClickList:
         self.cur_max = max(indexes)
         logger.info(self.name, f'{self.cur_min} - {self.cur_max}')
 
-    def insight_row(self, row: Keyword, main: AetherGazerHelper, skip_first_screenshot=True) -> bool:
+    def insight_row(self, row: Keyword, main: AetherGazerHelper, skip_first_screenshot : bool = False) -> bool:
         """
         Args:
             row:
@@ -147,7 +144,7 @@ class ClickList:
 
 
 
-    def select_row(self, row: Keyword, main: AetherGazerHelper, insight=True, skip_first_screenshot=True):
+    def select_row(self, row: Keyword, main: AetherGazerHelper, insight=True, skip_first_screenshot=False):
         if insight:
             result = self.insight_row(
                 row, main=main, skip_first_screenshot=skip_first_screenshot)
@@ -170,6 +167,7 @@ class ClickList:
             else:
                 if load_rows_interval.reached():
                     self.load_rows(main=main)
+
                     load_rows_interval.reset()
 
             button = self.keyword2button(row)
@@ -182,12 +180,11 @@ class ClickList:
                 return True
 
 
-ITEMCLICKLIST = ClickList(
-    name="ItemClickList",
-    keyword_class=ResourceStage,
-    ocr_class=Ocr,
+SIGILS_CLICKLIST = ClickList(
+    name="SigilsClickList",
+    keyword_class=SigilsStage,
+    ocr_class=BaseOcr,
     search_button=RESOURCE_SEARCH_BUTTON,
     next_button=RESOURCE_NEXT_BUTTON,
-    prev_button=RESOURCE_PREV_BUTTON,
+    prev_button=RESOURCE_PREV_BUTTON,   
 )
-

@@ -43,9 +43,17 @@ ACTIVITY_SWIPE_START = Template(
     template_path="assets/daily",
 )
 
+RESOURCE_LONG_SEARCH_BUTTON = Template(
+    filename=r"RESOURCE_LONG_SEARCH_BUTTON.png",
+    record_pos=(0.0005, 0.0443), 
+    resolution=(1920, 1080) , 
+    rgb=False, 
+    template_path="assets/daily",
+)
+
 RESOURCE_SEARCH_BUTTON = Template(
     filename=r"RESOURCE_SEARCH_BUTTON.png",
-    record_pos=(0.0000, 0.1651), 
+    record_pos=(0.0005, 0.1648), 
     resolution=(1920, 1080) , 
     rgb=False, 
     template_path="assets/daily",
