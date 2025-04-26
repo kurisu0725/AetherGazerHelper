@@ -8,7 +8,7 @@ from functools import cached_property
 from pponnxcr.predict_system import BoxedResult
 
 from cnocr import CnOcr
-class BaseCnOcr(Ocr):
+class BaseCnOcr:
 
     def __init__(self, button: ImageTemplate, lang=None, name=None):
         """
@@ -30,7 +30,7 @@ class BaseCnOcr(Ocr):
     def model(self):
         return CnOcr()
 
-    def results2boxedresult(self, results) -> List[OcrResultButton]:
+    def results2boxedresult(self, results, image, keyword_class) -> List[OcrResultButton]:
         """
         Convert OCR results to OcrResultButton
         Args:
@@ -47,11 +47,14 @@ class BaseCnOcr(Ocr):
                 text = res.text
                 area = res.area
 
+            obj = keyword_class()
+            setattr(obj, self.lang, text)
+            area = result['position'][0], result['position'][2]
+            img_crop = crop(image, area)
+            box = BoxedResult(box=result['position'] , img= img_crop , text=result['text'], score=result['score'])
             button = OcrResultButton(
-                name=self.name,
-                text=text,
-                area=area,
-                lang=self.lang,
+                boxed_result=,
+                matched_keyword=obj,
             )
             result.append(button)
         return result
@@ -60,27 +63,6 @@ class BaseCnOcr(Ocr):
             image = crop(image, self.button.area)
         results = self.model.ocr(image)
 
-        keyword_results = []
-        for result in results:
-            obj = keyword_class()
-            setattr(obj, self.lang, result['text'])
-            keyword_results.append(obj)
-        logger.info(f"ocr_common results: {keyword_results}")
-        return keyword_results
-
-        
-
-class GeneralOcr(Ocr):
-    def __init__(self, button: ImageTemplate, lang='en', name=None):
-        super().__init__(button, lang=lang, name=name)
-
-    def after_process(self, result):
-        result = super().after_process(result)
-        logger.info(f"ocr result: {result}")
-        # 识别错误
-        result = result.replace('介质搜取', '介质攫取')
-
-        return result
 
 
 class DigitCounter(Ocr):
