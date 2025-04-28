@@ -16,11 +16,14 @@ from module.Controller import Controller
 from module.utils import match_template
 from config import Config
 from module.ui import UI
+from module.utils import color_similarity_2d
+
 
 class AetherGazerHelper(UI):
-    config : Config
-    controller : Controller
-    def __init__(self, config : Config = None, controller : Controller = None):
+    config: Config
+    controller: Controller
+
+    def __init__(self, config: Config = None, controller: Controller = None):
         self.config = config
         self.controller = controller
 
@@ -32,7 +35,6 @@ class AetherGazerHelper(UI):
         self.get_popup_list(popup_list)
 
         # self.check_and_connect_device()
-        
 
     def check_game_start(self):
         game_exe_name = os.path.basename(self.game_path)  # 获取游戏可执行文件名（如 "Game.exe"）
@@ -58,8 +60,9 @@ class AetherGazerHelper(UI):
         if checkStatus == False:
             self.connect_device()
             from airtest.core.api import G
+
             logger.info(f'connect to device {G.DEVICE}, process: {self.process_str}')
-            
+
     def app_stop(self):
         self.stop_app()
 
@@ -69,14 +72,9 @@ class AetherGazerHelper(UI):
     def app_restart(self):
         self.app_stop()
         self.app_start()
-        
+
     def manage_log(self):
-        log_retain_map = {
-            '1day': 1,
-            '3days': 3,
-            '1week': 7,
-            '1month': 30,
-        }
+        log_retain_map = {'1day': 1, '3days': 3, '1week': 7, '1month': 30}
         retain_days = log_retain_map.get(self.config.data['Project']['General']['Game']['log_retain'], 7)
 
         current_time = time.time()
@@ -95,10 +93,16 @@ class AetherGazerHelper(UI):
 
     def run(self):
         pass
+
     def connect_device(self):
         logger.info(f'start connect to device')
         date = datetime.datetime.now().strftime("%Y-%m-%d")
-        self.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={self.process_str}", ], project_root=str(Path.cwd()))
+        self.auto_setup(
+            str(Path.cwd()),
+            logdir=f'./log/{date}/report',
+            devices=[f"WindowsPlatform:///?title={self.process_str}"],
+            project_root=str(Path.cwd()),
+        )
 
     def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10)):
         logger.info(f"Wait until stable: {button}")
@@ -112,7 +116,7 @@ class AetherGazerHelper(UI):
             if timeout.reached():
                 logger.warning(f'wait_until_stable({button}) timeout')
                 break
-                
+
             image = self.image_crop(button, new_screenshot=False)
             if match_template(image, prev_image, similarity=0.85):
                 if timer.reached():
@@ -122,7 +126,6 @@ class AetherGazerHelper(UI):
                 prev_image = image
                 timer.reset()
 
-
     def image_crop(self, button, new_screenshot=True):
         """Extract the area from image.
 
@@ -131,18 +134,33 @@ class AetherGazerHelper(UI):
             copy:
         """
         from zafkiel.utils import crop
+
         if new_screenshot:
             self.controller.screenshot()
         return crop(self.controller.image, button.area)
-        
-        
-        
-            
+
+    def image_color_count(self, button, color, threshold=221, count=50):
+        """
+        from StarRailCopilot\module\base\base.py
+        Args:
+            button (Button, tuple): Button instance or area.
+            color (tuple): RGB.
+            threshold: 255 means colors are the same, the lower the worse.
+            count: Pixel counts.
+        Returns:
+            bool:
+        """
+        if isinstance(button, np.ndarray):
+            image = button
+        else:
+            image = self.image_crop(button)
+        mask = color_similarity_2d(image, color=color)
+        cv2.inRange(mask, threshold, 255, dst=mask)
+        sum_ = cv2.countNonZero(mask)
+        return sum_ >= count
 
     def __getattr__(self, name):
         method = getattr(self.controller, name)
         if callable(method):
             return lambda *args, **kwargs: method(*args, **kwargs)  # 动态包装
         return method
-    
-

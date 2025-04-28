@@ -7,26 +7,19 @@ from zafkiel.utils import random_rectangle_point
 from module.AetherGazerHelper import AetherGazerHelper
 from tasks.daily.assets.assets_daily import RESOURCE_NEXT_BUTTON, RESOURCE_SEARCH_BUTTON, RESOURCE_PREV_BUTTON
 from .keywords.classes import ResourceStage, SigilsStage
-from module.ocr import BaseOcr
+from module.ocr import BaseCnOcr
+
 
 class ClickList:
     """
     和可拖拽的list不同，相对拖拽的惯性画面要稳定
     应用在日常资源的关卡中，都是可以通过点击的方式切换到下一个列表项，位置也会变换
     """
-    def __init__(
-        self,
-        name, 
-        keyword_class,
-        ocr_class,
-        search_button: Template,
-        next_button: Template,
-        prev_button: Template,
-        switch_name: Optional[str] = None,
-    ) -> None:
+
+    def __init__(self, name, keyword_class, ocr_class, search_button: Template, next_button: Template, prev_button: Template, switch_name: Optional[str] = None) -> None:
         """
         Args:
-            search_button: 固定位置的模板, 当前选中的区域 
+            search_button: 固定位置的模板, 当前选中的区域
             next_button: 下一个索引的固定位置
             prev_button: 上一个索引的固定位置
         """
@@ -80,14 +73,15 @@ class ClickList:
         Parse current rows to get list position.
         只识别search_button中间的一个button，不识别区域的所有
         """
-        self.cur_buttons = self.ocr_class(self.search_button) \
-            .ocr_common(main.controller.image, self.keyword_class)
-            # ocr_match_keyword(main.controller.image, keyword_instance=row, direct_ocr=False, mode=2, threshold=0.7)
-        # Get indexes
-        indexes = [self.keyword2index(row.matched_keyword)
-                   for row in self.cur_buttons]
+        self.cur_buttons = self.ocr_class(self.search_button).ocr_common(main.controller.image, self.keyword_class)
+        # ocr_match_keyword(main.controller.image, keyword_instance=row, direct_ocr=False, mode=2, threshold=0.7)
+        logger.debug(f"DEBUG load rows: {self.cur_buttons}")
+        for button in self.cur_buttons:
+            logger.debug(f"DEBUG button.matched_keyword: {button.matched_keyword}")
+
+        indexes = [self.keyword2index(row.matched_keyword) for row in self.cur_buttons]
         indexes = [index for index in indexes if index]
-        
+
         if not indexes:
             logger.warning(f'No valid rows loaded into {self}')
             return
@@ -96,7 +90,7 @@ class ClickList:
         self.cur_max = max(indexes)
         logger.info(self.name, f'{self.cur_min} - {self.cur_max}')
 
-    def insight_row(self, row: Keyword, main: AetherGazerHelper, skip_first_screenshot : bool = False) -> bool:
+    def insight_row(self, row: Keyword, main: AetherGazerHelper, skip_first_screenshot: bool = False) -> bool:
         """
         Args:
             row:
@@ -109,7 +103,7 @@ class ClickList:
         if not dest_row_index:
             logger.warning(f'Insight row {row} but index unknown')
             return False
-        
+
         logger.info(f'Insight row: {row}, index={dest_row_index}')
         last_buttons: set[OcrResultButton] = None
         bottom_check = Timer(3, count=5).start()
@@ -142,17 +136,14 @@ class ClickList:
             last_buttons = set(self.cur_buttons)
         return True
 
-
-
     def select_row(self, row: Keyword, main: AetherGazerHelper, insight=True, skip_first_screenshot=False):
         if insight:
-            result = self.insight_row(
-                row, main=main, skip_first_screenshot=skip_first_screenshot)
+            result = self.insight_row(row, main=main, skip_first_screenshot=skip_first_screenshot)
             if not result:
                 return False
         logger.info(f'Select row: {row}')
         skip_first_screenshot = True
-        
+
         skip_first_load_rows = True
         load_rows_interval = Timer(1)
         while 1:
@@ -175,16 +166,11 @@ class ClickList:
                 return False
             else:
                 x1, y1, x2, y2 = button.area
-                pos = random_rectangle_point(center=( (x1 + x2) / 2, (y1 + y2) / 2), h=y2 - y1, w=x2 - x1)
-                main.controller.touch(pos, times=2, blind=True)
+                pos = random_rectangle_point(center=((x1 + x2) / 2, (y1 + y2) / 2), h=y2 - y1, w=x2 - x1)
+                main.controller.touch(v=pos, times=2, blind=True)
                 return True
 
 
 SIGILS_CLICKLIST = ClickList(
-    name="SigilsClickList",
-    keyword_class=SigilsStage,
-    ocr_class=BaseOcr,
-    search_button=RESOURCE_SEARCH_BUTTON,
-    next_button=RESOURCE_NEXT_BUTTON,
-    prev_button=RESOURCE_PREV_BUTTON,   
+    name="SigilsClickList", keyword_class=SigilsStage, ocr_class=BaseCnOcr, search_button=RESOURCE_SEARCH_BUTTON, next_button=RESOURCE_NEXT_BUTTON, prev_button=RESOURCE_PREV_BUTTON
 )

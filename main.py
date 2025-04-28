@@ -19,7 +19,7 @@ ST.THRESHOLD = 0.6 # TODO: 写进config类中
 
 
 logger.remove()
-logger.add(sys.stdout, level="INFO", format="<green>{time:HH:mm:ss}</green> | "
+logger.add(sys.stdout, level="DEBUG", format="<green>{time:HH:mm:ss}</green> | "
                                             "<level>{level: <7}</level> | "
                                             "<level>{message}</level>",
         )
