@@ -20,12 +20,14 @@ from config import Config
 
 class ColorEnum(Enum):
     """
+    联合特勤委托等级枚举类
     color_level = [R, G, B, priority]
+        priority: 优先级, 值越大, 优先级越高
     """
 
-    A = [2]  # A级委托
-    B = [1]  # B级委托
-    S = [3]  # S级委托
+    A = [228, 101, 252, 2]  # A级委托
+    B = [15, 146, 239, 1]  # B级委托
+    S = [244, 106, 18, 3]  # S级委托
 
 
 class Daily(Battle):
@@ -86,7 +88,8 @@ class Daily(Battle):
         step 4: refresh 点击刷新,
                 jump to step 1
         step 5: choose max level 最高级别,
-                jump to step 2
+                使用一次体力,
+                jump to step 1.
         """
         loop_timer = Timer(5, 5).start()
         stage_list = [SIGILS_MODULE_STAGE_1, SIGILS_MODULE_STAGE_2, SIGILS_MODULE_STAGE_3]  # 3个位置
@@ -115,6 +118,8 @@ class Daily(Battle):
             # check S level
             max_level, position_template = judge_color_level(stage_list)
             if max_level == 'S':
+                self.touch(position_template, local_search=True)
+                self.select_stage_sweep_count()
                 break
                 # check free refresh
             if self.exists(SIGILS_MODULE_FREE_REFRESH_CHECK, local_search=True):
@@ -126,7 +131,10 @@ class Daily(Battle):
             else:
                 # choose max level's position
                 self.touch(position_template, local_search=True)
-                break
+                if self.select_stage_sweep_count(count=1):
+                    continue
+                else:
+                    break
         return True
 
     def use_stamina_on_joint_defense_agreement(self):
