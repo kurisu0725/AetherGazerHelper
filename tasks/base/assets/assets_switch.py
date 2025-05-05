@@ -21,10 +21,10 @@ MISSION_DAILY_SWITCH_OFF = Template(
 
 MISSION_WEEKLY_SWITCH_ON = Template(
     filename=r"MISSION_WEEKLY_SWITCH_ON.png",
-    record_pos=(-0.3930, -0.1268),
+    record_pos=(-0.4146, -0.1273),
     resolution=(1920, 1080),
     rgb=True,
-    threshold=0.6,
+    threshold=0.5,
     template_path="assets/share/base/switch",
 )
 
@@ -33,7 +33,7 @@ MISSION_WEEKLY_SWITCH_OFF = Template(
     record_pos=(-0.3953, -0.1253),
     resolution=(1920, 1080),
     rgb=True,
-    threshold=0.6,
+    threshold=0.5,
     template_path="assets/share/base/switch",
 )
 

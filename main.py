@@ -13,13 +13,13 @@ from module.Controller import Controller
 from module.AetherGazerHelper import AetherGazerHelper
 from config import Config
 
-ST.OPDELAY = 0.3
+ST.OPDELAY = 0.25
 ST.FIND_TIMEOUT = 10
-ST.THRESHOLD = 0.6 # TODO: 写进config类中
+ST.THRESHOLD = 0.55 # TODO: 写进config类中
 
 
 logger.remove()
-logger.add(sys.stdout, level="DEBUG", format="<green>{time:HH:mm:ss}</green> | "
+logger.add(sys.stdout, level="info", format="<green>{time:HH:mm:ss}</green> | "
                                             "<level>{level: <7}</level> | "
                                             "<level>{message}</level>",
         )
@@ -65,10 +65,11 @@ def all_tasks(config):
         # Guild(config, controller).run()
         # Dorm(config, controller).run()
         # Mimir(config, controller).run()
-        Daily(config, controller).run()
+        # Daily(config, controller).run()
         # Store(config, controller).run()
-        # Mission(config, controller).run()
-        # Mail(config, controller).run()
+
+        Mission(config, controller).run()
+        Mail(config, controller).run()
         
     except Exception as e:
         logger.exception(e)

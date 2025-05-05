@@ -94,7 +94,7 @@ def get_format_time(is_now: bool = True):
 
 def color_similarity_2d(image, color):
     """
-    from StarRailCopilot\module\base\utils\utils.py
+    from StarRailCopilot/module/base/utils/utils.py
     Args:
         image: 2D array.
         color: (r, g, b)

@@ -133,27 +133,27 @@ class Dorm(AetherGazerHelper):
                 break
             
             if recombat == True:
-                if self.exists(MODIFIER_COMBATTING_CHECK):
+                if self.wait(MODIFIER_COMBATTING_CHECK, timeout=2):
                     logger.info("In modifier combat.")
                     self.find_click(BACK_BUTTON)
                     loop_timer.reset()
             else:
-                if self.exists(MODIFIER_COMBAT_CLICK):
+                if self.wait(MODIFIER_COMBAT_CLICK, timeout=2):
                     logger.info("End modifier combat.")
                     self.find_click(BACK_BUTTON)
                     break
 
-            if self.exists(MODIFIER_COMBAT_END_CHECK):
+            if self.exists(MODIFIER_COMBAT_END_CHECK, timeout=1):
                 weekly_combat_count += 1
                 self.config.update(menu='Basic', task='Dorm', group='Combat', item='weekly_combat_count', value=weekly_combat_count)
                 self.config.update(menu='Basic', task='Dorm', group='Combat', item='last_combat_time', value=get_format_time())
                 if weekly_combat_count == Dorm.MODIFIER_COMBAT_MAX_COUNT:
-                    self.touch(MODIFIER_COMBAT_END_CLICK)
+                    self.touch(MODIFIER_COMBAT_END_CLICK, local_search=True)
                     logger.info("Modifier combat end.")
                     recombat = False
                     break
                 else:
-                    self.touch(MODIFIER_COMBAT_END_AGAIN)
+                    self.touch(MODIFIER_COMBAT_END_AGAIN, local_search=True)
                     # 点击后有加载界面耗时较久, 会导致上边的 COMBATTING CHECK 获得的截图不是战斗进行时的界面, 截图依然是结束阶段，出错。
                     # 如果把opdelay增加特别多能解决，但是所以的操作都会受影响, 所以这里加个flag标记
                     recombat = True
@@ -298,7 +298,7 @@ class Dorm(AetherGazerHelper):
                 if loop_timer.reached():
                     logger.info("Train modifier failed. Maybe this modifier's all stats are full.")
                     return count
-                # 某些情况下的ocr stamina 识别失败 120 识别为 -> 0? case '120 /120' 会导致失效,已修复。见module/ocr.py
+                # 某些情况下的ocr stamina 识别失败 120 识别为 -> 0? case '120 /120' 会导致失效, 见module/ocr.py
                 modifier_stamina, _, _ = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
                 logger.info(f"Ocr modifier stamina: {modifier_stamina}")
                 if modifier_stamina < Dorm.TRAIN_MODIFIER_COST:
@@ -325,8 +325,8 @@ class Dorm(AetherGazerHelper):
 
     def test_func(self):
         ocr_modifier_stamina : DigitCounter = DigitCounter(button=OCR_TRAIN_MODIFIER_STAMINA, name='modifier_stamina')
-        modifier_stamina, zero, total_stamina = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
-        logger.info(f"modifier_stamina: {modifier_stamina}, zero: {zero}, total_stamina: {total_stamina}")
+        modifier_stamina, _, total_stamina = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
+        logger.info(f"modifier_stamina: {modifier_stamina}, _: {_}, total_stamina: {total_stamina}")
 
     def run(self):
         """
@@ -334,10 +334,10 @@ class Dorm(AetherGazerHelper):
         """
         # self.ui_ensure(page_dorm)
 
-        self.claim_kitchen()
+        # self.claim_kitchen()
 
         # self.train_modifiers()
         
-        # self.modifier_combat()
+        self.modifier_combat()
 
         # self.claim_train_mission()

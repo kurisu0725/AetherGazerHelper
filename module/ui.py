@@ -95,7 +95,7 @@ class UI:
                     continue
                 if self.ui_page_appear(page=page):
                     self.ui_current['page'] = page
-                    Page.iter_pages(start_page=page)
+                    # Page.iter_pages(start_page=page)        # 在此处更新 cls.all_pages
                     return page
 
             # Unknown page but able to handle
@@ -170,11 +170,12 @@ class UI:
         # logger.debug(Page.display_all_pages_parent())
 
         while True:
-            page = self.ui_get_current_page()  # 在函数内更新 cls.all_pages
-            
+            page = self.ui_get_current_page()  
+            logger.debug(f"Current page: {page}")
+            Page.iter_pages(start_page=page)        # 在此处更新 cls.all_pages
+            logger.debug(Page.display_all_pages_parent())
             # Destination page
-            if self.ui_current['page'] == destination:
-                # self.ui_page_appear(destination, timeout=0.5)    
+            if self.ui_page_appear(destination, timeout=0.5):
                 logger.info(f'Page arrive: {destination}')
                 if state is not None:
                     self._set_state(destination.switch, state)

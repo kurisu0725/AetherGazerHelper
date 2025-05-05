@@ -31,9 +31,9 @@ class Mission(AetherGazerHelper):
         while True:
             if loop_timer.reached():
                 if rewardClaimed:
-                    logger.info("Daily mission rewards claim. 任务奖励领取完成.")
+                    logger.info("Daily mission rewards claim. 每日任务奖励领取完成.")
                 else:
-                    logger.critical("Timeout to claim daily mission rewards. 任务领取超时.无奖励可领取.")
+                    logger.critical("Timeout to claim daily mission rewards. 每日任务领取超时.无奖励可领取.")
                 break
             if self.find_click(GET_ITEM, CLICK_TO_CONTINUE, blind=True):
                 logger.info("Get rewards.")
@@ -50,9 +50,9 @@ class Mission(AetherGazerHelper):
         while True:
             if loop_timer.reached():
                 if rewardClaimed:
-                    logger.info("Weekly mission rewards claim. 任务奖励领取完成.")
+                    logger.info("Weekly mission rewards claim. 每周任务奖励领取完成.")
                 else:
-                    logger.critical("Timeout to claim weekly mission rewards. 任务领取超时.无奖励可领取.")
+                    logger.critical("Timeout to claim weekly mission rewards. 每周任务领取超时.无奖励可领取.")
                 break
             if self.find_click(GET_ITEM, CLICK_TO_CONTINUE, blind=True):
                 logger.info("Get rewards.")
@@ -98,5 +98,5 @@ class Mission(AetherGazerHelper):
         task_info('Mission')
 
         self.check_mission()
-        # self.claim_battle_pass()
+        self.claim_battle_pass()
         

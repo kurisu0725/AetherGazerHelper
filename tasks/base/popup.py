@@ -24,9 +24,9 @@ class PopupHandler:
                     touch(BACK_BUTTON, blind=True)
                     continue
                 break
-            #领取奖励后仍会停留在签到界面, 需要点击其他区域退出
-            if exists(POPUP_CHECK_IN_REWARD_CHECK):
-                touch(BACK_BUTTON, blind=True)
+        #领取奖励后仍会停留在签到界面, 需要点击其他区域退出
+        if exists(POPUP_CHECK_IN_REWARD_CHECK):
+            touch(BACK_BUTTON, blind=True)
             logger.info("Handle_notice() complete")
             return True
         return False

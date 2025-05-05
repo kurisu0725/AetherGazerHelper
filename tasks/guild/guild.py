@@ -4,7 +4,7 @@ from typing import Dict
 from zafkiel import logger, Timer
 from tasks.guild.assets.assets_guild import *
 from tasks.base.page import page_guild, page_store_supply
-from tasks.base.assets.assets_share import GET_ITEM, CLICK_TO_CONTINUE, BACK_BUTTON
+from tasks.base.assets.assets_share import GET_ITEM, CLICK_TO_CONTINUE, BACK_BUTTON, BACK_TO_MAIN
 from module.Controller import Controller
 from config import Config
 
@@ -96,6 +96,7 @@ class Guild(AetherGazerHelper):
 
         stat2 = self.purchase_item(GUILD_STORE_SIGIL_MODULE_T3, local_search=False)
 
+        self.touch(BACK_TO_MAIN, local_search=True)
         if stat1 and stat2:
             logger.info("Purchase guild store item success. 购买公会商店物品成功")
             last_purchase_guild_store_time = get_format_time()
@@ -147,8 +148,8 @@ class Guild(AetherGazerHelper):
 
         # self.ui_ensure(page_guild)
         self.claim_matrix_supply()
-        # self.claim_guild_mission()
-        # self.purchase_guild_store_item()
+        self.claim_guild_mission()
+        self.purchase_guild_store_item()
 
 
 

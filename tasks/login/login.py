@@ -6,7 +6,7 @@ import shutil
 import psutil
 import os
 
-from zafkiel import logger
+from zafkiel import logger, Timer
 from pathlib import Path
 from zafkiel.exception import LoopError
 from typing import Dict
@@ -54,18 +54,17 @@ class Login(AetherGazerHelper):
 
         logger.info("Handle_app_login.")
 
-        find_res = self.find_click(LOGIN_CHECK, LOGIN_CHECK, times=5, interval=5, ocr_mode=0, local_search=True)
-        if find_res == False:
-            logger.error("Loop exceed time limit!")
-            raise LoopError("Loop exceed time limit!")
-        logger.debug(f"识别到登录界面")
-
+        loop_timer = Timer(30, count=2).start()
         while True:
-
+            if loop_timer.reached():
+                logger.error("登录超时! Loop exceed time limit!")
+                raise LoopError("Loop exceed time limit!")
+            if self.find_click(LOGIN_CHECK, LOGIN_CHECK, times=5, interval=5, ocr_mode=0, local_search=True):
+                loop_timer.reset()
+                continue
             if self.ui_page_appear(page_main, timeout=2):
-                if not self.ui_ensure(page_main):
-                    logger.info('游戏登录成功!')
-                    break
+                logger.info('Game login success! 游戏登录成功!')
+                break
             if self.ui_additional():
                 continue
         return True

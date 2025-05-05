@@ -21,12 +21,11 @@ class Battle(AetherGazerHelper):
     def is_in_battle(self) -> bool:
         pass
 
-    @staticmethod
     def get_remain_stamina(self, skip_screenshot=False) -> int:
         """
         获取当前剩余体力
         """
-        remain_stamina, _, _ = self.get_ocr_digit_or_digit_counter(
+        remain_stamina, _, _ = Battle.get_ocr_digit_or_digit_counter(
             ocr_class=DigitCounter,
             image=self.controller.image if skip_screenshot else self.controller.screenshot(),
             button=REMAIN_STAMINA,
@@ -34,7 +33,6 @@ class Battle(AetherGazerHelper):
         )
         return remain_stamina
 
-    @staticmethod
     def get_stamina_cost(self, skip_screenshot=False):
         """
         调用之前必须在扫荡关卡的界面
@@ -50,7 +48,7 @@ class Battle(AetherGazerHelper):
         )
         return stamina_cost
 
-    def select_stage_sweep_count(self, count: int = 10) -> bool:
+    def select_stage_sweep_count(self, need_back = True, count: int = 10) -> bool:
         """
         choose count of sweep, while checking if there is enough stamina and input param count exceed remain stamina
         选择扫荡次数, 检查是否有足够的体力和输入的次数是否超过剩余体力
@@ -87,17 +85,20 @@ class Battle(AetherGazerHelper):
                 else:
                     if rest_count <= 6:
                         for i in range(rest_count - 1):
-                            self.touch(RIGHT_ARROW, RIGHT_ARROW, blind=True)
+                            self.touch(RIGHT_ARROW, blind=True)
                     else:
                         self.find_click(RIGHT_DOUBLE_ARROW, RIGHT_DOUBLE_ARROW, blind=True)
                         for i in range(Battle.BATTLE_SELECT_COUNT_MAX - rest_count):
-                            self.touch(LEFT_ARROW, LEFT_ARROW, blind=True)
+                            self.touch(LEFT_ARROW, blind=True)
+                    self.touch(STAGE_SWEEP)
+                    continue
 
             logger.info(f"Sweep {accept_count} times complete.")
         else:
             logger.info(f"Not enough stamina to sweep {count} times.")
             success = False
-        self.find_click(BACK_TO_MAIN)
+        if need_back:
+            self.find_click(BACK_BUTTON)
         return success
 
     @staticmethod
@@ -116,5 +117,5 @@ class Battle(AetherGazerHelper):
         return is_exist
 
     def confirm_battle_end(self):
-        self.wait(SWEEP_CONFIRM_CHECK)
+        self.wait(SWEEP_END_CHECK)
         self.touch(SWEEP_END_CLICK)

@@ -73,7 +73,7 @@ MIMI_OBSERVATION_CHECK = Template(
 
 MAIN_TO_MISSION = Template(
     filename=r"MAIN_TO_MISSION.png", 
-    record_pos=(0.3177, -0.2169), 
+    record_pos=(0.3182, -0.2164), 
     resolution=(1920, 1080),
     rgb=True,
     template_path="assets/share/base/page",

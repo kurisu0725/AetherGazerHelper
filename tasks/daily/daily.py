@@ -68,10 +68,9 @@ class Daily(Battle):
         """
         # self.ui_ensure(page_resource, state=RESOURCE_SIGILS_SWITCH_ON)
         # logger.info(f"known rows: {SIGILS_CLICKLIST.known_rows}")
-        SIGILS_CLICKLIST.select_row(row=KEYWORDS_SIGILS_STAGE.SigilModule, main=self, insight=True, skip_first_screenshot=False)
+        # SIGILS_CLICKLIST.select_row(row=KEYWORDS_SIGILS_STAGE.SigilModule, main=self, insight=True, skip_first_screenshot=False)
 
         self._sigils_module_strategy()
-        self.select_stage_sweep_count()
 
     def _sigils_module_strategy(self):
         """
@@ -105,11 +104,11 @@ class Daily(Battle):
             result_level_list: List[Tuple[ColorEnum, Template]] = []
             for stage_button in stage_list:
                 for color_level in ColorEnum:
-                    if self.image_color_count(stage_button, color_level.value[:3]):
+                    if self.image_color_count(stage_button, color_level.value[:3][::-1]):
                         result_level_list.append([color_level, stage_button])
-            result_level_list.sort(key=lambda x: x[-1], reverse=True)  # sorted by priority, max priority at the first
+            result_level_list.sort(key=lambda x: x[0].value[-1], reverse=True)  # sorted by priority, max priority at the first
             return result_level_list[0]
-
+        
         while True:
             if loop_timer.reached():
                 logger.error("Can't find Stage within time limit.")
@@ -117,20 +116,20 @@ class Daily(Battle):
 
             # check S level
             max_level, position_template = judge_color_level(stage_list)
-            if max_level == 'S':
-                self.touch(position_template, local_search=True)
-                self.select_stage_sweep_count()
+            logger.info(f"max_level: {max_level.name}, position_template: {position_template.name}")
+            if max_level == ColorEnum.S:
+                self.touch(position_template, local_search=True, blind=True)
+                self.select_stage_sweep_count(need_back=False)
                 break
                 # check free refresh
-            if self.exists(SIGILS_MODULE_FREE_REFRESH_CHECK, local_search=True):
+            if self.find_click(SIGILS_MODULE_FREE_REFRESH_CHECK, SIGILS_MODULE_FREE_REFRESH_CLICK, local_search=True):
                 # refresh
-                self.touch(SIGILS_MODULE_FREE_REFRESH_CHECK, SIGILS_MODULE_FREE_REFRESH_CLICK, local_search=True)
-
+            
                 loop_timer.reset()
                 continue
             else:
                 # choose max level's position
-                self.touch(position_template, local_search=True)
+                self.touch(position_template, local_search=True, blind=True)
                 if self.select_stage_sweep_count(count=1):
                     continue
                 else:

@@ -135,8 +135,8 @@ class DigitCounter(Ocr):
             int:
         """
         result = self.after_process(result)
-
-        logger.info(f"after process: {result}")
+        
+        logger.debug(f"after process: {result}")
 
         res = re.search(r'(\d+)/(\d+)', result)
         if res:
@@ -150,7 +150,7 @@ class DigitCounter(Ocr):
             current, total = int(groups[0]), int(groups[1])
             return current, total - current, total
         else:
-            # logger.warning(f'No digit counter found in {result}')
+            logger.warning(f'No digit counter found in {result}')
             return 0, 0, 0
 
 
