@@ -8,8 +8,10 @@ from tasks.base.page import page_mimir, page_mimi_observation
 from module.Controller import Controller
 from config import Config
 from utils.utils import get_current_weekday_and_time
+
+
 class Mimir(AetherGazerHelper):
-    def __init__(self, config: Config, controller : Controller) -> None:
+    def __init__(self, config: Config, controller: Controller) -> None:
         super().__init__(config, controller)
 
         self.check_and_connect_device()
@@ -33,10 +35,10 @@ class Mimir(AetherGazerHelper):
         """
         弥弥观测站
         """
-        self.ui_ensure(page_mimir)
-        self.ui_goto(page_mimi_observation)
-        logger.info("Trying to claim mimi observation rewards.")
-        loop_timer = Timer(0, 10).start()
+        # self.ui_ensure(page_mimir)
+        # self.ui_goto(page_mimi_observation)
+        # logger.info("Trying to claim mimi observation rewards.")
+        loop_timer = Timer(5, 10).start()
         redispatched = False
         while True:
             if redispatched:
@@ -54,7 +56,7 @@ class Mimir(AetherGazerHelper):
 
             if self.exists(MIMI_OBSERVATION_EXPLORATION_COMPLETE_CHECK, local_search=True):
                 self.touch(MIMI_OBSERVATION_EXPLORATION_COMPLETE_CLICK, blind=True)
-                while(self.exists(MIMI_OBSERVATION_EXPLORATION_COMPLETE_CHECK, local_search=True)):
+                while self.exists(MIMI_OBSERVATION_EXPLORATION_COMPLETE_CHECK, local_search=True):
                     self.touch(MIMI_OBSERVATION_EXPLORATION_COMPLETE_CLICK, blind=True)
                 logger.info("Mimi observation exploration complete.")
                 continue
@@ -62,8 +64,9 @@ class Mimir(AetherGazerHelper):
             if self.find_click(MIMI_OBSERVATION_CLAIM_ALL, MIMI_OBSERVATION_CLAIM_ALL, local_search=True):
                 logger.info("Mimi observation claim all complete.")
                 continue
-        
+
         self.claim_mimi_observation_rewards()
+
     def claim_mimi_observation_rewards(self):
         """
         领取弥弥观测站周期奖励
@@ -81,21 +84,22 @@ class Mimir(AetherGazerHelper):
                     continue
                 if self.find_click(MIMI_OBSERVATION_WEEKLY_REWARD):
                     continue
-    
+
     def test_mimir(self):
         """
         测试函数
         """
         from tasks.base.page import MAIN_TO_MIMIR
+
         if self.find_click(MAIN_TO_MIMIR, MAIN_TO_MIMIR):
             logger.info("进入弥弥尔")
-
 
     def run(self):
         """
         运行函数
         """
         from utils.logger_func import task_info
+
         task_info('Mimir')
 
-        self.mimi_observation()     # 测试成功
+        self.mimi_observation()  # 测试成功

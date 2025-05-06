@@ -14,25 +14,25 @@ from config import Config
 from module.ocr import DigitCounter
 from module.utils import hough_circle
 
+
 class Dorm(AetherGazerHelper):
 
-    _TRAIN_BUTTON : Union[list[Template], None] = None
-    _TRAIN_BUTTON_CLICK : Union[list[Template], None] = None
+    _TRAIN_BUTTON: Union[list[Template], None] = None
+    _TRAIN_BUTTON_CLICK: Union[list[Template], None] = None
 
-    TRAIN_MODIFIER_COST : Final[int] = 20
-    MODIFIER_COMBAT_MAX_COUNT : Final[int] = 6
+    TRAIN_MODIFIER_COST: Final[int] = 20
+    MODIFIER_COMBAT_MAX_COUNT: Final[int] = 6
 
     def __init__(self, config: Config, controller: Controller):
         super().__init__(config, controller)
 
         self.check_and_connect_device()
-        
+
     @classmethod
     def get_train_buttons(cls) -> list[Template]:
         if cls._TRAIN_BUTTON is None:
             cls._TRAIN_BUTTON = [
-                value for name, value in globals().items() 
-                if re.match(r"TRAIN_MODIFIER_ABILITY_\d+(?!_CLICK)", name)
+                value for name, value in globals().items() if re.match(r"TRAIN_MODIFIER_ABILITY_\d+(?!_CLICK)", name)
             ]
         return cls._TRAIN_BUTTON
 
@@ -40,8 +40,7 @@ class Dorm(AetherGazerHelper):
     def get_train_buttons_click(cls) -> list[Template]:
         if cls._TRAIN_BUTTON_CLICK is None:
             cls._TRAIN_BUTTON_CLICK = [
-                value for name, value in globals().items()
-                if re.match(r"TRAIN_MODIFIER_ABILITY_\d+_CLICK", name)
+                value for name, value in globals().items() if re.match(r"TRAIN_MODIFIER_ABILITY_\d+_CLICK", name)
             ]
         return cls._TRAIN_BUTTON_CLICK
 
@@ -59,7 +58,7 @@ class Dorm(AetherGazerHelper):
             if self.find_click(DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK, DORM_NAV_KITCHEN_TASK_ASSIGN_CLICK, blind=True):
                 logger.info("Assigned kitchen tasks.")
                 break
-            
+
             if self.find_click(DORM_NAV_KITCHEN_CURRENCY_CLAIM, DORM_NAV_KITCHEN_CURRENCY_CLAIM, blind=True):
                 logger.info("Claimed kitchen resources.")
                 continue
@@ -67,7 +66,7 @@ class Dorm(AetherGazerHelper):
             if self.find_click(DORM_NAV_KITCHEN_TASK_ASSIGN, DORM_NAV_KITCHEN_TASK_ASSIGN, blind=True):
                 logger.info("Exit claim_kitchen tasks.")
                 continue
-            
+
             if self.find_click(KITCHEN_DISPATCH_CONFIRM_CHECK, KITCHEN_DISPATCH_CONFIRM_CLICK):
                 logger.info("Claim last dispatch kitchen tasks.")
                 continue
@@ -89,14 +88,15 @@ class Dorm(AetherGazerHelper):
 
     def modifier_combat(self):
         from module.utils import get_format_time
-        enable_combat : bool = self.config.data['Basic']['Dorm']['Combat']['enable_combat']
-        weekly_combat_count : int = self.config.data['Basic']['Dorm']['Combat']['weekly_combat_count']
-        last_combat_time : str = self.config.data['Basic']['Dorm']['Combat']['last_combat_time']
+
+        enable_combat: bool = self.config.data['Basic']['Dorm']['Combat']['enable_combat']
+        weekly_combat_count: int = self.config.data['Basic']['Dorm']['Combat']['weekly_combat_count']
+        last_combat_time: str = self.config.data['Basic']['Dorm']['Combat']['last_combat_time']
 
         if enable_combat is False:
             logger.info("Modifier combat is disabled. Skip this task.")
             return
-        
+
         monday_5am = get_format_time(is_now=False)
 
         if len(last_combat_time) == 0 or last_combat_time is None or last_combat_time < monday_5am:
@@ -104,8 +104,8 @@ class Dorm(AetherGazerHelper):
             self.config.update(menu='Basic', task='Dorm', group='Combat', item='weekly_combat_count', value=weekly_combat_count)
         elif last_combat_time >= monday_5am and weekly_combat_count == Dorm.MODIFIER_COMBAT_MAX_COUNT:
             logger.info("The number of combats recorded has reached the limit.")
-            return 
-        
+            return
+
         self.ui_ensure(page_dorm_nav_character)
 
         loop_timer = Timer(10).start()
@@ -131,7 +131,7 @@ class Dorm(AetherGazerHelper):
             if loop_timer.reached():
                 logger.critical("Modifier combat end for unknown reason. ")
                 break
-            
+
             if recombat == True:
                 if self.wait(MODIFIER_COMBATTING_CHECK, timeout=2):
                     logger.info("In modifier combat.")
@@ -145,7 +145,9 @@ class Dorm(AetherGazerHelper):
 
             if self.exists(MODIFIER_COMBAT_END_CHECK, timeout=1):
                 weekly_combat_count += 1
-                self.config.update(menu='Basic', task='Dorm', group='Combat', item='weekly_combat_count', value=weekly_combat_count)
+                self.config.update(
+                    menu='Basic', task='Dorm', group='Combat', item='weekly_combat_count', value=weekly_combat_count
+                )
                 self.config.update(menu='Basic', task='Dorm', group='Combat', item='last_combat_time', value=get_format_time())
                 if weekly_combat_count == Dorm.MODIFIER_COMBAT_MAX_COUNT:
                     self.touch(MODIFIER_COMBAT_END_CLICK, local_search=True)
@@ -160,16 +162,14 @@ class Dorm(AetherGazerHelper):
                     logger.info(f"Modifier combat again. Rest {int(Dorm.MODIFIER_COMBAT_MAX_COUNT - weekly_combat_count)} times.")
                 continue
 
-
         pos = self.wait(BACK_BUTTON, timeout=5)
         if pos:
-            self.touch(pos, blind=True)  
+            self.touch(pos, blind=True)
             logger.info("Return to dorm train page.")
         else:
             logger.error("Modifier combat end for unknown reason. ")
             raise Exception("Modifier combat end for unknown reason.")
 
-    
     def claim_train_mission(self):
         """
         领取训练任务
@@ -179,7 +179,10 @@ class Dorm(AetherGazerHelper):
 
         self.touch(TO_TRAIN_MISSION)
 
-        if self.find_click(TRAIN_MISSION_CLAIM_CHECK, TRAIN_MISSION_CLAIM_CLICK, ocr_mode=2):
+        if self.wait(
+            TRAIN_MISSION_CLAIM_CHECK, timeout=2, ocr_mode=1
+        ):  # ocr_mode=1: Contain text, ocr result: "一键领取" -> "键领取", missed "一"
+            self.touch(TRAIN_MISSION_CLAIM_CLICK, blind=True)
             while self.find_click(GET_ITEM, CLICK_TO_CONTINUE, blind=True):
                 pass
             logger.info("Dorm train missions claim.")
@@ -203,28 +206,31 @@ class Dorm(AetherGazerHelper):
         circle_idx = 0
         cur_rect_image_list = self.get_hough_circle_crop_image(search_image, circles)
         last_rect_image = cur_rect_image_list[-1]
-    
-        
-        upper_left = tuple( int(i) for i in search_button.area)[:2]
+
+        upper_left = tuple(int(i) for i in search_button.area)[:2]
 
         while True:
             if loop_timer.reached():
                 logger.critical("Train modifier ended. Maybe all of modifiers' stats are full.")
                 break
-            
+
             if cur_count == 0:
                 logger.info("Train modifier success, rest count equals 0.")
                 break
-            
+
             logger.info(f"cur_count: {cur_count}, hough circles: {len(circles)}, circle_idx: {circle_idx}, ")
 
             if circle_idx >= len(circles):
-                start_circle = tuple( int(i) for i in circles[1][:2] )
-                end_circle = tuple( int(i) for i in circles[0][:2] )
-                self.swipe([sum(values) for values in zip(start_circle, upper_left)], [sum(values) for values in zip(end_circle, upper_left)], blind1=True, blind2=True)
+                start_circle = tuple(int(i) for i in circles[1][:2])
+                end_circle = tuple(int(i) for i in circles[0][:2])
+                self.swipe(
+                    [sum(values) for values in zip(start_circle, upper_left)],
+                    [sum(values) for values in zip(end_circle, upper_left)],
+                    blind1=True,
+                    blind2=True,
+                )
 
-                self.wait_until_stable(search_button, timer=Timer(
-                    0.3, count=1), timeout=Timer(1.5, count=5))
+                self.wait_until_stable(search_button, timer=Timer(0.3, count=1), timeout=Timer(1.5, count=5))
                 self.controller.screenshot()
                 search_image = crop(self.controller.image, search_button.area)
                 circles = hough_circle(search_image, sort_func=lambda circle: circle[1])
@@ -238,14 +244,14 @@ class Dorm(AetherGazerHelper):
                 last_rect_image = cur_rect_image_list[-1]
                 loop_timer.reset()
 
-            #点击circle_idx 对应的修正者
-            pos = tuple(sum(values) for values in zip(upper_left, tuple(int(i) for i in circles[circle_idx][:2]) ))
-            self.touch( v = pos )
+            # 点击circle_idx 对应的修正者
+            pos = tuple(sum(values) for values in zip(upper_left, tuple(int(i) for i in circles[circle_idx][:2])))
+            self.touch(v=pos)
             # 开始训练
             cur_count = self.click_train_button(count=cur_count)
             circle_idx += 1
-                
-    def get_hough_circle_crop_image(self, search_button : Union[Template, np.ndarray], circles):
+
+    def get_hough_circle_crop_image(self, search_button: Union[Template, np.ndarray], circles):
         """
         得到霍夫圆检测后，以圆心为中心crop出的矩形图像 作为匹配
         """
@@ -259,7 +265,11 @@ class Dorm(AetherGazerHelper):
         rect_image_list = []
         rect_height, rect_width = 50, 50
         for x, y, r in circles:
-            rect_image_list.append(search_image[int(y - rect_height / 2) : int(y + rect_height / 2), int(x - rect_width / 2) : int(x + rect_width / 2), :])
+            rect_image_list.append(
+                search_image[
+                    int(y - rect_height / 2) : int(y + rect_height / 2), int(x - rect_width / 2) : int(x + rect_width / 2), :
+                ]
+            )
         return rect_image_list
 
     def get_last_rect_image_idx(self, last_rect_image, cur_rect_image_list):
@@ -267,20 +277,20 @@ class Dorm(AetherGazerHelper):
         Template matching last rect image with cur_rect_image_list, return the index of matched image in list.
         """
         from module.utils import match_template
+
         for idx in range(len(cur_rect_image_list)):
             rect_image = cur_rect_image_list[idx]
             if match_template(rect_image, last_rect_image):
                 return idx
         return -1
 
-
-    def click_train_button(self, count : int) -> bool:
+    def click_train_button(self, count: int) -> bool:
         """
         存在点击后无反馈的情况(派遣)
         """
-        ocr_modifier_stamina : DigitCounter = DigitCounter(button=OCR_TRAIN_MODIFIER_STAMINA, name='modifier_stamina')
-        ocr_full_stats_list : list[Ocr] = []
-        modifier_stamina : int = 0
+        ocr_modifier_stamina: DigitCounter = DigitCounter(button=OCR_TRAIN_MODIFIER_STAMINA, name='modifier_stamina')
+        ocr_full_stats_list: list[Ocr] = []
+        modifier_stamina: int = 0
         train_button = Dorm.get_train_buttons()
         train_button_click = Dorm.get_train_buttons_click()
         for i in range(len(train_button)):
@@ -303,13 +313,13 @@ class Dorm(AetherGazerHelper):
                 logger.info(f"Ocr modifier stamina: {modifier_stamina}")
                 if modifier_stamina < Dorm.TRAIN_MODIFIER_COST:
                     break
-                
+
                 is_full_stats = ocr_full_stats_list[i].ocr_match_keyword(self.controller.image, Keyword(u'已满'))
                 if is_full_stats:
                     logger.info(f"Modifier's number {i + 1} stat is full.")
                     break
 
-                if self.find_click(button, button_click, times = 2, blind=True):
+                if self.find_click(button, button_click, times=2, blind=True):
                     cur_modifier_stamina, _, _ = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
                     if modifier_stamina == cur_modifier_stamina:
                         is_dispatched = True
@@ -324,7 +334,7 @@ class Dorm(AetherGazerHelper):
         return count
 
     def test_func(self):
-        ocr_modifier_stamina : DigitCounter = DigitCounter(button=OCR_TRAIN_MODIFIER_STAMINA, name='modifier_stamina')
+        ocr_modifier_stamina: DigitCounter = DigitCounter(button=OCR_TRAIN_MODIFIER_STAMINA, name='modifier_stamina')
         modifier_stamina, _, total_stamina = ocr_modifier_stamina.ocr_single_line(self.controller.screenshot())
         logger.info(f"modifier_stamina: {modifier_stamina}, _: {_}, total_stamina: {total_stamina}")
 
@@ -332,12 +342,11 @@ class Dorm(AetherGazerHelper):
         """
         Main function to run the dormitory task.
         """
-        # self.ui_ensure(page_dorm)
 
-        # self.claim_kitchen()
+        self.claim_kitchen()
 
-        # self.train_modifiers()
-        
+        self.train_modifiers()
+
         self.modifier_combat()
 
-        # self.claim_train_mission()
+        self.claim_train_mission()

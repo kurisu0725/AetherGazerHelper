@@ -3,9 +3,11 @@ from zafkiel import logger
 from tasks.base.assets.assets_popup import *
 from tasks.base.assets.assets_share import GET_ITEM, CLICK_TO_CONTINUE, BACK_BUTTON
 
+
 def register_handler(func):
     func._is_handler = True
     return func
+
 
 class PopupHandler:
 
@@ -24,14 +26,14 @@ class PopupHandler:
                     touch(BACK_BUTTON, blind=True)
                     continue
                 break
-        #领取奖励后仍会停留在签到界面, 需要点击其他区域退出
+        # 领取奖励后仍会停留在签到界面, 需要点击其他区域退出
         if exists(POPUP_CHECK_IN_REWARD_CHECK):
             touch(BACK_BUTTON, blind=True)
             logger.info("Handle_notice() complete")
             return True
         return False
 
-    @register_handler    
+    @register_handler
     def handle_activity(self):
         """
         处理每日第一次弹出的时装，活动界面
@@ -55,15 +57,25 @@ class PopupHandler:
             logger.info("Handle_battle_pass() complete")
             return True
 
+    @register_handler
+    def handle_mimi_observation(self):
+        """
+        Handle with popup mimic observation.
+        处理弥弥观测站弹窗
+        """
+        if exists(POPUP_MIMI_OBSERVATION_WEEKLY):
+            logger.info('Dealing with ui_addtional: handle_mimi_observation()')
+            touch(CLICK_TO_CONTINUE, blind=True)
+            logger.info("Handle_mimi_observation() complete")
+
 
 popup_handler = PopupHandler()
 popup_list = [
-    getattr(popup_handler, name) 
-    for name in dir(popup_handler) 
+    getattr(popup_handler, name)
+    for name in dir(popup_handler)
     if callable(getattr(popup_handler, name)) and hasattr(getattr(popup_handler, name), '_is_handler')
 ]
 
-    
 
 if __name__ == "__main__":
     # popup_handler.auto_setup(str(Path.cwd()), logdir=f'./log/{date}/report', devices=[f"WindowsPlatform:///?title={process_str}", ])

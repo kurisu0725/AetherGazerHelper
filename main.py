@@ -15,19 +15,21 @@ from config import Config
 
 ST.OPDELAY = 0.25
 ST.FIND_TIMEOUT = 10
-ST.THRESHOLD = 0.55 # TODO: 写进config类中
+ST.THRESHOLD = 0.55  # TODO: 写进config类中
 
 
 logger.remove()
-logger.add(sys.stdout, level="info", format="<green>{time:HH:mm:ss}</green> | "
-                                            "<level>{level: <7}</level> | "
-                                            "<level>{message}</level>",
-        )
+logger.add(
+    sys.stdout,
+    level="DEBUG",
+    format="<green>{time:HH:mm:ss}</green> | " "<level>{level: <7}</level> | " "<level>{message}</level>",
+)
 date = datetime.datetime.now().strftime("%Y-%m-%d")
-logger.add(f'./log/{date}/{date}.log', level="DEBUG", format="<green>{time:HH:mm:ss}</green> | "
-                                                            "<level>{level: <7}</level> | "
-                                                            "<level>{message}</level>",
-        )
+logger.add(
+    f'./log/{date}/{date}.log',
+    level="DEBUG",
+    format="<green>{time:HH:mm:ss}</green> | " "<level>{level: <7}</level> | " "<level>{message}</level>",
+)
 
 
 class TaskFactory:
@@ -55,22 +57,23 @@ class TaskFactory:
         """动态注册新任务"""
         cls._tasks[name] = task_class
 
+
 def all_tasks(config):
 
     try:
         logger.info(f"ST.OPDELAY : {ST.OPDELAY}, ST.FIND_TIMEOUT : {ST.FIND_TIMEOUT}, ST.THRESHOLD : {ST.THRESHOLD}")
         controller = Controller()
         # # 日常
-        # Login(config, controller).run()
-        # Guild(config, controller).run()
-        # Dorm(config, controller).run()
-        # Mimir(config, controller).run()
-        # Daily(config, controller).run()
-        # Store(config, controller).run()
+        Login(config, controller).run()
+        Guild(config, controller).run()
+        Dorm(config, controller).run()
+        Mimir(config, controller).run()
+        Daily(config, controller).run()
+        Store(config, controller).run()
 
         Mission(config, controller).run()
         Mail(config, controller).run()
-        
+
     except Exception as e:
         logger.exception(e)
         raise
@@ -81,22 +84,25 @@ def all_tasks(config):
 
 def single_task(config, task):
     try:
-       taskFactory = TaskFactory
-       controller = Controller()
-       cur_task = taskFactory.get_task(task, config, controller)
-       cur_task.run()
+        taskFactory = TaskFactory
+        controller = Controller()
+        cur_task = taskFactory.get_task(task, config, controller)
+        cur_task.run()
 
     except Exception as e:
         simple_report(__file__, log_path=Path(f'./log/{date}/report').resolve(), output=f'./log/{date}/report.html')
         logger.error(e)
         raise
 
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--task', '-t',
-                        choices=["login", "dorm", "guild", "store", "mail", "mission", "daily"],
-                        help='Task name, one of "login, dorm, guild, store, mail, '
-                             'mission, daily"')
+    parser.add_argument(
+        '--task',
+        '-t',
+        choices=["login", "dorm", "guild", "store", "mail", "mission", "daily"],
+        help='Task name, one of "login, dorm, guild, store, mail, ' 'mission, daily"',
+    )
     parser.add_argument('--config_path', '-c', default='./config/config.json')
     args = parser.parse_args()
 
@@ -117,9 +123,9 @@ def main():
 
 if __name__ == '__main__':
     from utils.test_program import run_as_admin
+
     # run_as_admin()
     try:
         main()  # 你的主函数
     except Exception as e:
         print(f"程序崩溃: {repr(e)}")
-    

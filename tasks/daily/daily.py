@@ -8,7 +8,7 @@ from zafkiel.ocr import OcrResultButton
 
 from tasks.base.page import page_main, page_activity, page_resource
 from tasks.daily.assets.assets_daily import *
-from tasks.base.assets.assets_share import BACK_BUTTON
+from tasks.base.assets.assets_share import BACK_BUTTON, BACK_TO_MAIN
 from tasks.daily.keywords import KEYWORDS_ACTIVITY_OPTION, KEYWORDS_RESOURCE_STAGE, KEYWORDS_SIGILS_STAGE
 from tasks.base.assets.assets_switch import RESOURCE_ITEMS_SWITCH_ON, RESOURCE_SIGILS_SWITCH_ON
 from tasks.daily.clicklist import SIGILS_CLICKLIST
@@ -66,11 +66,12 @@ class Daily(Battle):
         联合特勤关卡
         use stamina on sigils page
         """
-        # self.ui_ensure(page_resource, state=RESOURCE_SIGILS_SWITCH_ON)
-        # logger.info(f"known rows: {SIGILS_CLICKLIST.known_rows}")
-        # SIGILS_CLICKLIST.select_row(row=KEYWORDS_SIGILS_STAGE.SigilModule, main=self, insight=True, skip_first_screenshot=False)
+        self.ui_ensure(page_resource, state=RESOURCE_SIGILS_SWITCH_ON)
+        logger.info(f"known rows: {SIGILS_CLICKLIST.known_rows}")
+        SIGILS_CLICKLIST.select_row(row=KEYWORDS_SIGILS_STAGE.SigilModule, main=self, insight=True, skip_first_screenshot=False)
 
         self._sigils_module_strategy()
+        self.find_click(BACK_TO_MAIN, BACK_TO_MAIN, local_search=True, blind=True)
 
     def _sigils_module_strategy(self):
         """
@@ -108,7 +109,7 @@ class Daily(Battle):
                         result_level_list.append([color_level, stage_button])
             result_level_list.sort(key=lambda x: x[0].value[-1], reverse=True)  # sorted by priority, max priority at the first
             return result_level_list[0]
-        
+
         while True:
             if loop_timer.reached():
                 logger.error("Can't find Stage within time limit.")
@@ -124,7 +125,6 @@ class Daily(Battle):
                 # check free refresh
             if self.find_click(SIGILS_MODULE_FREE_REFRESH_CHECK, SIGILS_MODULE_FREE_REFRESH_CLICK, local_search=True):
                 # refresh
-            
                 loop_timer.reset()
                 continue
             else:
@@ -191,7 +191,7 @@ class Daily(Battle):
 
         task_info('Daily')
 
-        # self.claim_stamina()
+        self.claim_stamina()
         # self.use_stamina_on_joint_defense_agreement()
         self.use_stamina_on_sigils_module()
 

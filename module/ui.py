@@ -8,6 +8,7 @@ from zafkiel.timer import Timer
 from zafkiel.ui.switch import Switch
 from typing import Union
 
+
 class UI:
     """
     Processing interface related functions.
@@ -50,7 +51,7 @@ class UI:
         return 'unknown'
 
     @staticmethod
-    def ui_page_appear(page: Page, timeout: float = 0) -> Union[bool , tuple]:
+    def ui_page_appear(page: Page, timeout: float = 0) -> Union[bool, tuple]:
         """
         Args:
             page:
@@ -75,9 +76,9 @@ class UI:
         def app_check():
             if not app_is_running():
                 raise NotRunningError("Game not running")
-            
+
         if reload == False:
-            if self.ui_current['page'] is not None :
+            if self.ui_current['page'] is not None:
                 return self.ui_current['page']
             else:
                 raise PageUnknownError("Unknown page")
@@ -133,7 +134,8 @@ class UI:
                     if counter >= 1:
                         logger.warning(
                             f'{switch.name} switch {state.name} asset has evaluated to unknown too many times, '
-                            f'asset should be re-verified')
+                            f'asset should be re-verified'
+                        )
                         return False
                     counter += 1
                 continue
@@ -161,18 +163,18 @@ class UI:
                 raise ScriptError(f'Page {destination} has no switch')
             destination.switch.get_data(state)
 
-            logger.debug(f">>> UI GOTO {str(destination).upper()}:{state.name.upper()}")
+            logger.info(f">>> UI GOTO {str(destination).upper()}:{state.name.upper()}")
         else:
-            logger.debug(f">>> UI GOTO {str(destination).upper()}")
+            logger.info(f">>> UI GOTO {str(destination).upper()}")
 
         # Create connection
         Page.init_connection(destination)
         # logger.debug(Page.display_all_pages_parent())
 
         while True:
-            page = self.ui_get_current_page()  
+            page = self.ui_get_current_page()
             logger.debug(f"Current page: {page}")
-            Page.iter_pages(start_page=page)        # 在此处更新 cls.all_pages
+            Page.iter_pages(start_page=page)  # 在此处更新 cls.all_pages
             logger.debug(Page.display_all_pages_parent())
             # Destination page
             if self.ui_page_appear(destination, timeout=0.5):
@@ -189,11 +191,11 @@ class UI:
             # 存在 main to activity 界面的按钮，其模板是随版本变化的，为了不去每次都更新对应的asset, 将该按钮设置为 blind=True, 不需要识别，只要有位置信息即可。
             if exists(page.check_button):
                 button = page.links[page.parent]
-                touch(button, blind=page.is_blind[page.parent]) # modified
+                touch(button, blind=page.is_blind[page.parent])  # modified
                 self.ui_current['page'] = page.parent
                 logger.info(f'Page switch: {page} -> {page.parent}')
                 clicked = True
-        
+
             if clicked:
                 continue
 
@@ -231,13 +233,13 @@ class UI:
             return True
 
     def ui_ensure_index(
-            self,
-            index: int,
-            letter: Union[Ocr, callable],
-            next_button: Template,
-            prev_button: Template,
-            fast: bool = True,
-            interval: float = 0.2
+        self,
+        index: int,
+        letter: Union[Ocr, callable],
+        next_button: Template,
+        prev_button: Template,
+        fast: bool = True,
+        interval: float = 0.2,
     ):
         """
         For pages with similar layout, ensure index of target page.
